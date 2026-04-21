@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 type SectionHeaderProps = {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   align?: "left" | "center";
   className?: string;
 };
@@ -29,9 +29,11 @@ export function SectionHeader({
       <h2 className="mt-4 text-balance text-3xl font-semibold leading-tight text-brand-ink sm:text-4xl lg:text-[2.9rem]">
         {title}
       </h2>
-      <p className="mt-4 text-base leading-8 text-brand-muted sm:text-lg">
-        {description}
-      </p>
+      {description && (
+        <p className="mt-4 text-base leading-8 text-brand-muted sm:text-lg">
+          {description}
+        </p>
+      )}
     </div>
   );
 }
