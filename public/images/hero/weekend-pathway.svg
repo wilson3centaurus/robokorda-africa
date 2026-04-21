@@ -1,0 +1,35 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <circle cx="982" cy="178" r="90" fill="#DBE7F4"/>
+  <rect x="148" y="164" width="520" height="276" rx="34" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="202" y="216" width="412" height="168" rx="28" fill="url(#weekendScreen)"/>
+  <rect x="372" y="406" width="72" height="20" rx="10" fill="#173860"/>
+  <rect x="324" y="432" width="168" height="18" rx="9" fill="#DBE7F4"/>
+  <rect x="734" y="146" width="286" height="214" rx="30" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="772" y="184" width="72" height="72" rx="22" fill="#0F61C4"/>
+  <rect x="864" y="184" width="118" height="24" rx="12" fill="#DBE7F4"/>
+  <rect x="864" y="224" width="92" height="18" rx="9" fill="#173860"/>
+  <rect x="864" y="258" width="74" height="18" rx="9" fill="#0F61C4"/>
+  <path d="M824 442C824 384 870 338 928 338H948C1006 338 1052 384 1052 442V648H824V442Z" fill="#0A4C96"/>
+  <circle cx="906" cy="358" r="40" fill="#173860"/>
+  <circle cx="970" cy="372" r="34" fill="#0F61C4"/>
+  <rect x="164" y="538" width="520" height="144" rx="34" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="214" y="578" width="114" height="64" rx="22" fill="#0F61C4"/>
+  <rect x="350" y="578" width="132" height="24" rx="12" fill="#173860"/>
+  <rect x="350" y="620" width="220" height="18" rx="9" fill="#DBE7F4"/>
+  <rect x="734" y="562" width="254" height="118" rx="28" fill="url(#weekendCard)"/>
+  <circle cx="802" cy="622" r="14" fill="white"/>
+  <circle cx="858" cy="622" r="14" fill="white"/>
+  <circle cx="914" cy="622" r="14" fill="white"/>
+  <defs>
+    <linearGradient id="weekendScreen" x1="202" y1="216" x2="614" y2="384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#173860"/>
+    </linearGradient>
+    <linearGradient id="weekendCard" x1="734" y1="562" x2="988" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#173860"/>
+      <stop offset="1" stop-color="#0F61C4"/>
+    </linearGradient>
+  </defs>
+</svg>

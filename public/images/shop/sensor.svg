@@ -1,0 +1,18 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="186" y="172" width="828" height="556" rx="44" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="396" y="264" width="408" height="372" rx="40" fill="url(#sensorCore)"/>
+  <circle cx="600" cy="450" r="88" fill="white" fill-opacity="0.16"/>
+  <circle cx="600" cy="450" r="54" fill="white"/>
+  <path d="M836 450C896 450 944 402 944 342" stroke="#DBE7F4" stroke-width="18" stroke-linecap="round"/>
+  <path d="M836 450C926 450 998 378 998 288" stroke="#DBE7F4" stroke-width="18" stroke-linecap="round"/>
+  <path d="M364 450C304 450 256 402 256 342" stroke="#DBE7F4" stroke-width="18" stroke-linecap="round"/>
+  <path d="M364 450C274 450 202 378 202 288" stroke="#DBE7F4" stroke-width="18" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="sensorCore" x1="396" y1="264" x2="804" y2="636" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#173860"/>
+    </linearGradient>
+  </defs>
+</svg>

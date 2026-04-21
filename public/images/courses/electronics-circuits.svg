@@ -1,0 +1,25 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="122" y="148" width="956" height="604" rx="42" fill="url(#circuitBoard)"/>
+  <rect x="190" y="220" width="286" height="178" rx="30" fill="white" fill-opacity="0.14"/>
+  <rect x="554" y="182" width="330" height="238" rx="34" fill="white" fill-opacity="0.14"/>
+  <rect x="262" y="482" width="470" height="172" rx="32" fill="white"/>
+  <circle cx="332" cy="548" r="22" fill="#0F61C4"/>
+  <circle cx="406" cy="548" r="22" fill="#173860"/>
+  <circle cx="480" cy="548" r="22" fill="#0F61C4"/>
+  <circle cx="554" cy="548" r="22" fill="#173860"/>
+  <circle cx="628" cy="548" r="22" fill="#0F61C4"/>
+  <path d="M312 320H430V242H630" stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M400 320V390H818V248" stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M400 610H860V528" stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="828" y="484" width="152" height="126" rx="28" fill="#173860"/>
+  <rect x="862" y="518" width="84" height="18" rx="9" fill="white"/>
+  <rect x="862" y="554" width="60" height="18" rx="9" fill="white" fill-opacity="0.68"/>
+  <defs>
+    <linearGradient id="circuitBoard" x1="122" y1="148" x2="1078" y2="752" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#173860"/>
+      <stop offset="1" stop-color="#0F61C4"/>
+    </linearGradient>
+  </defs>
+</svg>

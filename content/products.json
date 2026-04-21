@@ -1,0 +1,150 @@
+{
+  "items": [
+    {
+      "id": "prime-book-student",
+      "name": "Prime Book Student 14",
+      "category": "Prime Book Laptops",
+      "price": 299,
+      "compareAt": 329,
+      "shortDescription": "A dependable education-focused laptop.",
+      "imageSrc": "https://picsum.photos/seed/prime-book-student/900/720",
+      "rating": 4.8,
+      "reviews": 124,
+      "badge": "Best for Students",
+      "features": [
+        "4GB RAM",
+        "128GB SSD",
+        "14-inch FHD display"
+      ]
+    },
+    {
+      "id": "prime-book-standard",
+      "name": "Prime Book Standard 14",
+      "category": "Prime Book Laptops",
+      "price": 399,
+      "compareAt": 449,
+      "shortDescription": "Balanced performance for schools.",
+      "imageSrc": "https://picsum.photos/seed/prime-book-standard/900/720",
+      "rating": 4.9,
+      "reviews": 89,
+      "badge": "Most Popular",
+      "features": [
+        "8GB RAM",
+        "256GB SSD",
+        "Carry bag included"
+      ]
+    },
+    {
+      "id": "robotics-starter-lab",
+      "name": "Robotics Starter Lab Kit",
+      "category": "Robotics Kits",
+      "price": 179,
+      "compareAt": 210,
+      "shortDescription": "Starter hardware and build guides.",
+      "imageSrc": "https://picsum.photos/seed/robotics-starter-lab/900/720",
+      "rating": 4.7,
+      "reviews": 63,
+      "features": [
+        "Motors and chassis",
+        "Learning guide",
+        "Sensor-ready"
+      ]
+    },
+    {
+      "id": "classroom-sensor-pack",
+      "name": "Classroom Sensor Pack",
+      "category": "Sensors",
+      "price": 79,
+      "compareAt": 95,
+      "shortDescription": "Distance, light, and motion sensors.",
+      "imageSrc": "https://picsum.photos/seed/classroom-sensor-pack/900/720",
+      "rating": 4.6,
+      "reviews": 51,
+      "features": [
+        "Ultrasonic",
+        "Light sensor",
+        "Motion sensor"
+      ]
+    },
+    {
+      "id": "microcontroller-duo",
+      "name": "Microcontroller Duo Bundle",
+      "category": "Development Boards",
+      "price": 112,
+      "compareAt": 128,
+      "shortDescription": "Two classroom-friendly boards.",
+      "imageSrc": "https://picsum.photos/seed/microcontroller-duo/900/720",
+      "rating": 4.8,
+      "reviews": 74,
+      "features": [
+        "Dual boards",
+        "USB cables",
+        "Project cards"
+      ]
+    },
+    {
+      "id": "electronics-practice-bundle",
+      "name": "Electronics Practice Bundle",
+      "category": "Electronics",
+      "price": 68,
+      "compareAt": 82,
+      "shortDescription": "Breadboards, resistors, LEDs.",
+      "imageSrc": "https://picsum.photos/seed/electronics-practice-bundle/900/720",
+      "rating": 4.5,
+      "reviews": 39,
+      "features": [
+        "Breadboard",
+        "LED assortment",
+        "Starter components"
+      ]
+    },
+    {
+      "id": "rirc-competition-mat",
+      "name": "RIRC Practice Competition Mat",
+      "category": "Competition Gear",
+      "price": 145,
+      "compareAt": 165,
+      "shortDescription": "Durable practice surface.",
+      "imageSrc": "https://picsum.photos/seed/rirc-competition-mat/900/720",
+      "rating": 4.7,
+      "reviews": 22,
+      "features": [
+        "Foldable",
+        "Printed challenge zones",
+        "Coach notes"
+      ]
+    },
+    {
+      "id": "coding-workbook-pack",
+      "name": "Coding Workbook Pack",
+      "category": "Learning Resources",
+      "price": 54,
+      "compareAt": 64,
+      "shortDescription": "Printed learner journals.",
+      "imageSrc": "https://picsum.photos/seed/coding-workbook-pack/900/720",
+      "rating": 4.6,
+      "reviews": 44,
+      "features": [
+        "12 learner books",
+        "Progress trackers",
+        "Project prompts"
+      ]
+    },
+    {
+      "id": "ai-camera-module",
+      "name": "AI Vision Camera Module",
+      "category": "Sensors",
+      "price": 129,
+      "compareAt": 149,
+      "shortDescription": "Entry point into computer vision.",
+      "imageSrc": "https://picsum.photos/seed/ai-camera-module/900/720",
+      "rating": 4.8,
+      "reviews": 31,
+      "features": [
+        "Vision module",
+        "Mounting kit",
+        "Starter examples"
+      ]
+    }
+  ]
+}

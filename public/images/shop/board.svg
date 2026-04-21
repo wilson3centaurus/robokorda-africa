@@ -1,0 +1,19 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="174" y="146" width="852" height="608" rx="44" fill="url(#boardField)"/>
+  <rect x="266" y="248" width="668" height="404" rx="38" fill="white" fill-opacity="0.16"/>
+  <rect x="430" y="332" width="340" height="236" rx="36" fill="white"/>
+  <path d="M266 344H430" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <path d="M770 344H934" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <path d="M266 548H430" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <path d="M770 548H934" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <path d="M600 248V332" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <path d="M600 568V652" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="boardField" x1="174" y1="146" x2="1026" y2="754" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#173860"/>
+      <stop offset="1" stop-color="#0F61C4"/>
+    </linearGradient>
+  </defs>
+</svg>

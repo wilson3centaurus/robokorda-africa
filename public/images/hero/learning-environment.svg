@@ -1,0 +1,45 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="34" y="34" width="1132" height="832" rx="42" fill="white"/>
+  <circle cx="954" cy="166" r="92" fill="#DBE7F4"/>
+  <circle cx="228" cy="760" r="112" fill="#EEF4FB"/>
+  <rect x="124" y="122" width="510" height="322" rx="34" fill="url(#heroLearningBoard)"/>
+  <rect x="156" y="160" width="446" height="32" rx="16" fill="white" fill-opacity="0.22"/>
+  <rect x="156" y="222" width="132" height="152" rx="24" fill="white" fill-opacity="0.18"/>
+  <rect x="310" y="222" width="116" height="56" rx="18" fill="white"/>
+  <rect x="310" y="296" width="224" height="26" rx="13" fill="white" fill-opacity="0.68"/>
+  <rect x="310" y="338" width="180" height="22" rx="11" fill="white" fill-opacity="0.45"/>
+  <rect x="682" y="150" width="364" height="236" rx="30" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="726" y="194" width="276" height="36" rx="18" fill="#DBE7F4"/>
+  <rect x="726" y="252" width="146" height="110" rx="24" fill="#0F61C4"/>
+  <rect x="892" y="252" width="110" height="50" rx="18" fill="#173860"/>
+  <rect x="892" y="318" width="110" height="44" rx="18" fill="#DBE7F4"/>
+  <rect x="144" y="520" width="910" height="214" rx="36" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="320" y="594" width="486" height="66" rx="33" fill="#0A4C96"/>
+  <circle cx="248" cy="546" r="42" fill="#0F61C4"/>
+  <rect x="210" y="594" width="78" height="88" rx="28" fill="#173860"/>
+  <rect x="192" y="648" width="114" height="24" rx="12" fill="#0F61C4"/>
+  <circle cx="600" cy="548" r="40" fill="#0F61C4"/>
+  <rect x="566" y="590" width="68" height="88" rx="26" fill="#FFFFFF"/>
+  <rect x="536" y="642" width="128" height="26" rx="13" fill="#0F61C4"/>
+  <circle cx="882" cy="546" r="42" fill="#173860"/>
+  <rect x="846" y="594" width="74" height="88" rx="28" fill="#0F61C4"/>
+  <rect x="820" y="646" width="126" height="26" rx="13" fill="#173860"/>
+  <rect x="870" y="474" width="144" height="144" rx="28" fill="url(#heroLearningBot)"/>
+  <rect x="912" y="510" width="60" height="50" rx="18" fill="white"/>
+  <circle cx="932" cy="536" r="8" fill="#0A4C96"/>
+  <circle cx="952" cy="536" r="8" fill="#0A4C96"/>
+  <rect x="920" y="564" width="44" height="10" rx="5" fill="#0A4C96"/>
+  <path d="M924 500L910 476" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <path d="M960 500L974 476" stroke="white" stroke-width="12" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="heroLearningBoard" x1="124" y1="122" x2="634" y2="444" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#0A4C96"/>
+    </linearGradient>
+    <linearGradient id="heroLearningBot" x1="870" y1="474" x2="1014" y2="618" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#173860"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,26 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="122" y="128" width="490" height="356" rx="36" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="166" y="180" width="402" height="40" rx="20" fill="#DBE7F4"/>
+  <rect x="166" y="258" width="318" height="28" rx="14" fill="#0F61C4"/>
+  <rect x="166" y="310" width="246" height="22" rx="11" fill="#173860"/>
+  <rect x="166" y="352" width="286" height="22" rx="11" fill="#DBE7F4"/>
+  <rect x="672" y="112" width="384" height="384" rx="40" fill="url(#codeLabCore)"/>
+  <circle cx="864" cy="304" r="108" fill="white" fill-opacity="0.12"/>
+  <circle cx="864" cy="304" r="68" fill="white"/>
+  <rect x="836" y="232" width="56" height="26" rx="13" fill="#0A4C96"/>
+  <rect x="836" y="350" width="56" height="26" rx="13" fill="#0A4C96"/>
+  <rect x="792" y="290" width="42" height="26" rx="13" fill="#0A4C96"/>
+  <rect x="894" y="290" width="42" height="26" rx="13" fill="#0A4C96"/>
+  <rect x="146" y="566" width="910" height="168" rx="34" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="196" y="618" width="196" height="58" rx="29" fill="#0F61C4"/>
+  <rect x="430" y="618" width="196" height="58" rx="29" fill="#173860"/>
+  <rect x="664" y="618" width="196" height="58" rx="29" fill="#0F61C4"/>
+  <defs>
+    <linearGradient id="codeLabCore" x1="672" y1="112" x2="1056" y2="496" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#173860"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,16 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="178" y="160" width="844" height="530" rx="44" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="258" y="238" width="330" height="294" rx="36" fill="url(#kitBox)"/>
+  <rect x="628" y="238" width="314" height="214" rx="34" fill="white" stroke="#DBE7F4" stroke-width="8"/>
+  <circle cx="706" cy="518" r="62" fill="#173860"/>
+  <circle cx="874" cy="518" r="62" fill="#0F61C4"/>
+  <rect x="244" y="744" width="712" height="56" rx="28" fill="#DBE7F4"/>
+  <defs>
+    <linearGradient id="kitBox" x1="258" y1="238" x2="588" y2="532" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#173860"/>
+    </linearGradient>
+  </defs>
+</svg>

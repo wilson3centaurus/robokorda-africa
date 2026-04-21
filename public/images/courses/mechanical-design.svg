@@ -1,0 +1,26 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="122" y="130" width="956" height="640" rx="42" fill="#F5F8FC" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="186" y="194" width="400" height="286" rx="34" fill="url(#mechanicalBoard)"/>
+  <circle cx="356" cy="334" r="76" fill="white" fill-opacity="0.12"/>
+  <circle cx="356" cy="334" r="48" fill="white"/>
+  <circle cx="356" cy="334" r="22" fill="#0A4C96"/>
+  <circle cx="510" cy="272" r="44" fill="white" fill-opacity="0.82"/>
+  <circle cx="510" cy="272" r="18" fill="#0A4C96"/>
+  <rect x="650" y="182" width="336" height="322" rx="36" fill="white" stroke="#DBE7F4" stroke-width="8"/>
+  <rect x="708" y="234" width="220" height="34" rx="17" fill="#DBE7F4"/>
+  <rect x="708" y="300" width="220" height="152" rx="28" fill="#EEF4FB"/>
+  <path d="M752 400L884 324" stroke="#0F61C4" stroke-width="18" stroke-linecap="round"/>
+  <path d="M752 324L884 400" stroke="#173860" stroke-width="18" stroke-linecap="round"/>
+  <rect x="186" y="556" width="800" height="144" rx="34" fill="#DBE7F4"/>
+  <rect x="226" y="598" width="188" height="60" rx="30" fill="#0F61C4"/>
+  <rect x="454" y="598" width="188" height="60" rx="30" fill="#173860"/>
+  <rect x="682" y="598" width="188" height="60" rx="30" fill="#0F61C4"/>
+  <defs>
+    <linearGradient id="mechanicalBoard" x1="186" y1="194" x2="586" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F61C4"/>
+      <stop offset="1" stop-color="#173860"/>
+    </linearGradient>
+  </defs>
+</svg>

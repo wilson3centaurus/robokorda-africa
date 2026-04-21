@@ -1,0 +1,27 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="56" fill="#EEF4FB"/>
+  <rect x="36" y="36" width="1128" height="828" rx="42" fill="white"/>
+  <rect x="144" y="144" width="912" height="612" rx="42" fill="url(#aiField)"/>
+  <circle cx="600" cy="450" r="126" fill="white" fill-opacity="0.12"/>
+  <circle cx="600" cy="450" r="80" fill="white"/>
+  <circle cx="600" cy="250" r="24" fill="#DBE7F4"/>
+  <circle cx="380" cy="336" r="24" fill="#DBE7F4"/>
+  <circle cx="820" cy="336" r="24" fill="#DBE7F4"/>
+  <circle cx="360" cy="562" r="24" fill="#DBE7F4"/>
+  <circle cx="840" cy="562" r="24" fill="#DBE7F4"/>
+  <circle cx="600" cy="650" r="24" fill="#DBE7F4"/>
+  <path d="M600 330V274" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M528 392L404 350" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M672 392L796 350" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M530 510L386 548" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M670 510L814 548" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <path d="M600 570V626" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <rect x="192" y="180" width="170" height="108" rx="28" fill="white" fill-opacity="0.12"/>
+  <rect x="838" y="618" width="170" height="92" rx="28" fill="white" fill-opacity="0.12"/>
+  <defs>
+    <linearGradient id="aiField" x1="144" y1="144" x2="1056" y2="756" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#173860"/>
+      <stop offset="1" stop-color="#0F61C4"/>
+    </linearGradient>
+  </defs>
+</svg>
