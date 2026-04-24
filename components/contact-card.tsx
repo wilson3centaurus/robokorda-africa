@@ -1,35 +1,46 @@
+import { MapPin, Phone } from "lucide-react";
 import type { ContactLocation } from "@/data/site";
-import { Card } from "@/components/card";
-import { PlaceholderMedia } from "@/components/placeholder-media";
 
 export function ContactCard({ location }: { location: ContactLocation }) {
   const Icon = location.icon;
 
   return (
-    <Card className="h-full">
-      <div className="flex h-full flex-col gap-5">
-        <PlaceholderMedia
-          mode="partner"
-          label={`${location.title} Office Placeholder`}
-          seed={location.title.toLowerCase().replace(/\s+/g, "-")}
-          aspectRatio="16 / 9"
-        >
-          <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/22 bg-white/12">
-            <Icon className="h-8 w-8" aria-hidden="true" />
-          </span>
-        </PlaceholderMedia>
-        <div>
-          <h3 className="text-xl font-semibold text-brand-ink">{location.title}</h3>
-          <div className="mt-4 space-y-1 text-sm leading-7 text-brand-muted">
-            {location.addressLines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
-          <p className="mt-4 text-sm leading-7 text-brand-muted">
-            {location.detail}
-          </p>
-        </div>
+    <div className="flex h-full flex-col rounded-2xl border border-[rgba(0,102,255,0.2)] bg-[rgba(7,20,40,0.8)] p-5">
+      {/* Icon header */}
+      <div className="flex items-center gap-3 mb-4">
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.1)]">
+          <Icon className="h-5 w-5 text-[#7eb8ff]" aria-hidden="true" />
+        </span>
+        <h3 className="text-base font-bold text-white">{location.title}</h3>
       </div>
-    </Card>
+
+      {/* Address */}
+      <div className="space-y-2 text-sm text-[#4d7499]">
+        {location.addressLines.map((line) => (
+          <div key={line} className="flex items-start gap-2">
+            {line.startsWith("Phone:") ? (
+              <>
+                <Phone className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2a4d80]" />
+                <a
+                  href={`tel:${line.replace("Phone: ", "")}`}
+                  className="hover:text-[#7eb8ff] transition leading-5"
+                >
+                  {line.replace("Phone: ", "")}
+                </a>
+              </>
+            ) : (
+              <>
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2a4d80]" />
+                <span className="leading-5">{line}</span>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {location.detail && (
+        <p className="mt-4 text-xs leading-6 text-[#2a4d80]">{location.detail}</p>
+      )}
+    </div>
   );
 }

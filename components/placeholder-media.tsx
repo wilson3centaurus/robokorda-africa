@@ -10,6 +10,7 @@ type PlaceholderMediaProps = {
   imageUrl?: string;
   videoUrl?: string;
   clean?: boolean;
+  fill?: boolean; // skip aspect-ratio — fills parent absolutely
   objectFit?: "cover" | "contain";
   objectPosition?: string;
   className?: string;
@@ -34,6 +35,7 @@ export function PlaceholderMedia({
   imageUrl,
   videoUrl,
   clean = false,
+  fill = false,
   objectFit = "cover",
   objectPosition,
   className,
@@ -43,14 +45,20 @@ export function PlaceholderMedia({
   const Icon = isVideo ? PlayCircle : Camera;
   const fallbackUrl = imageUrl ?? `https://picsum.photos/seed/${seed}/1400/1000`;
 
+  // When fill=true (hero background) we don't set aspect-ratio — the container
+  // fills its positioned parent via className (absolute inset-0)
+  const style = fill ? undefined : { aspectRatio: aspectRatio ?? aspectRatios[mode] };
+
   return (
     <div
       className={cn(
-        "group relative isolate overflow-hidden rounded-[28px] border border-white/12 bg-[linear-gradient(180deg,#0b2340,#0d63c9)]",
+        "group relative isolate overflow-hidden",
+        fill ? "" : "rounded-2xl border border-[rgba(38,133,255,0.18)]",
         videoUrl ? "" : "diagonal-stripes",
+        "bg-[linear-gradient(145deg,#040d1e,#071428)]",
         className,
       )}
-      style={{ aspectRatio: aspectRatio ?? aspectRatios[mode] }}
+      style={style}
       role="img"
       aria-label={label}
     >
@@ -79,24 +87,24 @@ export function PlaceholderMedia({
           className={cn(
             "absolute inset-0 h-full w-full transition duration-500 group-hover:scale-[1.04]",
             objectFit === "contain" ? "object-contain" : "object-cover",
-            clean ? "" : "opacity-28 grayscale contrast-125 saturate-0",
+            clean ? "" : "opacity-30 grayscale contrast-125 saturate-0",
           )}
           style={{ objectPosition }}
         />
       )}
       {!videoUrl && !clean ? (
         <>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_36%),linear-gradient(180deg,rgba(7,20,40,0.18),rgba(7,20,40,0.36))]" />
-          <div className="absolute inset-[14px] rounded-[22px] border border-white/18" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center text-white">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,102,255,0.12),transparent_36%),linear-gradient(180deg,rgba(2,8,16,0.2),rgba(2,8,16,0.45))]" />
+          <div className="absolute inset-[12px] rounded-xl border border-[rgba(0,102,255,0.14)]" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center text-white">
             {children ? (
               children
             ) : (
               <>
-                <span className="flex h-18 w-18 items-center justify-center rounded-full border border-white/22 bg-white/12 shadow-[0_14px_30px_rgba(4,16,32,0.26)]">
-                  <Icon className="h-9 w-9" aria-hidden="true" />
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.1)] shadow-[0_0_20px_rgba(0,102,255,0.2)]">
+                  <Icon className="h-7 w-7 text-[#7eb8ff]" aria-hidden="true" />
                 </span>
-                <p className="max-w-xs text-xs font-semibold uppercase tracking-[0.24em] text-white/88">
+                <p className="max-w-xs text-[10px] font-semibold uppercase tracking-[0.24em] text-[#4d7499]">
                   {label}
                 </p>
               </>

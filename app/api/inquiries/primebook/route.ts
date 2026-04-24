@@ -1,38 +1,22 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+import { addPrimebookInquiry } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { error } = await supabase.from("website_primebook_inquiries").insert({
-      model_id: body.model_id,
-      model_name: body.model_name,
-      price_usd: body.price_usd,
-      price_zwg: body.price_zwg ?? null,
-      buyer_name: body.name,
-      buyer_phone: body.phone,
-      buyer_email: body.email || null,
-      student_name: body.student_name || null,
-      school: body.school || null,
-      quantity: body.quantity,
-      notes: body.notes || null,
-      status: "new",
+    const inquiry = addPrimebookInquiry({
+      name: body.name,
+      email: body.email || "",
+      phone: body.phone,
+      quantity: body.quantity || 1,
+      school: body.school || "",
+      message: body.notes || "",
     });
 
-    if (error) {
-      console.error("Primebook inquiry insert error:", error);
-      // Still return 200 so the UI shows success
-    }
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, id: inquiry.id });
   } catch (err) {
-    console.error("Primebook inquiry API error:", err);
+    console.error("Primebook inquiry error:", err);
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }

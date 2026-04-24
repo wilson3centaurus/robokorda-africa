@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
-import { Card } from "@/components/card";
 import { CountryCard } from "@/components/country-card";
 import { GalleryGrid } from "@/components/gallery-grid";
 import { HeroBanner } from "@/components/hero-banner";
@@ -37,36 +36,35 @@ export default async function RircPage() {
         mediaVideoUrl={rircVideoUrl}
         actionTone="white"
       >
-        <Card className="max-w-md border-white/12 bg-white/10 text-white" variant="soft">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-brand-blue">
+        <div className="max-w-md rounded-2xl border border-[rgba(0,102,255,0.25)] bg-[rgba(4,13,30,0.9)] p-6">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0066ff]">
             Competition Snapshot
           </p>
-          <h2 className="mt-4 text-2xl font-semibold text-brand-ink">
+          <h2 className="mt-4 text-xl font-bold text-white">
             Robotics, AI, and sustainability in one continental experience.
           </h2>
-          <p className="mt-4 text-sm leading-7 text-brand-muted">
-            RIRC brings together school teams, facilitators, and judges for a
-            polished competition environment with high standards and strong public
-            visibility.
+          <p className="mt-3 text-sm leading-7 text-[#8db5d8]">
+            RIRC brings together school teams, facilitators, and judges for a polished competition environment with high standards and strong public visibility.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="#registration" className="btn-primary text-sm">
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="#registration" className="inline-flex items-center gap-2 rounded-xl bg-[#0066ff] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_0_20px_rgba(0,102,255,0.4)] transition hover:bg-[#0052cc]">
               Register Now
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href="/downloads/RIRC-2026-Brochure.pdf"
               download
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition"
+              className="inline-flex items-center gap-2 rounded-xl border border-[rgba(0,229,160,0.3)] px-5 py-2.5 text-sm font-semibold text-[#00e5a0] transition hover:border-[rgba(0,229,160,0.6)] hover:bg-[rgba(0,229,160,0.06)]"
             >
               <Download className="h-4 w-4" />
               Download Brochure
             </a>
           </div>
-        </Card>
+        </div>
       </HeroBanner>
 
-      <section id="registration" className="section-anchor section-space">
+      {/* Registration */}
+      <section id="registration" className="section-anchor section-space circuit-bg">
         <div className="section-shell">
           <Reveal>
             <SectionHeader
@@ -77,7 +75,7 @@ export default async function RircPage() {
           </Reveal>
           <div className="mt-10 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
             <Reveal>
-              <Card variant="blue" className="h-full">
+              <div className="flex h-full flex-col rounded-2xl border border-[rgba(0,102,255,0.25)] bg-gradient-to-br from-[#040d1e] to-[#071428] p-6">
                 <PlaceholderMedia
                   mode="video"
                   label="Registration Feature Placeholder"
@@ -85,26 +83,24 @@ export default async function RircPage() {
                   imageUrl="/images/rirc/registration-feature.jpeg"
                   clean
                 />
-                <h3 className="mt-6 text-3xl font-semibold">
+                <h3 className="mt-6 text-2xl font-bold text-white">
                   Plan early and prepare a strong team.
                 </h3>
-                <p className="mt-4 text-sm leading-8 text-white/82">
-                  Teams are encouraged to define a clear challenge focus, nominate
-                  strong presenters, and start building early so their final entry
-                  is technically sound and easy to communicate under pressure.
+                <p className="mt-3 text-sm leading-7 text-[#8db5d8]">
+                  Teams are encouraged to define a clear challenge focus, nominate strong presenters, and start building early so their final entry is technically sound and easy to communicate under pressure.
                 </p>
-                <p className="mt-6 text-sm font-semibold uppercase tracking-[0.24em] text-white/72">
+                <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.24em] text-[#4d7499]">
                   Registrations close 30 August 2026
                 </p>
                 <a
                   href="/downloads/RIRC-2026-Brochure.pdf"
                   download
-                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition"
+                  className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[rgba(0,229,160,0.3)] px-5 py-2.5 text-sm font-semibold text-[#00e5a0] transition hover:bg-[rgba(0,229,160,0.06)]"
                 >
                   <Download className="h-4 w-4" aria-hidden="true" />
                   Download Competition Brochure
                 </a>
-              </Card>
+              </div>
             </Reveal>
             <Reveal delay={0.06}>
               <RegistrationForm countries={rircCountries} />
@@ -113,7 +109,8 @@ export default async function RircPage() {
         </div>
       </section>
 
-      <section id="about-competition" className="section-anchor section-space bg-white section-glow">
+      {/* About */}
+      <section id="about-competition" className="section-anchor section-space section-glow">
         <div className="section-shell">
           <Reveal>
             <SectionHeader
@@ -122,18 +119,15 @@ export default async function RircPage() {
               description="RIRC is designed to reward technical quality, practical relevance, and confident presentation. Teams are judged on how well they think, build, and explain."
             />
           </Reveal>
-          <p className="mt-8 max-w-4xl text-base leading-8 text-brand-muted">
-            The competition format gives learners a credible stage to demonstrate
-            engineering thinking, AI literacy, teamwork, and solution-driven design.
-            It is intentionally structured to feel aspirational, polished, and
-            worthy of serious school participation.
+          <p className="mt-6 max-w-4xl text-sm leading-8 text-[#4d7499]">
+            The competition format gives learners a credible stage to demonstrate engineering thinking, AI literacy, teamwork, and solution-driven design. It is intentionally structured to feel aspirational, polished, and worthy of serious school participation.
           </p>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {rircTracks.map((track, index) => {
               const Icon = track.icon;
               return (
                 <Reveal key={track.title} delay={index * 0.05}>
-                  <Card className="h-full">
+                  <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-[rgba(0,102,255,0.18)] bg-[rgba(7,20,40,0.8)]">
                     <PlaceholderMedia
                       mode="card"
                       label={`${track.title} Placeholder`}
@@ -145,7 +139,7 @@ export default async function RircPage() {
                             ? "/images/rirc/AI-innovation.jpg"
                             : track.title === "Sustainable Tech Showcase"
                               ? "/images/rirc/sustainable-tech.jpeg"
-                          : `https://picsum.photos/seed/${track.seed}/900/720`
+                              : undefined
                       }
                       clean={
                         track.title === "Robot Design Challenge" ||
@@ -153,20 +147,18 @@ export default async function RircPage() {
                         track.title === "Sustainable Tech Showcase"
                       }
                     />
-                    <span className="mt-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-cloud text-brand-blue">
-                      <Icon className="h-6 w-6" aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-4 text-2xl font-semibold text-brand-ink">
-                      {track.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-brand-muted">
-                      {track.description}
-                    </p>
-                    <Link href="#registration" className="btn-secondary mt-6 w-full">
-                      Learn More
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </Link>
-                  </Card>
+                    <div className="flex flex-1 flex-col p-5">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(0,102,255,0.25)] bg-[rgba(0,102,255,0.1)]">
+                        <Icon className="h-5 w-5 text-[#7eb8ff]" aria-hidden="true" />
+                      </span>
+                      <h3 className="mt-4 text-xl font-bold text-white">{track.title}</h3>
+                      <p className="mt-2 text-sm leading-7 text-[#4d7499]">{track.description}</p>
+                      <Link href="#registration" className="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#7eb8ff] hover:text-white transition">
+                        Register for this track
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
                 </Reveal>
               );
             })}
@@ -174,17 +166,17 @@ export default async function RircPage() {
         </div>
       </section>
 
-      <section className="section-space bg-brand-navy">
+      {/* Countries */}
+      <section className="section-space circuit-bg">
         <div className="section-shell">
           <Reveal>
             <SectionHeader
               eyebrow="Participating Countries"
               title="Nations Competing in RIRC 2026"
               description="The competition footprint spans Southern, Eastern, and Western Africa, creating a richer exchange of ideas and school-level innovation."
-              className="[&>h2]:text-white [&>p:last-child]:text-white/76"
             />
           </Reveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {rircCountries.map((country, index) => (
               <Reveal key={country.code} delay={index * 0.03}>
                 <CountryCard country={country} />
@@ -194,7 +186,8 @@ export default async function RircPage() {
         </div>
       </section>
 
-      <section className="section-space bg-white section-glow">
+      {/* Prizes */}
+      <section className="section-space section-glow">
         <div className="section-shell">
           <Reveal>
             <SectionHeader
@@ -203,17 +196,18 @@ export default async function RircPage() {
               description="RIRC rewards technical excellence, creativity, and presentation quality with meaningful prizes that create real momentum for winning teams."
             />
           </Reveal>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {rircPrizes.map((prize, index) => (
               <Reveal key={prize.title} delay={index * 0.05}>
-                <PrizeCard prize={prize} />
+                <PrizeCard prize={prize} rank={index + 1} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-space">
+      {/* Winners */}
+      <section className="section-space circuit-bg">
         <div className="section-shell">
           <Reveal>
             <SectionHeader
@@ -222,7 +216,7 @@ export default async function RircPage() {
               description="These sample winner profiles show the quality of projects and presentation expected at the top of the competition field."
             />
           </Reveal>
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
             {rircWinners.map((winner, index) => (
               <Reveal key={winner.teamName} delay={index * 0.05}>
                 <WinnerCard winner={winner} />
@@ -232,7 +226,8 @@ export default async function RircPage() {
         </div>
       </section>
 
-      <section className="section-space bg-white section-glow">
+      {/* Gallery */}
+      <section className="section-space section-glow">
         <div className="section-shell">
           <Reveal>
             <SectionHeader

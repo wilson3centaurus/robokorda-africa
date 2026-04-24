@@ -1,42 +1,42 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createSessionToken, validatePassword, isAuthenticated } from '@/lib/admin/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { getSetting, createAdminSession, deleteAdminSession, isValidAdminSession } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json();
-    if (!password || typeof password !== 'string') {
-      return NextResponse.json({ error: 'Password required' }, { status: 400 });
+    if (!password || typeof password !== "string") {
+      return NextResponse.json({ error: "Password required" }, { status: 400 });
     }
-    if (!validatePassword(password)) {
-      return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
+
+    const adminPassword = getSetting("admin_password", "robokorda2026");
+    if (password !== adminPassword) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
-    const token = createSessionToken();
+
+    const token = createAdminSession();
     const res = NextResponse.json({ success: true });
-    res.cookies.set('admin_session', token, {
+    res.cookies.set("admin_session", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       maxAge: 24 * 60 * 60,
-      path: '/',
+      path: "/",
     });
     return res;
   } catch {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
 
 export async function GET(request: NextRequest) {
-  return NextResponse.json({ authenticated: isAuthenticated(request) });
+  const token = request.cookies.get("admin_session")?.value ?? "";
+  return NextResponse.json({ authenticated: isValidAdminSession(token) });
 }
 
-export async function DELETE() {
+export async function DELETE(request: NextRequest) {
+  const token = request.cookies.get("admin_session")?.value ?? "";
+  if (token) deleteAdminSession(token);
   const res = NextResponse.json({ success: true });
-  res.cookies.set('admin_session', '', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 0,
-    path: '/',
-  });
+  res.cookies.set("admin_session", "", { httpOnly: true, maxAge: 0, path: "/" });
   return res;
 }

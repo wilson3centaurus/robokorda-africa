@@ -1,91 +1,101 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Bot, Lock, Eye, EyeOff } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Lock, Eye, EyeOff, Loader2, Cpu } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
       });
-      if (res.ok) router.push('/admin');
-      else {
-        const d = await res.json();
-        setError(d.error || 'Login failed');
+      if (res.ok) {
+        router.push("/admin");
+        router.refresh();
+      } else {
+        setError("Invalid password. Try again.");
       }
     } catch {
-      setError('Connection error');
-    } finally {
-      setLoading(false);
+      setError("Connection error. Please retry.");
     }
-  };
+    setLoading(false);
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Bot className="w-10 h-10 text-white" />
+    <div className="flex min-h-screen items-center justify-center bg-[#020810] px-4">
+      <div
+        className="pointer-events-none fixed inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,102,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,102,255,1) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      <div className="relative w-full max-w-sm">
+        <div className="pointer-events-none absolute -inset-px rounded-2xl" style={{ boxShadow: "0 0 60px rgba(0,102,255,0.15)" }} />
+
+        <div className="rounded-2xl border border-[rgba(0,102,255,0.25)] bg-[rgba(4,13,30,0.96)] p-8">
+          <div className="mb-8 flex flex-col items-center gap-3">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[rgba(0,102,255,0.4)] bg-[rgba(0,102,255,0.12)]" style={{ boxShadow: "0 0 20px rgba(0,102,255,0.2)" }}>
+              <Cpu className="h-7 w-7 text-[#7eb8ff]" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900">Robokorda Admin</h1>
-            <p className="text-slate-500 mt-1">Enter your admin password to continue</p>
+            <div className="text-center">
+              <h1 className="text-xl font-bold text-white">Robokorda CMS</h1>
+              <p className="mt-1 text-xs text-[#4d7499]">Admin Dashboard · Local DB</p>
+            </div>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                <Lock className="w-4 h-4 inline mr-1" />
-                Admin Password
-              </label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="field-label">Admin Password</label>
               <div className="relative">
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#4d7499]" />
                 <input
-                  type={show ? 'text' : 'password'}
+                  type={show ? "text" : "password"}
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="Enter admin password"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
                   required
                   autoFocus
+                  className="field-input pl-10 pr-11"
                 />
                 <button
                   type="button"
                   onClick={() => setShow(!show)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#4d7499] hover:text-[#8db5d8] transition"
+                  style={{ minHeight: "unset", minWidth: "unset" }}
                 >
-                  {show ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">{error}</div>
+              <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-xs text-red-400">
+                {error}
+              </p>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
+            <button type="submit" disabled={loading} className="btn-primary w-full">
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
+              {loading ? "Signing in…" : "Sign In"}
             </button>
           </form>
 
-          <p className="text-center text-xs text-slate-400 mt-6">
-            Set ADMIN_PASSWORD in your .env.local file
+          <p className="mt-6 text-center text-[10px] text-[#2a4d80]">
+            Default password: <span className="font-mono text-[#4d7499]">robokorda2026</span>
           </p>
         </div>
       </div>

@@ -1,35 +1,30 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+import { addRircRegistration } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const { teamName, school, country, category, teamLead, email, phone, message } = body;
 
-    const { error } = await supabase.from("website_rirc_registrations").insert({
-      team_name: body.teamName,
-      school: body.school,
-      country: body.country,
-      category: body.category,
-      team_lead: body.teamLead,
-      email: body.email || null,
-      phone: body.phone,
-      members: body.members || null,
-      message: body.message || null,
-      status: "pending",
-    });
-
-    if (error) {
-      console.error("RIRC registration insert error:", error);
+    if (!teamName || !school || !email || !phone || !teamLead) {
+      return NextResponse.json({ error: "Required fields missing" }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true });
+    const registration = addRircRegistration({
+      school_name: school,
+      team_name: teamName,
+      contact_name: teamLead,
+      email,
+      phone,
+      country: country || "Zimbabwe",
+      track: category || "Junior",
+      team_size: body.teamSize || "4",
+      notes: message || "",
+    });
+
+    return NextResponse.json({ success: true, id: registration.id });
   } catch (err) {
-    console.error("RIRC registration API error:", err);
+    console.error("RIRC registration error:", err);
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }

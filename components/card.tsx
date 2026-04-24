@@ -4,26 +4,28 @@ import { cn } from "@/lib/utils";
 type CardProps = {
   children: ReactNode;
   className?: string;
-  variant?: "white" | "blue" | "soft";
+  variant?: "default" | "white" | "blue" | "soft" | "dark" | "neon";
 };
 
-export function Card({
-  children,
-  className,
-  variant = "white",
-}: CardProps) {
-  const variantClassName =
+export function Card({ children, className, variant = "default" }: CardProps) {
+  const variantClass =
     variant === "blue"
-      ? "border border-white/12 bg-[linear-gradient(145deg,#0b2340,#0d63c9)] text-white"
-      : variant === "soft"
-        ? "border border-brand-line/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(233,241,251,0.92))] text-brand-ink"
-        : "border border-brand-line/80 bg-white/95 text-brand-ink";
+      ? "border border-[rgba(0,102,255,0.3)] bg-[linear-gradient(145deg,#040d1e,#071428)] text-white"
+      : variant === "neon"
+        ? "border border-[rgba(0,229,160,0.35)] bg-[linear-gradient(145deg,#040d1e,#071428)] text-white"
+        : variant === "soft"
+          ? "border border-[rgba(38,133,255,0.12)] bg-[rgba(10,28,56,0.7)] text-[#e8f4fd]"
+          : variant === "white"
+            ? "border border-[rgba(38,133,255,0.15)] bg-[rgba(14,37,72,0.9)] text-[#e8f4fd]"
+            : variant === "dark"
+              ? "border border-[rgba(38,133,255,0.08)] bg-[#040d1e] text-[#e8f4fd]"
+              : "border border-[rgba(38,133,255,0.15)] bg-[rgba(7,20,40,0.8)] text-[#e8f4fd]";
 
   return (
     <div
       className={cn(
-        "surface-shadow hover-lift rounded-[30px] p-6 sm:p-8",
-        variantClassName,
+        "surface-shadow hover-lift rounded-2xl p-5 sm:p-7",
+        variantClass,
         className,
       )}
     >

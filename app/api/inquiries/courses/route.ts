@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { addCourseInquiry } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
@@ -10,24 +10,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const supabase = await createClient();
-    const { error } = await supabase.from("website_course_inquiries").insert({
+    const inquiry = addCourseInquiry({
+      name: parent_name,
+      email: email || "",
+      phone,
       course_title,
-      parent_name,
-      parent_phone: phone,
-      parent_email: email || null,
-      student_name: student_name || null,
-      school: school || null,
-      notes: notes || null,
-      status: "new",
+      school: school || student_name || "",
+      message: notes || "",
     });
 
-    if (error) {
-      console.error("Course inquiry insert error:", error);
-      return NextResponse.json({ error: "Failed to save inquiry" }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, id: inquiry.id });
   } catch (err) {
     console.error("Course inquiry error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
