@@ -3,12 +3,13 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard, Settings, Image, Trophy, ShoppingBag,
-  MessageSquare, BookOpen, Cpu, LogOut, ArrowRight, Users, TrendingUp,
+  MessageSquare, BookOpen, Cpu, ArrowRight, Users, TrendingUp,
 } from "lucide-react";
 import {
   isValidAdminSession, getRircRegistrations, getComponentInquiries,
   getCourseInquiries, getPrimebookInquiries, getContactMessages,
 } from "@/lib/db";
+import { LogoutButton } from "@/components/admin/logout-button";
 
 export const dynamic = "force-dynamic";
 
@@ -79,20 +80,7 @@ export default async function AdminDashboard() {
           </nav>
 
           <div className="border-t border-[rgba(0,102,255,0.15)] p-3">
-            <form action="/api/admin/auth" method="POST">
-              <Link
-                href="/api/admin/auth"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  await fetch("/api/admin/auth", { method: "DELETE" });
-                  window.location.href = "/admin/login";
-                }}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-[#4d7499] transition hover:text-red-400"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign Out
-              </Link>
-            </form>
+            <LogoutButton />
           </div>
         </aside>
 

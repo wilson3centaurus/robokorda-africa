@@ -1,3 +1,4 @@
+// home.ts
 import {
   BrainCircuit,
   Building2,
