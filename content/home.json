@@ -1,0 +1,171 @@
+{
+  "Hero Stats": [
+    {
+      "label": "Students Trained",
+      "value": "9,976+",
+      "type": "stat"
+    },
+    {
+      "label": "Schools Reached",
+      "value": "79+",
+      "type": "stat"
+    },
+    {
+      "label": "Countries",
+      "value": "11",
+      "type": "stat"
+    },
+    {
+      "label": "Competitions Won",
+      "value": "31",
+      "type": "stat"
+    }
+  ],
+  "Hero Video": [
+    {
+      "label": "Video URL",
+      "value": "/media/home-hero.mp4",
+      "type": "video"
+    }
+  ],
+  "Delivery Options": [
+    {
+      "label": "School Curriculum",
+      "value": "Robokorda embeds robotics and coding into the formal timetable with structured lesson plans and progress tracking.",
+      "imageSrc": "https://picsum.photos/seed/curriculum-delivery/1200/900",
+      "type": "card"
+    },
+    {
+      "label": "Extra-Curricular",
+      "value": "After-school robotics clubs give learners a premium innovation space beyond core lessons while staying connected to school life.",
+      "imageSrc": "https://picsum.photos/seed/extracurricular-delivery/1200/900",
+      "type": "card"
+    },
+    {
+      "label": "Weekend Programmes",
+      "value": "Weekend cohorts open the Robokorda pathway to families, homeschool communities, and learners outside partner schools.",
+      "imageSrc": "https://picsum.photos/seed/weekend-delivery/1200/900",
+      "type": "card"
+    }
+  ],
+  "Courses": [
+    {
+      "label": "Foundations of Robotics",
+      "value": "Ages 8-11 · 10 Weeks",
+      "imageSrc": "https://picsum.photos/seed/foundations-robotics/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Scratch Logic Lab",
+      "value": "Ages 8-13 · 12 Weeks",
+      "imageSrc": "https://picsum.photos/seed/scratch-logic-lab/900/720",
+      "type": "card"
+    },
+    {
+      "label": "App Studio for Young Innovators",
+      "value": "Ages 10-15 · 12 Weeks",
+      "imageSrc": "https://picsum.photos/seed/app-studio-young-innovators/900/720",
+      "type": "card"
+    },
+    {
+      "label": "AI Explorer Track",
+      "value": "Ages 12-17 · 8 Weeks",
+      "imageSrc": "https://picsum.photos/seed/ai-explorer-track/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Electronics and Sensors",
+      "value": "Ages 11-17 · 10 Weeks",
+      "imageSrc": "https://picsum.photos/seed/electronics-sensors/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Mechanical Design Studio",
+      "value": "Ages 10-17 · 10 Weeks",
+      "imageSrc": "https://picsum.photos/seed/mechanical-design-studio/900/720",
+      "type": "card"
+    }
+  ],
+  "Partners": [
+    {
+      "label": "Independent and private schools",
+      "value": "Schools looking to strengthen practical robotics, coding, and innovation pathways.",
+      "imageSrc": "https://picsum.photos/seed/private-schools-partner/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Public school networks",
+      "value": "Districts and school groups building wider access to technology education.",
+      "imageSrc": "https://picsum.photos/seed/public-school-networks/900/720",
+      "type": "card"
+    },
+    {
+      "label": "NGOs and development partners",
+      "value": "Organisations focused on youth capability, digital inclusion.",
+      "imageSrc": "https://picsum.photos/seed/ngo-development-partners/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Teacher enablement programmes",
+      "value": "Partners seeking school adoption support.",
+      "imageSrc": "https://picsum.photos/seed/teacher-enablement/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Innovation hubs and universities",
+      "value": "Institutions that want stronger junior innovation pipelines.",
+      "imageSrc": "https://picsum.photos/seed/innovation-hubs-universities/900/720",
+      "type": "card"
+    },
+    {
+      "label": "Parent and homeschool communities",
+      "value": "Families seeking structured technology learning.",
+      "imageSrc": "https://picsum.photos/seed/parent-communities/900/720",
+      "type": "card"
+    }
+  ],
+  "Gallery": [
+    {
+      "label": "Classroom robotics sprint",
+      "value": "Learners work through guided assembly and testing sessions.",
+      "imageSrc": "https://picsum.photos/seed/gallery-classroom-robotics/1200/900",
+      "type": "card"
+    },
+    {
+      "label": "Young coders at work",
+      "value": "Block-based logic activities help students connect creativity.",
+      "imageSrc": "https://picsum.photos/seed/gallery-young-coders/900/900",
+      "type": "card"
+    },
+    {
+      "label": "Prototype review table",
+      "value": "Project feedback sessions encourage iteration.",
+      "imageSrc": "https://picsum.photos/seed/gallery-prototype-review/900/1200",
+      "type": "card"
+    },
+    {
+      "label": "Weekend innovation studio",
+      "value": "Families and learners use weekend sessions.",
+      "imageSrc": "https://picsum.photos/seed/gallery-weekend-studio/1200/900",
+      "type": "card"
+    },
+    {
+      "label": "Competition rehearsal",
+      "value": "Teams prepare for timed presentations.",
+      "imageSrc": "https://picsum.photos/seed/gallery-competition-rehearsal/900/900",
+      "type": "card"
+    },
+    {
+      "label": "Electronics testing bench",
+      "value": "Hands-on circuit work sharpens troubleshooting.",
+      "imageSrc": "https://picsum.photos/seed/gallery-electronics-bench/900/900",
+      "type": "card"
+    },
+    {
+      "label": "School showcase day",
+      "value": "Learners present finished projects to educators.",
+      "imageSrc": "https://picsum.photos/seed/gallery-showcase-day/900/1200",
+      "type": "card"
+    }
+  ]
+}

@@ -30,12 +30,6 @@ function getMediaType(name: string): 'image' | 'video' {
 
 export async function getContent(page: string): Promise<Record<string, unknown> | null> {
   const safePage = page.replace(/[^a-zA-Z0-9-]/g, '');
-
-  // Primary: Supabase (works on Vercel)
-// --- Content ---
-
-export async function getContent(page: string): Promise<Record<string, unknown> | null> {
-  const safePage = page.replace(/[^a-zA-Z0-9-]/g, '');
   try {
     const raw = await fs.readFile(path.join(CONTENT_DIR, `${safePage}.json`), 'utf-8');
     return JSON.parse(raw);
