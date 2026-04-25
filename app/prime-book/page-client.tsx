@@ -19,8 +19,8 @@ export function PrimeBookPageClient({ videoUrl }: Props) {
 
   return (
     <>
-      {/* Fullscreen hero video – mirrors home page pattern */}
-      <VideoSection videoUrl={videoUrl} fullBleed />
+      {/* Fullscreen hero video – only shown when a video URL is configured */}
+      {videoUrl && <VideoSection videoUrl={videoUrl} fullBleed />}
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[var(--surface-1)] via-[var(--surface-2)] to-[var(--surface-3)] pt-24 pb-16 sm:pt-32 sm:pb-24">
