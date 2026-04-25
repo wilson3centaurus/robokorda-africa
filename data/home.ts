@@ -42,7 +42,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Ideal for schools that want recurring classroom delivery, teacher coordination, learner assessment, and predictable term planning.",
     icon: Building2,
-    imageSrc: "/images/zim/robokorda_pic_1.png",
+    imageSrc: "/images/zim/robokorda_pic_1_1777041252042.png",
     seed: "curriculum-delivery",
   },
   {
@@ -52,7 +52,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Best for schools that want a high-energy STEM club, competition preparation, and practical enrichment without changing the curriculum.",
     icon: Rocket,
-    imageSrc: "/images/zim/robokorda_pic_3.png",
+    imageSrc: "/images/zim/robokorda_pic_3_1777041255388.png",
     seed: "extracurricular-delivery",
   },
   {
@@ -62,7 +62,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Suited to parent-led enrolment, community hubs, and learners who want deeper project time with focused instructor support.",
     icon: Compass,
-    imageSrc: "/images/zim/robokorda_pic_5.png",
+    imageSrc: "/images/zim/robokorda_pic_5_1777041302159.png",
     seed: "weekend-delivery",
   },
 ];

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Package, LayoutDashboard, Settings, MessageSquare, TrendingUp, Cpu, Pencil, X, Check, ImageIcon
+  Package, LayoutDashboard, Settings, MessageSquare, TrendingUp, Cpu, Pencil, X, Check, ImageIcon, FileText
 } from "lucide-react";
 
 const navLinks = [
@@ -13,6 +13,7 @@ const navLinks = [
   { label: "Settings", href: "/admin/settings", icon: Settings },
   { label: "Gallery", href: "/admin/gallery", icon: ImageIcon },
   { label: "Catalogue", href: "/admin/catalogue", icon: Package },
+  { label: "Pages", href: "/admin/pages", icon: FileText },
   { label: "View Site", href: "/", icon: TrendingUp, external: true },
 ];
 

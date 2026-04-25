@@ -1,4 +1,4 @@
-﻿[
+[
     {
         "id":  "primebook-neo",
         "name":  "PrimeBook Neo",
@@ -83,7 +83,7 @@
         "priceZWG":  16800,
         "imageSrc":  "https://picsum.photos/seed/arduino-uno/400/400",
         "shortDescription":  "The classic beginner microcontroller. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     },
     {
         "id":  "arduino-mega",
@@ -93,7 +93,7 @@
         "priceZWG":  30800,
         "imageSrc":  "https://picsum.photos/seed/arduino-mega/400/400",
         "shortDescription":  "Expanded I/O for complex projects. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     },
     {
         "id":  "esp32",
@@ -103,7 +103,7 @@
         "priceZWG":  14000,
         "imageSrc":  "https://picsum.photos/seed/esp32/400/400",
         "shortDescription":  "Wi-Fi + Bluetooth microcontroller. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     },
     {
         "id":  "raspberry-pi-pico",
@@ -113,7 +113,7 @@
         "priceZWG":  11200,
         "imageSrc":  "https://picsum.photos/seed/rpi-pico/400/400",
         "shortDescription":  "Dual-core microcontroller. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     },
     {
         "id":  "ultrasonic-hcsr04",
@@ -123,7 +123,7 @@
         "priceZWG":  4200,
         "imageSrc":  "https://picsum.photos/seed/ultrasonic/400/400",
         "shortDescription":  "Distance measurement sensor. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     },
     {
         "id":  "servo-sg90",
@@ -133,7 +133,7 @@
         "priceZWG":  5600,
         "imageSrc":  "https://picsum.photos/seed/servo-sg90/400/400",
         "shortDescription":  "Lightweight servo motor. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     },
     {
         "id":  "breadboard-kit",
@@ -143,6 +143,6 @@
         "priceZWG":  7000,
         "imageSrc":  "https://picsum.photos/seed/breadboard-kit/400/400",
         "shortDescription":  "Full-size breadboard with jumper wires. Inquire for availability.",
-        "status":  "out_of_stock"
+        "status":  "unlisted"
     }
 ]

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard, Settings, Image, Trophy, ShoppingBag,
-  MessageSquare, BookOpen, Cpu, ArrowRight, Users, TrendingUp, Package
+  MessageSquare, BookOpen, Cpu, ArrowRight, Users, TrendingUp, Package, FileText
 } from "lucide-react";
 import {
   isValidAdminSession, getRircRegistrations, getComponentInquiries,
@@ -43,6 +43,7 @@ export default async function AdminDashboard() {
     { label: "Site Settings", href: "/admin/settings", icon: Settings },
     { label: "Gallery", href: "/admin/gallery", icon: Image },
     { label: "Catalogue", href: "/admin/catalogue", icon: Package },
+    { label: "Pages", href: "/admin/pages", icon: FileText },
     { label: "View Site", href: "/", icon: TrendingUp, external: true },
   ];
 
