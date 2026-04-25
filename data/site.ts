@@ -127,17 +127,6 @@ export const navItems: NavItem[] = [
 
 export const contactLocations: ContactLocation[] = [
   {
-    title: "South Africa Hub",
-    addressLines: [
-      "206 Rosies Place Street",
-      "Glen Austin AH, Midrand",
-      "Johannesburg, South Africa",
-    ],
-    detail:
-      "Programme planning, school partnerships, bulk orders, and Prime Book enquiries.",
-    icon: MapPin,
-  },
-  {
     title: "Zimbabwe Hub",
     addressLines: [
       "16 Mahogany Avenue",

@@ -34,14 +34,16 @@ export function PrizeCard({ prize, rank = 1 }: { prize: PrizeTier; rank?: number
       )}
 
       <div className="flex flex-1 flex-col p-6">
-        {!prize.imageSrc && (
-          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.06)]">
-            <Icon className="h-7 w-7" aria-hidden="true" />
-          </span>
-        )}
-        <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.24em] text-current opacity-70">
-          {prize.title}
-        </p>
+        <div className="mt-4 flex items-center gap-3">
+          {!prize.imageSrc && (
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgba(255,255,255,0.06)]">
+              <Icon className="h-5 w-5" aria-hidden="true" />
+            </span>
+          )}
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-current opacity-70">
+            {prize.title}
+          </p>
+        </div>
         <h3 className="mt-2 text-xl font-bold text-[var(--text-primary)]">
           {prize.amount}
         </h3>

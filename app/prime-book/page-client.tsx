@@ -54,7 +54,7 @@ export function PrimeBookPageClient({ videoUrl }: Props) {
             </div>
           </Reveal>
           <Reveal delay={0.12}>
-            <div className="relative flex items-center justify-center">
+            <div className="relative hidden sm:flex items-center justify-center">
               <div className="absolute inset-0 rounded-3xl bg-[var(--electric-subtle)] blur-2xl opacity-60" />
               <div className="relative w-full max-w-md rounded-3xl border border-[var(--surface-border)] bg-[var(--surface-1)] p-6 shadow-[0_0_60px_rgba(52,47,197,0.18)]">
                 <Image
@@ -78,7 +78,7 @@ export function PrimeBookPageClient({ videoUrl }: Props) {
         </div>
       </section>
 
-      
+
 
       {/* Models */}
       <section id="models" className="section-anchor section-space circuit-bg">
@@ -249,10 +249,12 @@ export function PrimeBookPageClient({ videoUrl }: Props) {
                       className="rounded-none"
                     />
                     <div className="flex flex-1 flex-col p-5">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(52,47,197,0.30)] bg-[rgba(52,47,197,0.14)]">
-                        <Icon className="h-5 w-5 text-[var(--electric-bright)]" aria-hidden="true" />
-                      </span>
-                      <h3 className="mt-4 text-lg font-bold text-[var(--text-primary)]">{feature.title}</h3>
+                      <div className="flex items-center gap-4">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(52,47,197,0.30)] bg-[rgba(52,47,197,0.14)]">
+                          <Icon className="h-5 w-5 text-[var(--electric-bright)]" aria-hidden="true" />
+                        </span>
+                        <h3 className="text-lg font-bold leading-tight text-[var(--text-primary)]">{feature.title}</h3>
+                      </div>
                       <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{feature.description}</p>
                     </div>
                   </div>

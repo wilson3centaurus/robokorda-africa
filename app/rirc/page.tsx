@@ -54,12 +54,12 @@ export default async function RircPage() {
   const galleryItems: GalleryItem[] =
     dbGallery.length > 0
       ? dbGallery.map((row) => ({
-          title: row.title,
-          subtitle: row.caption ?? "",
-          imageSrc: row.image_url,
-          seed: row.id,
-          size: row.size,
-        }))
+        title: row.title,
+        subtitle: row.caption ?? "",
+        imageSrc: row.image_url,
+        seed: row.id,
+        size: row.size,
+      }))
       : rircGallery;
 
   // Brochure URL from settings or fallback
@@ -67,21 +67,24 @@ export default async function RircPage() {
 
   return (
     <>
-      {/* Fullscreen hero video — mirrors home page pattern */}
-      <VideoSection videoUrl={rircVideoUrl} fullBleed />
-
+      {/* Competition highlights video */}
+      <VideoSection
+        videoUrl={rircShowcaseVideoUrl}
+        eyebrow="Robokorda International Robotics Competition"
+        bgClass="circuit-bg !pb-0"
+      />
       <HeroBanner
         badge="RIRC 2026"
-        title="Africa's Premier Robotics & Innovation Competition"
+        title="Welcome to the Africa's Premier Robotics & Innovation Competition"
         description="A premium stage for schools, clubs, and young innovators to build, present, and compete across robotics, AI, and sustainable technology challenges."
         primaryAction={{ href: "#registration", label: "Register Your Team" }}
         secondaryAction={{ href: "#about-competition", label: "Learn More" }}
         mediaLabel="Competition Banner Placeholder"
         mediaSeed="rirc-hero-banner"
         mediaVideoUrl={rircVideoUrl}
-        actionTone="white"
+        compact
       >
-        <div className="max-w-md rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)]/90 p-6 backdrop-blur-sm">
+        <div className="w-full rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)]/90 p-6 backdrop-blur-sm">
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--electric-bright)]">
             Competition Snapshot
           </p>
@@ -193,10 +196,12 @@ export default async function RircPage() {
                       }
                     />
                     <div className="flex flex-1 flex-col p-5">
-                      <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(52,47,197,0.30)] bg-[rgba(52,47,197,0.14)]">
-                        <Icon className="h-5 w-5 text-[var(--electric-bright)]" aria-hidden="true" />
-                      </span>
-                      <h3 className="mt-4 text-xl font-bold text-[var(--text-primary)]">{track.title}</h3>
+                      <div className="flex items-center gap-4">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(52,47,197,0.30)] bg-[rgba(52,47,197,0.14)]">
+                          <Icon className="h-5 w-5 text-[var(--electric-bright)]" aria-hidden="true" />
+                        </span>
+                        <h3 className="text-xl font-bold leading-tight text-[var(--text-primary)]">{track.title}</h3>
+                      </div>
                       <p className="mt-2 text-sm leading-7 text-[var(--text-muted)]">{track.description}</p>
                       <Link href="#registration" className="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--electric-bright)] hover:text-[var(--text-primary)] transition">
                         Register for this track
@@ -211,15 +216,6 @@ export default async function RircPage() {
         </div>
       </section>
 
-      {/* Competition highlights video */}
-      <VideoSection
-        videoUrl={rircShowcaseVideoUrl}
-        eyebrow="Competition Highlights"
-        title="RIRC — the stage that launches careers."
-        description="Relive the energy, builds, and breakthroughs from the competition floor."
-        bgClass="circuit-bg"
-      />
-
       {/* Countries */}
       <section className="section-space circuit-bg">
         <div className="section-shell">
@@ -230,7 +226,7 @@ export default async function RircPage() {
               description="The competition footprint spans Africa and beyond — bringing together school teams from 12 countries for a world-class innovation exchange."
             />
           </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-8 grid grid-cols-4 gap-3 sm:grid-cols-4 sm:gap-5 lg:grid-cols-6 xl:grid-cols-6">
             {rircCountries.map((country, index) => (
               <Reveal key={country.code} delay={index * 0.03}>
                 <CountryCard country={country} />
@@ -262,12 +258,21 @@ export default async function RircPage() {
             </div>
           </Reveal>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {rircPrizes.map((prize, index) => (
-              <Reveal key={prize.title} delay={index * 0.05}>
-                <PrizeCard prize={prize} rank={index + 1} />
-              </Reveal>
-            ))}
+          <div className="mt-10 flex flex-col items-center gap-5">
+            <div className="grid w-full gap-3 sm:gap-5 grid-cols-2">
+              {rircPrizes.slice(0, 2).map((prize, index) => (
+                <Reveal key={prize.title} delay={index * 0.05}>
+                  <PrizeCard prize={prize} rank={index + 1} />
+                </Reveal>
+              ))}
+            </div>
+            {rircPrizes.length > 2 && (
+              <div className="w-full sm:w-1/2">
+                <Reveal delay={0.1}>
+                  <PrizeCard prize={rircPrizes[2]} rank={3} />
+                </Reveal>
+              </div>
+            )}
           </div>
         </div>
       </section>

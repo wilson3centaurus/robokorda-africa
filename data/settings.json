@@ -1,8 +1,6 @@
 {
   "site_name": "Robokorda Africa",
   "site_tagline": "Making Robotics & Coding Fun",
-  "logo_url": "/brand/logo.png",
-  "favicon_url": "",
   "contact_email": "info@robokorda.com",
   "contact_phone_sa": "+27 83 242 7998",
   "contact_phone_zw": "+263 774 189 500",
@@ -17,9 +15,11 @@
   "stat_competitions": "10+",
   "video_url_home": "/uploads/1777046972053-zdzv1q.mp4",
   "video_url_rirc": "/uploads/1777047029392-ddalnx.mp4",
-  "video_url_primebook": "https://youtu.be/B0mpOFYveHI?si=jKj6mKnVggZRxe1D",
+  "video_url_primebook": "/uploads/1777149947229-spsrcz.mp4",
   "primebook_price_usd": "299",
   "primebook_price_zwg": "850000",
   "primebook_specs": "Intel Celeron N4020 · 4GB RAM · 128GB SSD · 11.6\" HD · Windows 11",
-  "admin_password": "robokorda2026"
+  "admin_password": "robokorda2026",
+  "logo_url": "/brand/logo.png",
+  "favicon_url": ""
 }

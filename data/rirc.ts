@@ -71,7 +71,7 @@ export const rircPrizes: PrizeTier[] = [
     imageSrc: "/images/rirc/2nd-place.jpg",
   },
   {
-    title: "3rd Position",
+    title: "3rd Place",
     amount: "RIRC Third Position Shield",
     summary: "Celebrates an exceptional team with strong promise and practical innovation.",
     benefits: [

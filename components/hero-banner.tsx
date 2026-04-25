@@ -22,6 +22,7 @@ type HeroBannerProps = {
   actionTone?: "default" | "white";
   stats?: HeroStat[];
   minHeightClassName?: string;
+  compact?: boolean;
   children?: React.ReactNode;
 };
 
@@ -90,6 +91,7 @@ export function HeroBanner({
   actionTone = "default",
   stats,
   minHeightClassName = "min-h-[100svh]",
+  compact = false,
   children,
 }: HeroBannerProps) {
   const whiteActions = actionTone === "white";
@@ -98,9 +100,8 @@ export function HeroBanner({
     <section
       id={id}
       className={cn(
-        "section-anchor relative -mt-20 overflow-hidden lg:-mt-24",
-        "bg-background",
-        minHeightClassName,
+        "section-anchor relative overflow-hidden bg-background",
+        compact ? "py-8 lg:py-12" : ["-mt-20 lg:-mt-24", minHeightClassName],
       )}
     >
       {/* Full-bleed background — no aspect-ratio constraint */}
@@ -132,7 +133,7 @@ export function HeroBanner({
 
       {/* Content */}
       <div className="relative z-10 flex min-h-[inherit] items-center">
-        <div className="section-shell w-full pb-12 pt-20 sm:pb-24 sm:pt-36 lg:pt-40">
+        <div className={cn("section-shell w-full", compact ? "py-0" : "pb-12 pt-20 sm:pb-24 sm:pt-36 lg:pt-40")}>
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
 
             {/* Left — headline */}
@@ -149,7 +150,7 @@ export function HeroBanner({
                 </div>
               )}
 
-              <h1 className="text-[1.8rem] font-bold leading-[1.1] tracking-tight text-balance sm:text-5xl lg:text-[4.8rem] lg:leading-[0.95] text-[var(--text-primary)]">
+              <h1 className="text-[1.35rem] font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[4.8rem] lg:leading-[0.95] text-[var(--text-primary)]">
                 {title}
               </h1>
 

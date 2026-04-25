@@ -34,13 +34,13 @@ export function GalleryShowcase({ items }: { items: GalleryItem[] }) {
   return (
     <>
       {/* Clean masonry photo grid — no text on cards, captions only in lightbox */}
-      <div className="mt-10 columns-1 gap-4 space-y-4 sm:columns-2 lg:columns-3">
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
         {items.map((item, index) => (
           <button
             key={item.title}
             type="button"
             onClick={() => setActiveIndex(index)}
-            className="group relative block w-full break-inside-avoid cursor-zoom-in"
+            className="group relative block w-full cursor-zoom-in"
             aria-label={`View photo: ${item.title}`}
           >
             <div className="relative overflow-hidden rounded-[18px]">

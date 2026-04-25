@@ -23,11 +23,11 @@ export async function Footer() {
       {/* Top accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--electric)] to-transparent opacity-40 relative z-10" />
 
-      <div className="section-shell py-16 relative z-10">
-        <div className="grid gap-12 lg:grid-cols-2 xl:gap-20">
+      <div className="section-shell py-10 sm:py-12 relative z-10">
+        <div className="grid gap-10 lg:grid-cols-2 xl:gap-16">
 
           {/* Brand col */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="flex items-center gap-4">
               <div
                 className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--electric-subtle)]"
@@ -46,23 +46,10 @@ export async function Footer() {
             </p>
 
             {/* Locations */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] p-5 hover:border-[var(--electric)] transition duration-300">
-                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">South Africa</p>
-                <div className="space-y-2 text-sm text-[var(--text-secondary)]">
-                  <div className="flex items-start gap-2.5">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--text-muted)]" />
-                    <span className="leading-snug">{settings.address_sa}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Phone className="h-4 w-4 shrink-0 text-[var(--text-muted)]" />
-                    <a href={`tel:${settings.contact_phone_sa}`} className="hover:text-[var(--text-primary)] transition-colors">{settings.contact_phone_sa}</a>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] p-5 hover:border-[var(--electric)] transition duration-300">
-                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">Zimbabwe</p>
-                <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+            <div>
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] p-4 hover:border-[var(--electric)] transition duration-300">
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">Zimbabwe Hub</p>
+                <div className="space-y-2 text-xs text-[var(--text-secondary)]">
                   <div className="flex items-start gap-2.5">
                     <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--text-muted)]" />
                     <span className="leading-snug">{settings.address_zw}</span>

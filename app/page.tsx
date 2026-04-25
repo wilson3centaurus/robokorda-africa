@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/contact-form";
 import { CoursesSection } from "@/components/home/courses-section";
 import { CTASection } from "@/components/cta-section";
 import { FAQAccordion } from "@/components/faq-accordion";
-import { GalleryShowcase } from "@/components/home/gallery-showcase";
+import { GalleryGrid } from "@/components/gallery-grid";
 import { GameSection } from "@/components/game/game-section";
 import { VideoSection } from "@/components/video-section";
 import { HeroBanner } from "@/components/hero-banner";
@@ -76,12 +76,12 @@ export default async function HomePage() {
 
   const homeVideoUrl = settings.video_url_home || undefined;
 
-  const liveContactLocations = contactLocations.map((loc, i) => ({
+  const liveContactLocations = contactLocations.map((loc) => ({
     ...loc,
-    addressLines:
-      i === 0
-        ? [...settings.address_sa.split(", "), `Phone: ${settings.contact_phone_sa}`]
-        : [...settings.address_zw.split(", "), `Phone: ${settings.contact_phone_zw}`],
+    addressLines: [
+      ...settings.address_zw.split(", "),
+      `Phone: ${settings.contact_phone_zw}`,
+    ],
   }));
 
   return (
@@ -105,15 +105,13 @@ export default async function HomePage() {
       >
         <div className="hidden sm:flex max-w-sm flex-col gap-3">
           <Card className="border-[var(--surface-border)] !bg-[#FEFEFE] p-4 sm:p-5 text-center" variant="default">
-            <h2 className="text-2xl font-bold text-[var(--text-primary)]">Robokorda Africa</h2>
-            <p className="mt-1 text-sm text-[var(--text-muted)]">Making Robotics and Coding Fun</p>
             <div className="relative mx-auto mt-3 aspect-[4/3] w-[85%]">
               <Image
                 src="/brand/logo.png"
                 alt="Robokorda Africa logo"
                 fill
                 priority
-                sizes="224px"
+                sizes="300px"
                 className="object-contain"
               />
             </div>
@@ -150,7 +148,7 @@ export default async function HomePage() {
                 <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
                   Robokorda blends facilitator-led teaching, hands-on project work, competitions, and future-ready tools so learners build both technical capability and personal confidence.
                 </p>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="mt-5 grid grid-cols-2 gap-3">
                   {aboutPreviewCards.map((item) => {
                     const Icon = item.icon;
                     return (
@@ -207,10 +205,12 @@ export default async function HomePage() {
                       seed={option.seed}
                       imageUrl={option.imageSrc}
                     />
-                    <span className="mt-4 flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(52,47,197,0.30)] bg-[rgba(52,47,197,0.14)] text-[var(--electric-bright)]">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-4 text-lg font-bold text-[var(--text-primary)]">{option.title}</h3>
+                    <div className="mt-4 flex items-center gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(52,47,197,0.30)] bg-[rgba(52,47,197,0.14)] text-[var(--electric-bright)]">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                      <h3 className="text-base font-bold leading-tight text-[var(--text-primary)] sm:text-lg">{option.title}</h3>
+                    </div>
                     <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{option.description}</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{option.detail}</p>
                   </Card>
@@ -234,7 +234,7 @@ export default async function HomePage() {
               description="Every programme is built to strengthen habits learners need in class, at competitions, and throughout their careers."
             />
           </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
             {skills.map((skill, index) => (
               <Reveal key={skill.title} delay={index * 0.04}>
                 <SkillCard skill={skill} />
@@ -254,17 +254,19 @@ export default async function HomePage() {
               description="Competition readiness, structured delivery, and measurable learner growth in every programme."
             />
           </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
             {whyUs.map((item, index) => {
               const Icon = item.icon;
               return (
                 <Reveal key={item.title} delay={index * 0.05}>
                   <Card variant={index % 2 === 0 ? "blue" : "default"} className="h-full">
-                    <span className={index % 2 === 0 ? "flex h-12 w-12 items-center justify-center rounded-xl bg-[rgba(52,47,197,0.18)]" : "flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(0,229,160,0.25)] bg-[rgba(0,229,160,0.10)]"}>
-                      <Icon className={index % 2 === 0 ? "h-6 w-6 text-[var(--electric-bright)]" : "h-6 w-6 text-[var(--neon)]"} aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-4 text-base font-bold text-[var(--text-primary)]">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{item.description}</p>
+                    <div className="flex items-center gap-4">
+                      <span className={index % 2 === 0 ? "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[rgba(52,47,197,0.18)]" : "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[rgba(0,229,160,0.25)] bg-[rgba(0,229,160,0.10)]"}>
+                        <Icon className={index % 2 === 0 ? "h-6 w-6 text-[var(--electric-bright)]" : "h-6 w-6 text-[var(--neon)]"} aria-hidden="true" />
+                      </span>
+                      <h3 className="text-base font-bold leading-tight text-[var(--text-primary)]">{item.title}</h3>
+                    </div>
+                    <p className="mt-4 text-sm leading-6 text-[var(--text-muted)]">{item.description}</p>
                   </Card>
                 </Reveal>
               );
@@ -306,7 +308,7 @@ export default async function HomePage() {
               description="See Robokorda Africa programmes, competitions, and learners in action."
             />
           </Reveal>
-          <GalleryShowcase items={galleryItems} />
+          <GalleryGrid items={galleryItems} />
         </div>
       </section>
 
