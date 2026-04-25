@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Download, Trophy } from "lucide-react";
@@ -9,11 +11,12 @@ import { RegistrationForm } from "@/components/registration-form";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { WinnerCard } from "@/components/winner-card";
-import { rircCountries, rircGallery, rircPrizes, rircTracks, rircWinners } from "@/data/rirc";
+import { rircCountries, rircGallery, rircPrizes as staticRircPrizes, rircTracks as staticRircTracks } from "@/data/rirc";
 import { PlaceholderMedia } from "@/components/placeholder-media";
 import { VideoSection } from "@/components/video-section";
 import { getSiteSettings, getGalleryPhotos } from "@/lib/settings";
 import type { GalleryItem } from "@/data/site";
+import { getPageContent } from "@/lib/page-content";
 
 export const metadata: Metadata = {
   title: "RIRC",
@@ -22,10 +25,27 @@ export const metadata: Metadata = {
 };
 
 export default async function RircPage() {
-  const [settings, dbGallery] = await Promise.all([
+  const [settings, dbGallery, pageContent] = await Promise.all([
     getSiteSettings(),
     getGalleryPhotos("rirc"),
+    getPageContent("rirc"),
   ]);
+
+  // Competition tracks — merge saved text over static data
+  const savedTracks = pageContent["Competition Tracks"] || [];
+  const rircTracks = staticRircTracks.map((t, i) => ({
+    ...t,
+    title: savedTracks[i]?.label || t.title,
+    description: savedTracks[i]?.value || t.description,
+  }));
+
+  // Prizes — merge saved text over static data
+  const savedPrizes = pageContent["Prizes"] || [];
+  const rircPrizes = staticRircPrizes.map((p, i) => ({
+    ...p,
+    title: savedPrizes[i]?.label || p.title,
+    summary: savedPrizes[i]?.value || p.summary,
+  }));
 
   const rircVideoUrl = settings.video_url_rirc || "/uploads/1777047029392-ddalnx.mp4";
   const rircShowcaseVideoUrl = settings.video_url_rirc || undefined;

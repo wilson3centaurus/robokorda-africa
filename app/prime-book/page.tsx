@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
 import { getSiteSettings } from "@/lib/settings";
 import { PrimeBookPageClient } from "./page-client";

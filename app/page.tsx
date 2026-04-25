@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Image from "next/image";
 import { Card } from "@/components/card";
 import { ContactCard } from "@/components/contact-card";
@@ -16,27 +18,50 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { SkillCard } from "@/components/skill-card";
 import {
-  aboutPreviewCards, courses, deliveryOptions, galleryItems as staticGalleryItems,
-  heroStats as staticHeroStats, homeFaqs, partnerCategories, skills, whyUs,
+  aboutPreviewCards, deliveryOptions as staticDeliveryOptions,
+  galleryItems as staticGalleryItems, homeFaqs, partnerCategories as staticPartnerCategories,
+  skills, whyUs,
 } from "@/data/home";
 import type { GalleryItem } from "@/data/site";
 import { contactLocations, shopProducts } from "@/data/site";
 import { getSiteSettings, getGalleryPhotos } from "@/lib/settings";
 import { getCourses } from "@/lib/db";
+import { getPageContent } from "@/lib/page-content";
 
 export default async function HomePage() {
-  const [settings, dbGallery] = await Promise.all([
+  const [settings, dbGallery, pageContent] = await Promise.all([
     getSiteSettings(),
     getGalleryPhotos("home"),
+    getPageContent("home"),
   ]);
   const dbCourses = getCourses();
 
+  // Hero stats — content JSON overrides settings values
+  const savedStats = pageContent["Hero Stats"] || [];
   const heroStats = [
-    { label: "Students Trained", value: settings.stat_students },
-    { label: "Schools Reached", value: settings.stat_schools },
-    { label: "Countries", value: settings.stat_countries },
-    { label: "Competitions Won", value: settings.stat_competitions },
+    { label: savedStats[0]?.label || "Students Trained", value: savedStats[0]?.value || settings.stat_students },
+    { label: savedStats[1]?.label || "Schools Reached", value: savedStats[1]?.value || settings.stat_schools },
+    { label: savedStats[2]?.label || "Countries", value: savedStats[2]?.value || settings.stat_countries },
+    { label: savedStats[3]?.label || "Competitions Won", value: savedStats[3]?.value || settings.stat_competitions },
   ];
+
+  // Delivery options — merge saved label/value/imageSrc over static data
+  const savedDelivery = pageContent["Delivery Options"] || [];
+  const deliveryOptions = staticDeliveryOptions.map((opt, i) => ({
+    ...opt,
+    title: savedDelivery[i]?.label || opt.title,
+    description: savedDelivery[i]?.value || opt.description,
+    imageSrc: savedDelivery[i]?.imageSrc || opt.imageSrc,
+  }));
+
+  // Partners — merge saved label/value/imageSrc over static data
+  const savedPartners = pageContent["Partners"] || [];
+  const partnerCategories = staticPartnerCategories.map((p, i) => ({
+    ...p,
+    title: savedPartners[i]?.label || p.title,
+    description: savedPartners[i]?.value || p.description,
+    imageSrc: savedPartners[i]?.imageSrc || p.imageSrc,
+  }));
 
   const galleryItems: GalleryItem[] =
     dbGallery.length > 0

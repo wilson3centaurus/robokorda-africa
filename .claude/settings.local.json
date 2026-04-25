@@ -4,7 +4,9 @@
       "Bash(npm install *)",
       "Bash(npm list *)",
       "Bash(npx next *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(cat next.config.ts)",
+      "Bash(cat next.config.js)"
     ]
   }
 }
