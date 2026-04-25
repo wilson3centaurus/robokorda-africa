@@ -2,21 +2,21 @@
 
 /* ─── Design Tokens ────────────────────────────────────────────────────────── */
 :root {
-  /* Base palette — deep dark space (near-black with subtle indigo undertone) */
-  --space-900: #03020c;
-  --space-800: #07061a;   /* body background */
-  --space-700: #0d0b24;   /* alt sections / sidebar */
-  --space-600: #121030;   /* card base */
-  --space-500: #18163e;   /* elevated cards */
-  --space-400: #201e50;   /* hover / active states */
-  --space-300: #302d70;   /* subtle separators */
+  /* Base palette — deep dark (clean near-black with subtle blue undertone) */
+  --space-900: #04040c;
+  --space-800: #090a14;   /* body background */
+  --space-700: #0e0f1c;   /* alt sections / sidebar */
+  --space-600: #131424;   /* card base */
+  --space-500: #191a2e;   /* elevated cards */
+  --space-400: #232540;   /* hover / active states */
+  --space-300: #303368;   /* subtle separators */
   --space-200: #4e4a96;   /* muted accents */
 
   /* Brand / Primary — logo color #342FC5, used as accent only */
   --electric: #342FC5;
-  --electric-bright: #6663e8;
-  --electric-glow: rgba(52, 47, 197, 0.40);
-  --electric-subtle: rgba(52, 47, 197, 0.10);
+  --electric-bright: #7472ee;
+  --electric-glow: rgba(52, 47, 197, 0.45);
+  --electric-subtle: rgba(52, 47, 197, 0.12);
 
   /* Neon green — robotics/code feel */
   --neon: #00e5a0;
@@ -25,18 +25,18 @@
   /* Amber — warning/highlight */
   --amber: #f59e0b;
 
-  /* Text — clean white hierarchy */
-  --text-primary: #f0effe;
-  --text-secondary: #9896c8;
-  --text-muted: #5c5a88;
+  /* Text — true white hierarchy */
+  --text-primary: #ffffff;
+  --text-secondary: #b0b8d0;
+  --text-muted: #686e88;
   --text-on-electric: #ffffff;
 
-  /* Surfaces — dark navy, each level subtly lighter */
-  --surface-1: #0d0b24;
-  --surface-2: #121030;
-  --surface-3: #18163e;
-  --surface-border: rgba(90, 87, 200, 0.22);
-  --surface-border-subtle: rgba(90, 87, 200, 0.12);
+  /* Surfaces — dark, each level subtly lighter */
+  --surface-1: #0e0f1c;
+  --surface-2: #131424;
+  --surface-3: #191a2e;
+  --surface-border: rgba(80, 78, 180, 0.28);
+  --surface-border-subtle: rgba(80, 78, 180, 0.14);
 
   /* Semantic Aliases */
   --background: var(--space-800);
@@ -158,9 +158,9 @@ body {
   overscroll-behavior-x: none;
   background: var(--space-800);
   background-image:
-    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(52, 47, 197, 0.20), transparent),
-    radial-gradient(ellipse 50% 40% at 88% 88%, rgba(0, 229, 160, 0.04), transparent),
-    radial-gradient(ellipse 40% 28% at 8% 96%, rgba(52, 47, 197, 0.08), transparent);
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(52, 47, 197, 0.16), transparent),
+    radial-gradient(ellipse 50% 40% at 88% 88%, rgba(0, 229, 160, 0.03), transparent),
+    radial-gradient(ellipse 40% 28% at 8% 96%, rgba(52, 47, 197, 0.06), transparent);
   color: var(--text-primary);
   font-family: var(--font-sans), sans-serif;
   text-rendering: optimizeLegibility;
@@ -290,9 +290,9 @@ td a {
 
 .surface-shadow {
   box-shadow:
-    0 16px 48px rgba(3, 2, 12, 0.72),
-    0 6px 18px rgba(3, 2, 12, 0.48),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    0 16px 48px rgba(2, 2, 10, 0.80),
+    0 6px 18px rgba(2, 2, 10, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .light .surface-shadow {

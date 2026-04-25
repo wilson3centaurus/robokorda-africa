@@ -35,7 +35,7 @@ export function GameSection() {
           </div>
 
           {/* Game */}
-          <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)] p-4 sm:p-6 shadow-[0_0_60px_var(--electric-glow)]">
+          <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)] p-4 sm:p-6 shadow-[0_0_60px_var(--electric-glow)] light:shadow-[0_4px_32px_rgba(52,47,197,0.12)]">
             <RobotMazeGame />
           </div>
 

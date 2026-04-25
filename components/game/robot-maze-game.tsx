@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useTheme } from "next-themes";
 import { Trophy, RotateCcw, Cpu, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 // ─── Maze definitions ─────────────────────────────────────────────────────────
@@ -49,12 +50,35 @@ const MAZES = [
 
 type Pos = { x: number; y: number };
 
-function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, steps: number) {
+function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, steps: number, isLight: boolean) {
   const w = COLS * CELL;
   const h = ROWS * CELL;
 
+  // Theme-aware palette
+  const colors = isLight
+    ? {
+        bg:        "#f0f0f8",
+        wall:      "#d0d2e8",
+        wallDot:   "rgba(52,47,197,0.25)",
+        wallLine:  "rgba(52,47,197,0.18)",
+        path:      "#f0f0f8",
+        goalBg:    "rgba(0,180,120,0.10)",
+        stepsTxt:  "rgba(0,140,90,0.85)",
+        winOverlay:"rgba(240,240,252,0.92)",
+      }
+    : {
+        bg:        "#090a14",
+        wall:      "#0e0f1c",
+        wallDot:   "rgba(52,47,197,0.35)",
+        wallLine:  "rgba(52,47,197,0.25)",
+        path:      "#090a14",
+        goalBg:    "rgba(0,229,160,0.08)",
+        stepsTxt:  "rgba(0,229,160,0.9)",
+        winOverlay:"rgba(2,2,14,0.88)",
+      };
+
   // Background
-  ctx.fillStyle = "#07061a";
+  ctx.fillStyle = colors.bg;
   ctx.fillRect(0, 0, w, h);
 
   for (let row = 0; row < ROWS; row++) {
@@ -64,10 +88,10 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
       const y = row * CELL;
 
       if (cell === 1) {
-        // Wall — dark blue with grid lines
-        ctx.fillStyle = "#0d0b24";
+        // Wall
+        ctx.fillStyle = colors.wall;
         ctx.fillRect(x, y, CELL, CELL);
-        ctx.strokeStyle = "rgba(52,47,197,0.25)";
+        ctx.strokeStyle = colors.wallLine;
         ctx.lineWidth = 0.5;
         ctx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
 
@@ -75,12 +99,12 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
         if ((col + row) % 4 === 0) {
           ctx.beginPath();
           ctx.arc(x + CELL / 2, y + CELL / 2, 2, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(52,47,197,0.35)";
+          ctx.fillStyle = colors.wallDot;
           ctx.fill();
         }
       } else if (cell === 2) {
         // Goal
-        ctx.fillStyle = "rgba(0,229,160,0.08)";
+        ctx.fillStyle = colors.goalBg;
         ctx.fillRect(x, y, CELL, CELL);
 
         // Pulsing target
@@ -101,8 +125,8 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
         ctx.textBaseline = "middle";
         ctx.fillText("🏁", x + CELL / 2, y + CELL / 2);
       } else {
-        // Path — very dark
-        ctx.fillStyle = "#07061a";
+        // Path
+        ctx.fillStyle = colors.path;
         ctx.fillRect(x, y, CELL, CELL);
       }
     }
@@ -136,7 +160,7 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
   ctx.fill();
 
   // Steps counter on canvas
-  ctx.fillStyle = "rgba(0,229,160,0.9)";
+  ctx.fillStyle = colors.stepsTxt;
   ctx.font = "bold 10px monospace";
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
@@ -151,6 +175,8 @@ export function RobotMazeGame() {
   const [robot, setRobot] = useState<Pos>(MAZES[0].start);
   const [won, setWon] = useState(false);
   const [totalWins, setTotalWins] = useState(0);
+  const { resolvedTheme } = useTheme();
+  const isLight = resolvedTheme === "light";
 
   const maze = MAZES[level % MAZES.length];
 
@@ -170,13 +196,13 @@ export function RobotMazeGame() {
     if (!ctx) return;
 
     function draw() {
-      drawMaze(ctx!, maze.grid, robot, steps);
+      drawMaze(ctx!, maze.grid, robot, steps, isLight);
       animRef.current = requestAnimationFrame(draw);
     }
 
     animRef.current = requestAnimationFrame(draw);
     return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
-  }, [maze, robot, steps]);
+  }, [maze, robot, steps, isLight]);
 
   const move = useCallback(
     (dx: number, dy: number) => {
@@ -259,7 +285,10 @@ export function RobotMazeGame() {
 
         {/* Win overlay */}
         {won && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[rgba(2,8,16,0.88)] backdrop-blur-sm">
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center backdrop-blur-sm"
+            style={{ background: isLight ? "rgba(240,240,252,0.92)" : "rgba(2,2,14,0.88)" }}
+          >
             <div className="text-center">
               <p className="text-4xl">🏆</p>
               <h3 className="mt-2 text-xl font-bold text-[var(--text-primary)]">Level Complete!</h3>
