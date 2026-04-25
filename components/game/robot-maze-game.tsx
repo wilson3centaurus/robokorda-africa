@@ -67,14 +67,14 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
         winOverlay:"rgba(240,240,252,0.92)",
       }
     : {
-        bg:        "#090a14",
-        wall:      "#0e0f1c",
-        wallDot:   "rgba(52,47,197,0.35)",
-        wallLine:  "rgba(52,47,197,0.25)",
-        path:      "#090a14",
-        goalBg:    "rgba(0,229,160,0.08)",
-        stepsTxt:  "rgba(0,229,160,0.9)",
-        winOverlay:"rgba(2,2,14,0.88)",
+        bg:        "#0d0e20",
+        wall:      "#2a2d50",
+        wallDot:   "rgba(120,118,240,0.55)",
+        wallLine:  "rgba(100,98,220,0.40)",
+        path:      "#0d0e20",
+        goalBg:    "rgba(0,229,160,0.12)",
+        stepsTxt:  "rgba(0,229,160,1)",
+        winOverlay:"rgba(4,4,20,0.90)",
       };
 
   // Background
@@ -92,13 +92,13 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
         ctx.fillStyle = colors.wall;
         ctx.fillRect(x, y, CELL, CELL);
         ctx.strokeStyle = colors.wallLine;
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = isLight ? 0.5 : 1;
         ctx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
 
         // Circuit dots on walls
         if ((col + row) % 4 === 0) {
           ctx.beginPath();
-          ctx.arc(x + CELL / 2, y + CELL / 2, 2, 0, Math.PI * 2);
+          ctx.arc(x + CELL / 2, y + CELL / 2, isLight ? 2 : 2.5, 0, Math.PI * 2);
           ctx.fillStyle = colors.wallDot;
           ctx.fill();
         }
