@@ -69,8 +69,8 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
 
   const isLightMode = resolvedTheme === "light";
 
-  // Logo uses white text only when navbar is transparent over a dark hero (dark mode)
-  const logoLight = !scrolled && !open && pathname === "/" && !isLightMode;
+  // Logo uses white text only when confirmed dark mode + transparent hero at top of home
+  const logoLight = !scrolled && !open && pathname === "/" && resolvedTheme === "dark";
 
   const navIsTransparent = !scrolled && !open && pathname === "/";
 
