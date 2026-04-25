@@ -32,19 +32,19 @@
     {
       "label": "School Curriculum",
       "value": "Robokorda embeds robotics and coding into the formal timetable with structured lesson plans and progress tracking.",
-      "imageSrc": "https://picsum.photos/seed/curriculum-delivery/1200/900",
+      "imageSrc": "/images/models/models1.jpg",
       "type": "card"
     },
     {
       "label": "Extra-Curricular",
       "value": "After-school robotics clubs give learners a premium innovation space beyond core lessons while staying connected to school life.",
-      "imageSrc": "https://picsum.photos/seed/extracurricular-delivery/1200/900",
+      "imageSrc": "/images/models/models2.jpg",
       "type": "card"
     },
     {
       "label": "Weekend Programmes",
       "value": "Weekend cohorts open the Robokorda pathway to families, homeschool communities, and learners outside partner schools.",
-      "imageSrc": "https://picsum.photos/seed/weekend-delivery/1200/900",
+      "imageSrc": "/images/models/models3.jpg",
       "type": "card"
     }
   ],
