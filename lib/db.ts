@@ -361,36 +361,21 @@ export function addContactMessage(data: Omit<ContactMessage, "id" | "status" | "
   return row;
 }
 
-// ─── Admin sessions ───────────────────────────────────────────────────────────
+// ─── Admin sessions (stateless HMAC — no filesystem writes needed) ────────────
+
+import { createSessionToken, verifySessionToken } from "@/lib/admin/auth";
 
 export function createAdminSession(): string {
-  const token = uid() + uid();
-  const sessions = readTable<{ token: string; created_at: string }>("admin_sessions");
-  writeTable("admin_sessions", [
-    ...sessions.filter((s) => {
-      const age = Date.now() - new Date(s.created_at).getTime();
-      return age < 1000 * 60 * 60 * 24; // keep sessions < 24h
-    }),
-    { token, created_at: new Date().toISOString() },
-  ]);
-  return token;
+  return createSessionToken();
 }
 
 export function isValidAdminSession(token: string): boolean {
-  if (!token) return false;
-  const sessions = readTable<{ token: string; created_at: string }>("admin_sessions");
-  return sessions.some((s) => {
-    if (s.token !== token) return false;
-    const age = Date.now() - new Date(s.created_at).getTime();
-    return age < 1000 * 60 * 60 * 24; // 24h
-  });
+  return verifySessionToken(token);
 }
 
-export function deleteAdminSession(token: string): void {
-  writeTable(
-    "admin_sessions",
-    readTable<{ token: string; created_at: string }>("admin_sessions").filter((s) => s.token !== token),
-  );
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function deleteAdminSession(_token: string): void {
+  // Stateless HMAC sessions — logout is handled by clearing the cookie.
 }
 
 // ─── Components ───────────────────────────────────────────────────────────────

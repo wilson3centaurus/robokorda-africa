@@ -8,7 +8,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Password required" }, { status: 400 });
     }
 
-    const adminPassword = getSetting("admin_password", "robokorda2026");
+    // Prefer ADMIN_PASSWORD env var (set in Vercel), fall back to db setting for local dev
+    const adminPassword = process.env.ADMIN_PASSWORD || getSetting("admin_password", "robokorda2026");
     if (password !== adminPassword) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
