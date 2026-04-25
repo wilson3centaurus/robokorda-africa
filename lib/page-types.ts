@@ -19,6 +19,7 @@ export type PrizeTier = {
   summary: string;
   benefits: string[];
   icon: LucideIcon;
+  imageSrc?: string;
 };
 
 export type WinnerStory = {
@@ -42,6 +43,7 @@ export type ProductFeature = {
   description: string;
   icon: LucideIcon;
   seed: string;
+  imageSrc?: string;
 };
 
 export type PricingPackage = {

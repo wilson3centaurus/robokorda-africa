@@ -10,16 +10,16 @@ type CardProps = {
 export function Card({ children, className, variant = "default" }: CardProps) {
   const variantClass =
     variant === "blue"
-      ? "border border-[rgba(0,102,255,0.3)] bg-[linear-gradient(145deg,#040d1e,#071428)] text-white"
+      ? "border border-[rgba(90,87,200,0.30)] bg-[linear-gradient(145deg,var(--surface-2),var(--surface-3))] text-[var(--text-primary)]"
       : variant === "neon"
-        ? "border border-[rgba(0,229,160,0.35)] bg-[linear-gradient(145deg,#040d1e,#071428)] text-white"
+        ? "border border-[rgba(0,229,160,0.35)] bg-[linear-gradient(145deg,var(--surface-2),var(--surface-3))] text-[var(--text-primary)]"
         : variant === "soft"
-          ? "border border-[rgba(38,133,255,0.12)] bg-[rgba(10,28,56,0.7)] text-[#e8f4fd]"
+          ? "border border-[var(--surface-border-subtle)] bg-[var(--surface-3)]/70 text-[var(--text-primary)]"
           : variant === "white"
-            ? "border border-[rgba(38,133,255,0.15)] bg-[rgba(14,37,72,0.9)] text-[#e8f4fd]"
+            ? "border border-[var(--surface-border)] bg-[var(--surface-3)]/90 text-[var(--text-primary)]"
             : variant === "dark"
-              ? "border border-[rgba(38,133,255,0.08)] bg-[#040d1e] text-[#e8f4fd]"
-              : "border border-[rgba(38,133,255,0.15)] bg-[rgba(7,20,40,0.8)] text-[#e8f4fd]";
+              ? "border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] text-[var(--text-primary)]"
+              : "border border-[var(--surface-border)] bg-[var(--surface-2)]/80 text-[var(--text-primary)]";
 
   return (
     <div

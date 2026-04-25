@@ -26,8 +26,8 @@ const initial: FormState = {
   notes: "",
 };
 
-const inputCls = "w-full rounded-xl border border-[rgba(0,102,255,0.2)] bg-[rgba(4,13,30,0.9)] px-4 py-2.5 text-sm text-white placeholder-[#2a4d80] outline-none transition focus:border-[#0066ff] focus:ring-1 focus:ring-[rgba(0,102,255,0.3)]";
-const labelCls = "text-[10px] font-bold uppercase tracking-[0.18em] text-[#4d7499]";
+const inputCls = "w-full rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-4 py-2.5 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition focus:border-[var(--electric)] focus:ring-1 focus:ring-[var(--electric-glow)]";
+const labelCls = "text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]";
 
 export function CourseInquiryModal({ courseTitle, onClose }: Props) {
   const [form, setForm] = useState<FormState>(initial);
@@ -58,14 +58,14 @@ export function CourseInquiryModal({ courseTitle, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(2,8,16,0.88)] p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background/88 p-4 backdrop-blur-sm"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[rgba(0,102,255,0.25)] bg-[#040d1e] shadow-[0_0_80px_rgba(0,102,255,0.12)] max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)] shadow-[0_0_80px_var(--electric-glow)] max-h-[90vh] overflow-y-auto">
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(0,102,255,0.2)] bg-[rgba(0,102,255,0.08)] text-[#4d7499] hover:text-white transition"
+          className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--electric-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
           aria-label="Close"
         >
           <X className="h-4 w-4" />
@@ -76,21 +76,21 @@ export function CourseInquiryModal({ courseTitle, onClose }: Props) {
             <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[rgba(0,229,160,0.3)] bg-[rgba(0,229,160,0.08)]">
               <CheckCircle2 className="h-7 w-7 text-[#00e5a0]" aria-hidden="true" />
             </span>
-            <h2 className="mt-5 text-xl font-bold text-white">Enquiry received!</h2>
-            <p className="mt-2 text-sm leading-7 text-[#4d7499]">
-              We&apos;ve received your interest in <span className="font-semibold text-white">{courseTitle}</span>. Our team will contact you within <span className="text-[#00e5a0]">24 hours</span>.
+            <h2 className="mt-5 text-xl font-bold text-[var(--text-primary)]">Enquiry received!</h2>
+            <p className="mt-2 text-sm leading-7 text-[var(--text-muted)]">
+              We&apos;ve received your interest in <span className="font-semibold text-[var(--text-primary)]">{courseTitle}</span>. Our team will contact you within <span className="text-[#00e5a0]">24 hours</span>.
             </p>
-            <div className="mt-5 rounded-xl border border-[rgba(0,102,255,0.15)] bg-[rgba(0,102,255,0.06)] p-4 w-full">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#0066ff]">Course</p>
-              <p className="mt-1 text-sm font-semibold text-white">{courseTitle}</p>
+            <div className="mt-5 rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--electric-subtle)] p-4 w-full">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--electric)] mb-1">Course</p>
+              <p className="mt-1 text-sm font-semibold text-[var(--text-primary)]">{courseTitle}</p>
               {form.student_name && (
-                <p className="mt-1 text-xs text-[#4d7499]">Student: {form.student_name}</p>
+                <p className="mt-1 text-xs text-[var(--text-secondary)]">Student: {form.student_name}</p>
               )}
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-[#0066ff] px-5 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(0,102,255,0.35)] transition hover:bg-[#0052cc]"
+              className="mt-6 btn-primary inline-flex w-full items-center justify-center"
             >
               Done
             </button>
@@ -98,12 +98,12 @@ export function CourseInquiryModal({ courseTitle, onClose }: Props) {
         ) : (
           <>
             {/* Header */}
-            <div className="border-b border-[rgba(0,102,255,0.15)] bg-gradient-to-r from-[#040d1e] to-[#071428] px-7 py-5">
-              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#0066ff] mb-1">
+            <div className="border-b border-[var(--surface-border-subtle)] bg-gradient-to-r from-[var(--surface-1)] to-[var(--surface-2)] px-7 py-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--electric)] mb-1">
                 Course Enquiry
               </p>
-              <h2 className="text-lg font-bold text-white">{courseTitle}</h2>
-              <p className="mt-1 text-xs text-[#4d7499]">
+              <h2 className="text-lg font-bold text-[var(--text-primary)]">{courseTitle}</h2>
+              <p className="mt-1 text-xs text-[var(--text-secondary)]">
                 Tell us about your student — we&apos;ll get back to you within 24 hours.
               </p>
             </div>
@@ -149,7 +149,7 @@ export function CourseInquiryModal({ courseTitle, onClose }: Props) {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0066ff] px-5 py-3 text-sm font-semibold text-white shadow-[0_0_24px_rgba(0,102,255,0.4)] transition hover:bg-[#0052cc] disabled:opacity-60"
+                className="inline-flex w-full items-center justify-center gap-2 btn-primary disabled:opacity-60"
               >
                 {submitting ? (
                   <>

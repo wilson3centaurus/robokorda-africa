@@ -1,4 +1,4 @@
-import { Award, Bot, BrainCircuit, Leaf, Trophy } from "lucide-react";
+import { Award, Bot, BrainCircuit, Leaf, Medal, Trophy } from "lucide-react";
 import type { GalleryItem } from "@/data/site";
 import type { CompetitionTrack, CountryEntry, PrizeTier, WinnerStory } from "@/lib/page-types";
 
@@ -27,41 +27,60 @@ export const rircTracks: CompetitionTrack[] = [
 ];
 
 export const rircCountries: CountryEntry[] = [
-  { code: "bw", name: "Botswana" },
-  { code: "cd", name: "Democratic Republic of Congo" },
+  { code: "ng", name: "Nigeria" },
   { code: "gh", name: "Ghana" },
-  { code: "mw", name: "Malawi" },
-  { code: "mz", name: "Mozambique" },
-  { code: "na", name: "Namibia" },
-  { code: "za", name: "South Africa" },
+  { code: "cd", name: "Democratic Republic of the Congo" },
+  { code: "dz", name: "Algeria" },
+  { code: "bw", name: "Botswana" },
+  { code: "us", name: "United States" },
   { code: "zm", name: "Zambia" },
   { code: "zw", name: "Zimbabwe" },
+  { code: "cm", name: "Cameroon" },
+  { code: "ci", name: "Côte d'Ivoire" },
+  { code: "ke", name: "Kenya" },
+  { code: "mw", name: "Malawi" },
 ];
 
 export const rircPrizes: PrizeTier[] = [
   {
     title: "1st Place",
     amount: "RIRC Overall Winners Shield",
-    summary: "Premier recognition for the strongest all-round team performance.",
+    summary: "Premier recognition for the strongest all-round team performance across all judging criteria.",
     benefits: [
+      "Gold Medal",
+      "1st Place Winner Certificate (per category)",
+      "Robotics Kit",
+      "Tablet",
       "Qualifies for Technoxian competition in India",
       "Fully sponsored Technoxian trip to India by Robokorda",
     ],
     icon: Trophy,
+    imageSrc: "/images/rirc/1st-place.jpg",
   },
   {
     title: "2nd Place",
     amount: "RIRC Second Position Shield",
-    summary: "Awarded to an outstanding team with strong technical execution and presentation.",
-    benefits: ["Tablets", "RIRC 2nd Position Certificates"],
+    summary: "Awarded to an outstanding team with strong technical execution and presentation quality.",
+    benefits: [
+      "Gold Medal",
+      "2nd Place Winner Certificate (per category)",
+      "Robotics Kit",
+      "Tablet",
+    ],
     icon: Award,
+    imageSrc: "/images/rirc/2nd-place.jpg",
   },
   {
     title: "3rd Position",
     amount: "RIRC Third Position Shield",
     summary: "Celebrates an exceptional team with strong promise and practical innovation.",
-    benefits: ["Robotics Kits", "RIRC 3rd Position Certificates"],
-    icon: Award,
+    benefits: [
+      "Gold Medal",
+      "3rd Place Winner Certificate (per category)",
+      "Robotics Kit",
+    ],
+    icon: Medal,
+    imageSrc: "/images/rirc/3rd-place.jpg",
   },
 ];
 

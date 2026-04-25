@@ -161,14 +161,21 @@ export type RircRegistration = {
   id: string;
   school_name: string;
   team_name: string;
-  contact_name: string;
+  contact_name: string;    // team leader
   email: string;
-  phone: string;
+  phone: string;           // kept for backward compat
+  whatsapp: string;
   country: string;
-  track: string;
+  city: string;
+  track: string;           // kept for backward compat
+  category: string;
   team_size: string;
+  team_members: string;    // JSON array of names
   notes: string;
   status: string;
+  confirmation_sent: boolean;
+  paid: boolean;
+  invoice_sent: boolean;
   created_at: string;
 };
 
@@ -178,9 +185,17 @@ export function getRircRegistrations(): RircRegistration[] {
   );
 }
 
-export function addRircRegistration(data: Omit<RircRegistration, "id" | "status" | "created_at">): RircRegistration {
+export function addRircRegistration(data: Omit<RircRegistration, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent">): RircRegistration {
   const rows = readTable<RircRegistration>("rirc_registrations");
-  const row: RircRegistration = { ...data, id: uid(), status: "pending", created_at: new Date().toISOString() };
+  const row: RircRegistration = {
+    ...data,
+    id: uid(),
+    status: "pending",
+    confirmation_sent: false,
+    paid: false,
+    invoice_sent: false,
+    created_at: new Date().toISOString(),
+  };
   writeTable("rirc_registrations", [...rows, row]);
   return row;
 }
@@ -188,6 +203,11 @@ export function addRircRegistration(data: Omit<RircRegistration, "id" | "status"
 export function updateRircStatus(id: string, status: string): void {
   const rows = readTable<RircRegistration>("rirc_registrations");
   writeTable("rirc_registrations", rows.map((r) => (r.id === id ? { ...r, status } : r)));
+}
+
+export function updateRircFlags(id: string, flags: Partial<Pick<RircRegistration, "confirmation_sent" | "paid" | "invoice_sent" | "status">>): void {
+  const rows = readTable<RircRegistration>("rirc_registrations");
+  writeTable("rirc_registrations", rows.map((r) => (r.id === id ? { ...r, ...flags } : r)));
 }
 
 // ─── Component Inquiries ──────────────────────────────────────────────────────
@@ -201,6 +221,10 @@ export type ComponentInquiry = {
   items: string; // JSON
   total_usd: number;
   status: string;
+  confirmation_sent?: boolean;
+  paid?: boolean;
+  invoice_sent?: boolean;
+  delivered?: boolean;
   created_at: string;
 };
 
@@ -210,9 +234,18 @@ export function getComponentInquiries(): ComponentInquiry[] {
   );
 }
 
-export function addComponentInquiry(data: Omit<ComponentInquiry, "id" | "status" | "created_at">): ComponentInquiry {
+export function addComponentInquiry(data: Omit<ComponentInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">): ComponentInquiry {
   const rows = readTable<ComponentInquiry>("component_inquiries");
-  const row: ComponentInquiry = { ...data, id: uid(), status: "new", created_at: new Date().toISOString() };
+  const row: ComponentInquiry = { 
+    ...data, 
+    id: uid(), 
+    status: "new", 
+    confirmation_sent: false,
+    paid: false,
+    invoice_sent: false,
+    delivered: false,
+    created_at: new Date().toISOString() 
+  };
   writeTable("component_inquiries", [...rows, row]);
   return row;
 }
@@ -228,6 +261,10 @@ export type CourseInquiry = {
   school: string;
   message: string;
   status: string;
+  confirmation_sent?: boolean;
+  paid?: boolean;
+  invoice_sent?: boolean;
+  delivered?: boolean;
   created_at: string;
 };
 
@@ -237,9 +274,18 @@ export function getCourseInquiries(): CourseInquiry[] {
   );
 }
 
-export function addCourseInquiry(data: Omit<CourseInquiry, "id" | "status" | "created_at">): CourseInquiry {
+export function addCourseInquiry(data: Omit<CourseInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">): CourseInquiry {
   const rows = readTable<CourseInquiry>("course_inquiries");
-  const row: CourseInquiry = { ...data, id: uid(), status: "new", created_at: new Date().toISOString() };
+  const row: CourseInquiry = { 
+    ...data, 
+    id: uid(), 
+    status: "new", 
+    confirmation_sent: false,
+    paid: false,
+    invoice_sent: false,
+    delivered: false,
+    created_at: new Date().toISOString() 
+  };
   writeTable("course_inquiries", [...rows, row]);
   return row;
 }
@@ -255,6 +301,10 @@ export type PrimebookInquiry = {
   school: string;
   message: string;
   status: string;
+  confirmation_sent?: boolean;
+  paid?: boolean;
+  invoice_sent?: boolean;
+  delivered?: boolean;
   created_at: string;
 };
 
@@ -264,11 +314,25 @@ export function getPrimebookInquiries(): PrimebookInquiry[] {
   );
 }
 
-export function addPrimebookInquiry(data: Omit<PrimebookInquiry, "id" | "status" | "created_at">): PrimebookInquiry {
+export function addPrimebookInquiry(data: Omit<PrimebookInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">): PrimebookInquiry {
   const rows = readTable<PrimebookInquiry>("primebook_inquiries");
-  const row: PrimebookInquiry = { ...data, id: uid(), status: "new", created_at: new Date().toISOString() };
+  const row: PrimebookInquiry = { 
+    ...data, 
+    id: uid(), 
+    status: "new", 
+    confirmation_sent: false,
+    paid: false,
+    invoice_sent: false,
+    delivered: false,
+    created_at: new Date().toISOString() 
+  };
   writeTable("primebook_inquiries", [...rows, row]);
   return row;
+}
+
+export function updateInquiryFlags(table: string, id: string, flags: any): void {
+  const rows = readTable<any>(table);
+  writeTable(table, rows.map((r: any) => (r.id === id ? { ...r, ...flags } : r)));
 }
 
 // ─── Contact Messages ─────────────────────────────────────────────────────────
@@ -327,4 +391,37 @@ export function deleteAdminSession(token: string): void {
     "admin_sessions",
     readTable<{ token: string; created_at: string }>("admin_sessions").filter((s) => s.token !== token),
   );
+}
+
+// ─── Components ───────────────────────────────────────────────────────────────
+
+import type { RoboticsComponent } from "@/data/components";
+import type { Course } from "@/data/site";
+
+export function getComponents(): RoboticsComponent[] {
+  return readTable<RoboticsComponent>("components");
+}
+
+export function updateComponent(id: string, updates: Partial<RoboticsComponent>): RoboticsComponent | null {
+  const rows = readTable<RoboticsComponent>("components");
+  const rowIndex = rows.findIndex(r => r.id === id);
+  if (rowIndex === -1) return null;
+  rows[rowIndex] = { ...rows[rowIndex], ...updates };
+  writeTable("components", rows);
+  return rows[rowIndex];
+}
+
+// ─── Courses ──────────────────────────────────────────────────────────────────
+
+export function getCourses(): Course[] {
+  return readTable<Course>("courses");
+}
+
+export function updateCourse(seed: string, updates: Partial<Course>): Course | null {
+  const rows = readTable<Course>("courses");
+  const rowIndex = rows.findIndex(r => r.seed === seed);
+  if (rowIndex === -1) return null;
+  rows[rowIndex] = { ...rows[rowIndex], ...updates };
+  writeTable("courses", rows);
+  return rows[rowIndex];
 }

@@ -16,99 +16,108 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="border-t border-[rgba(0,102,255,0.12)] bg-[#040d1e]">
-      {/* Top line */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-[rgba(0,102,255,0.4)] to-transparent" />
+    <footer className="relative border-t border-[var(--surface-border-subtle)] bg-[var(--space-800)] overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-[var(--electric-subtle)] to-transparent pointer-events-none" />
 
-      <div className="section-shell py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] xl:gap-16">
+      {/* Top accent line */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--electric)] to-transparent opacity-40 relative z-10" />
+
+      <div className="section-shell py-16 relative z-10">
+        <div className="grid gap-12 lg:grid-cols-2 xl:gap-20">
 
           {/* Brand col */}
-          <div className="space-y-6">
-            {/* Logo mark */}
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(0,102,255,0.4)] bg-[rgba(0,102,255,0.1)]" style={{ boxShadow: "0 0 15px rgba(0,102,255,0.15)" }}>
-                <Cpu className="h-5 w-5 text-[#7eb8ff]" />
+          <div className="space-y-8">
+            <div className="flex items-center gap-4">
+              <div
+                className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--electric-subtle)]"
+                style={{ boxShadow: "0 0 20px var(--electric-glow)" }}
+              >
+                <Cpu className="h-6 w-6 text-[var(--electric-bright)]" />
               </div>
               <div>
-                <p className="text-base font-bold text-white">Robokorda Africa</p>
-                <p className="text-[11px] text-[#4d7499]">Robotics · Coding · STEAM</p>
+                <p className="text-xl font-bold tracking-tight text-[var(--text-primary)] mb-0.5">Robokorda Africa</p>
+                <p className="text-xs uppercase tracking-widest text-[var(--electric-bright)] font-medium">Robotics · Coding · STEAM</p>
               </div>
             </div>
 
-            <p className="max-w-md text-sm leading-7 text-[#4d7499]">
+            <p className="max-w-md text-[15px] leading-relaxed text-[var(--text-secondary)]">
               Preparing the next generation of African innovators through structured robotics, coding, and STEAM education that builds real skills and lasting confidence.
             </p>
 
             {/* Locations */}
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-[rgba(0,102,255,0.12)] bg-[rgba(7,20,40,0.6)] p-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0066ff]">South Africa</p>
-                <div className="space-y-1.5 text-[12px] text-[#4d7499]">
-                  <div className="flex items-start gap-2">
-                    <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-[#2a4d80]" />
-                    <span className="leading-5">{settings.address_sa}</span>
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] p-5 hover:border-[var(--electric)] transition duration-300">
+                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">South Africa</p>
+                <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+                  <div className="flex items-start gap-2.5">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+                    <span className="leading-snug">{settings.address_sa}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-3 w-3 shrink-0 text-[#2a4d80]" />
-                    <a href={`tel:${settings.contact_phone_sa}`} className="hover:text-[#7eb8ff] transition">{settings.contact_phone_sa}</a>
+                  <div className="flex items-center gap-2.5">
+                    <Phone className="h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+                    <a href={`tel:${settings.contact_phone_sa}`} className="hover:text-[var(--text-primary)] transition-colors">{settings.contact_phone_sa}</a>
                   </div>
                 </div>
               </div>
-              <div className="rounded-xl border border-[rgba(0,102,255,0.12)] bg-[rgba(7,20,40,0.6)] p-4">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#0066ff]">Zimbabwe</p>
-                <div className="space-y-1.5 text-[12px] text-[#4d7499]">
-                  <div className="flex items-start gap-2">
-                    <MapPin className="mt-0.5 h-3 w-3 shrink-0 text-[#2a4d80]" />
-                    <span className="leading-5">{settings.address_zw}</span>
+              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] p-5 hover:border-[var(--electric)] transition duration-300">
+                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">Zimbabwe</p>
+                <div className="space-y-2 text-sm text-[var(--text-secondary)]">
+                  <div className="flex items-start gap-2.5">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+                    <span className="leading-snug">{settings.address_zw}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-3 w-3 shrink-0 text-[#2a4d80]" />
-                    <a href={`tel:${settings.contact_phone_zw}`} className="hover:text-[#7eb8ff] transition">{settings.contact_phone_zw}</a>
+                  <div className="flex items-center gap-2.5">
+                    <Phone className="h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+                    <a href={`tel:${settings.contact_phone_zw}`} className="hover:text-[var(--text-primary)] transition-colors">{settings.contact_phone_zw}</a>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-[12px] text-[#4d7499]">
-              <Mail className="h-3.5 w-3.5 text-[#2a4d80]" />
-              <a href={`mailto:${settings.contact_email}`} className="text-[#7eb8ff] hover:text-white transition">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--surface-border)] bg-[var(--surface-3)] px-4 py-2 hover:bg-[var(--surface-2)] transition-all">
+              <Mail className="h-4 w-4 text-[var(--text-muted)]" />
+              <a href={`mailto:${settings.contact_email}`} className="text-sm font-medium text-[var(--electric-bright)] hover:text-[var(--text-primary)] transition-colors">
                 {settings.contact_email}
               </a>
             </div>
           </div>
 
           {/* Links col */}
-          <div className="grid grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 gap-8 lg:pl-10 lg:border-l lg:border-[var(--surface-border)] pt-6 lg:pt-0">
             <div>
-              <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.24em] text-[#0066ff]">Navigate</h3>
-              <div className="flex flex-col gap-2.5 text-sm text-[#4d7499]">
+              <h3 className="mb-6 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--electric)] flex items-center gap-2">
+                <span className="w-4 h-px bg-[var(--electric)]" /> Navigate
+              </h3>
+              <div className="flex flex-col gap-3 text-[15px] font-medium text-[var(--text-secondary)]">
                 {navItems.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href.startsWith("#") ? `/${item.href}` : item.href}
-                    className="transition hover:text-white"
+                    className="inline-block transition-transform hover:-translate-y-0.5 hover:text-[var(--text-primary)] pb-3"
                   >
                     {item.label}
                   </Link>
                 ))}
-                <Link href="/cart" className="transition hover:text-white">Cart</Link>
+                <Link href="/cart" className="inline-block transition-transform hover:-translate-y-0.5 hover:text-[var(--text-primary)] pb-3">Cart</Link>
               </div>
             </div>
 
             <div>
-              <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.24em] text-[#0066ff]">Connect</h3>
-              <div className="flex flex-col gap-3">
+              <h3 className="mb-6 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--electric)] flex items-center gap-2">
+                <span className="w-4 h-px bg-[var(--electric)]" /> Connect
+              </h3>
+              <div className="flex flex-col gap-4">
                 {socialLinks.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 text-sm text-[#4d7499] transition hover:text-white"
+                    className="group flex items-center gap-3 text-[15px] font-medium text-[var(--text-secondary)] transition-all hover:text-[var(--text-primary)]"
                   >
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-[rgba(0,102,255,0.2)] bg-[rgba(0,102,255,0.06)] text-[#3d6aa0]">
-                      <FontAwesomeIcon icon={item.icon} className="h-3 w-3" />
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] text-[var(--electric-bright)] group-hover:bg-[var(--electric)] group-hover:text-white group-hover:border-[var(--electric)] transition-colors">
+                      <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
                     </span>
                     {item.label}
                   </Link>
@@ -120,10 +129,12 @@ export async function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-[rgba(0,102,255,0.08)]">
-        <div className="section-shell flex flex-col gap-2 py-5 text-xs text-[#2a4d80] sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative z-10 border-t border-[var(--surface-border-subtle)]">
+        <div className="section-shell flex flex-col gap-3 py-6 text-sm text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Robokorda Africa. All rights reserved.</p>
-          <Link href="/admin/login" className="hover:text-[#4d7499] transition">Admin</Link>
+          <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-wider">
+            <Link href="/admin/login" className="hover:text-[var(--text-primary)] transition-colors">Admin Portal</Link>
+          </div>
         </div>
       </div>
     </footer>

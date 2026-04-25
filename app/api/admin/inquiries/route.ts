@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   getRircRegistrations, getComponentInquiries, getCourseInquiries,
   getPrimebookInquiries, getContactMessages, isValidAdminSession,
-  updateRircStatus,
+  updateRircStatus, updateRircFlags, updateInquiryFlags,
 } from "@/lib/db";
 
 function auth(req: NextRequest) {
@@ -27,7 +27,15 @@ export async function GET(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   if (!auth(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const { id, type, status } = await req.json();
-  if (type === "rirc") updateRircStatus(id, status);
+  const { id, type, status, flags } = await req.json();
+
+  if (flags) {
+    if (type === "rirc") updateRircFlags(id, flags);
+    else updateInquiryFlags(`${type}_inquiries`, id, flags);
+  } else if (status) {
+    if (type === "rirc") updateRircStatus(id, status);
+    else updateInquiryFlags(`${type}_inquiries`, id, { status });
+  }
+
   return NextResponse.json({ success: true });
 }

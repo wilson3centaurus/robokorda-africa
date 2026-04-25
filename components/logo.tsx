@@ -6,8 +6,11 @@ type LogoProps = {
   compact?: boolean;
   href?: string;
   className?: string;
+  /** Force white text — use on transparent/dark hero backgrounds */
   light?: boolean;
   prominent?: boolean;
+  /** Override the logo image URL (falls back to /brand/logo.png) */
+  src?: string;
 };
 
 export function Logo({
@@ -16,28 +19,29 @@ export function Logo({
   className,
   light = false,
   prominent = false,
+  src = "/brand/logo.png",
 }: LogoProps) {
   return (
     <Link
       href={href}
       className={cn(
-        "inline-flex items-center rounded-full transition-colors",
+        "inline-flex select-none items-center rounded-full transition-colors",
         prominent ? "gap-4" : "gap-3",
-        light ? "hover:text-white" : "hover:text-brand-blue-deep",
+        light ? "hover:text-white/90" : "hover:text-[var(--electric)]",
         className,
       )}
       aria-label="Robokorda Africa home"
     >
       <span
         className={cn(
-          "relative overflow-hidden bg-white shadow-[0_16px_30px_rgba(15,97,196,0.22)] ring-1 ring-white/12",
+          "relative overflow-hidden bg-white shadow-[0_8px_24px_rgba(52,47,197,0.22)] ring-1 ring-white/10",
           prominent
             ? "h-16 w-16 rounded-[1.55rem]"
             : "h-12 w-12 rounded-[1.15rem]",
         )}
       >
         <Image
-          src="/brand/logo.png"
+          src={src}
           alt=""
           fill
           priority={prominent}
@@ -50,7 +54,7 @@ export function Logo({
           className={cn(
             "font-semibold uppercase tracking-[0.18em]",
             prominent ? "text-[1.05rem]" : "text-sm",
-            light ? "text-white" : "text-brand-blue",
+            light ? "text-white" : "text-[var(--text-primary)]",
           )}
         >
           Robokorda
@@ -60,7 +64,7 @@ export function Logo({
             className={cn(
               "mt-1 font-medium",
               prominent ? "text-[1.35rem]" : "text-sm",
-              light ? "text-white/76" : "text-brand-ink",
+              light ? "text-white/76" : "text-[var(--text-secondary)]",
             )}
           >
             Africa

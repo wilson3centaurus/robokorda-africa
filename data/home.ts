@@ -42,7 +42,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Ideal for schools that want recurring classroom delivery, teacher coordination, learner assessment, and predictable term planning.",
     icon: Building2,
-    imageSrc: "https://picsum.photos/seed/curriculum-delivery/1200/900",
+    imageSrc: "/images/zim/robokorda_pic_1.png",
     seed: "curriculum-delivery",
   },
   {
@@ -52,7 +52,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Best for schools that want a high-energy STEM club, competition preparation, and practical enrichment without changing the curriculum.",
     icon: Rocket,
-    imageSrc: "https://picsum.photos/seed/extracurricular-delivery/1200/900",
+    imageSrc: "/images/zim/robokorda_pic_3.png",
     seed: "extracurricular-delivery",
   },
   {
@@ -62,7 +62,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Suited to parent-led enrolment, community hubs, and learners who want deeper project time with focused instructor support.",
     icon: Compass,
-    imageSrc: "https://picsum.photos/seed/weekend-delivery/1200/900",
+    imageSrc: "/images/zim/robokorda_pic_5.png",
     seed: "weekend-delivery",
   },
 ];
@@ -94,7 +94,7 @@ export const courses: Course[] = [
       "Builds confidence through repeatable assemblies, testing routines, and team challenges.",
       "Helps learners connect physical systems to problem-solving and storytelling.",
     ],
-    imageSrc: "https://picsum.photos/seed/foundations-robotics/900/720",
+    imageSrc: "/images/courses/course 1.jpg",
     seed: "foundations-robotics",
   },
   {
@@ -108,7 +108,7 @@ export const courses: Course[] = [
       "Uses games and simulations to make abstract computer science concepts easier to grasp.",
       "Improves creative confidence through project presentations and debugging reflection.",
     ],
-    imageSrc: "https://picsum.photos/seed/scratch-logic-lab/900/720",
+    imageSrc: "/images/courses/course 2.jpg",
     seed: "scratch-logic-lab",
   },
   {
@@ -122,7 +122,7 @@ export const courses: Course[] = [
       "Introduces logic mapping, testing, and user-centered problem solving for everyday African contexts.",
       "Strengthens presentation and pitching skills through demo-day project reviews.",
     ],
-    imageSrc: "https://picsum.photos/seed/app-studio-young-innovators/900/720",
+    imageSrc: "/images/courses/course 3.jpg",
     seed: "app-studio-young-innovators",
   },
   {
@@ -136,7 +136,7 @@ export const courses: Course[] = [
       "Frames AI as a practical tool for decision support, creativity, and local problem solving.",
       "Encourages ethical thinking around automation, bias, and digital trust.",
     ],
-    imageSrc: "https://picsum.photos/seed/ai-explorer-track/900/720",
+    imageSrc: "/images/courses/course 4.jpg",
     seed: "ai-explorer-track",
   },
   {
@@ -150,7 +150,7 @@ export const courses: Course[] = [
       "Connects hardware learning directly to robotics builds and automation behaviour.",
       "Develops patience, diagnosis habits, and a more complete engineering mindset.",
     ],
-    imageSrc: "https://picsum.photos/seed/electronics-sensors/900/720",
+    imageSrc: "/images/courses/course 5.jpg",
     seed: "electronics-sensors",
   },
   {
@@ -164,7 +164,7 @@ export const courses: Course[] = [
       "Helps learners understand how movement, material choice, and stability affect performance.",
       "Builds design discipline through testing, revision, and evidence-based improvement.",
     ],
-    imageSrc: "https://picsum.photos/seed/mechanical-design-studio/900/720",
+    imageSrc: "/images/courses/course 6.jpg",
     seed: "mechanical-design-studio",
   },
 ];
@@ -228,42 +228,42 @@ export const partnerCategories: PartnerCategory[] = [
     title: "Independent and private schools",
     description:
       "Schools looking to strengthen practical robotics, coding, and innovation pathways across year groups.",
-    imageSrc: "https://picsum.photos/seed/private-schools-partner/900/720",
+    imageSrc: "/images/partners/patner1.jpg",
     seed: "private-schools-partner",
   },
   {
     title: "Public school networks",
     description:
       "Districts and school groups building wider access to technology education and competition exposure.",
-    imageSrc: "https://picsum.photos/seed/public-school-networks/900/720",
+    imageSrc: "/images/partners/patner2.jpg",
     seed: "public-school-networks",
   },
   {
     title: "NGOs and development partners",
     description:
       "Organisations focused on youth capability, digital inclusion, and measurable STEM impact.",
-    imageSrc: "https://picsum.photos/seed/ngo-development-partners/900/720",
+    imageSrc: "/images/partners/patner3.jpg",
     seed: "ngo-development-partners",
   },
   {
     title: "Teacher enablement programmes",
     description:
       "Partners seeking school adoption support, curriculum integration guidance, and practical delivery systems.",
-    imageSrc: "https://picsum.photos/seed/teacher-enablement/900/720",
+    imageSrc: "/images/partners/patner4.jpg",
     seed: "teacher-enablement",
   },
   {
     title: "Innovation hubs and universities",
     description:
       "Institutions that want stronger junior innovation pipelines and meaningful talent development partnerships.",
-    imageSrc: "https://picsum.photos/seed/innovation-hubs-universities/900/720",
+    imageSrc: "/images/partners/patner5.jpg",
     seed: "innovation-hubs-universities",
   },
   {
     title: "Parent and homeschool communities",
     description:
       "Families seeking structured technology learning beyond the school timetable.",
-    imageSrc: "https://picsum.photos/seed/parent-communities/900/720",
+    imageSrc: "/images/partners/patner6.jpg",
     seed: "parent-communities",
   },
 ];
@@ -273,7 +273,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Classroom robotics sprint",
     subtitle:
       "Learners work through guided assembly and testing sessions with close facilitator support.",
-    imageSrc: "https://picsum.photos/seed/gallery-classroom-robotics/1200/900",
+    imageSrc: "/images/zim/robokorda_pic_2.png",
     seed: "gallery-classroom-robotics",
     size: "wide",
   },
@@ -281,7 +281,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Young coders at work",
     subtitle:
       "Block-based logic activities help students connect creativity with technical structure.",
-    imageSrc: "https://picsum.photos/seed/gallery-young-coders/900/900",
+    imageSrc: "/images/zim/robokorda_pic_4.png",
     seed: "gallery-young-coders",
     size: "square",
   },
@@ -289,7 +289,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Prototype review table",
     subtitle:
       "Project feedback sessions encourage iteration, teamwork, and presentation confidence.",
-    imageSrc: "https://picsum.photos/seed/gallery-prototype-review/900/1200",
+    imageSrc: "/images/rirc/makerthon.jpg",
     seed: "gallery-prototype-review",
     size: "tall",
   },
@@ -297,7 +297,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Weekend innovation studio",
     subtitle:
       "Families and learners use weekend sessions to deepen focus and explore more ambitious builds.",
-    imageSrc: "https://picsum.photos/seed/gallery-weekend-studio/1200/900",
+    imageSrc: "/images/rirc/winner-team.jpg",
     seed: "gallery-weekend-studio",
     size: "wide",
   },
@@ -305,7 +305,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Competition rehearsal",
     subtitle:
       "Teams prepare for timed presentations, technical judging, and live demonstration moments.",
-    imageSrc: "https://picsum.photos/seed/gallery-competition-rehearsal/900/900",
+    imageSrc: "/images/rirc/robot-challenge.jpg",
     seed: "gallery-competition-rehearsal",
     size: "square",
   },
@@ -313,7 +313,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Electronics testing bench",
     subtitle:
       "Hands-on circuit work sharpens troubleshooting discipline and systems thinking.",
-    imageSrc: "https://picsum.photos/seed/gallery-electronics-bench/900/900",
+    imageSrc: "/images/rirc/sustainable-tech.jpeg",
     seed: "gallery-electronics-bench",
     size: "square",
   },
@@ -321,7 +321,7 @@ export const galleryItems: GalleryItem[] = [
     title: "School showcase day",
     subtitle:
       "Learners present finished projects to educators, parents, and invited partners.",
-    imageSrc: "https://picsum.photos/seed/gallery-showcase-day/900/1200",
+    imageSrc: "/images/rirc/minister.jpg",
     seed: "gallery-showcase-day",
     size: "tall",
   },

@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Foundations of Robotics",
+    "level": "Starter",
+    "age": "Ages 8-11",
+    "duration": "10 Weeks",
+    "deliveryMode": "Curriculum | Extra-Curricular",
+    "overview": [
+      "Introduces basic robotics concepts, movement logic, sensors, and safe hardware handling.",
+      "Builds confidence through repeatable assemblies, testing routines, and team challenges.",
+      "Helps learners connect physical systems to problem-solving and storytelling."
+    ],
+    "imageSrc": "/uploads/1777058449088-euhglp.jpg",
+    "seed": "foundations-robotics"
+  },
+  {
+    "title": "Scratch Logic Lab",
+    "level": "Core",
+    "age": "Ages 8-13",
+    "duration": "12 Weeks",
+    "deliveryMode": "Curriculum | Weekend",
+    "overview": [
+      "Covers sequences, loops, variables, events, and interactive logic using visual coding.",
+      "Uses games and simulations to make abstract computer science concepts easier to grasp.",
+      "Improves creative confidence through project presentations and debugging reflection."
+    ],
+    "imageSrc": "/uploads/1777058440194-9j0rky.jpg",
+    "seed": "scratch-logic-lab"
+  },
+  {
+    "title": "App Studio for Young Innovators",
+    "level": "Applied",
+    "age": "Ages 10-15",
+    "duration": "12 Weeks",
+    "deliveryMode": "Extra-Curricular | Weekend",
+    "overview": [
+      "Guides learners through mobile app planning, interface thinking, and feature design.",
+      "Introduces logic mapping, testing, and user-centered problem solving for everyday African contexts.",
+      "Strengthens presentation and pitching skills through demo-day project reviews."
+    ],
+    "imageSrc": "/uploads/1777058459577-xazw5v.png",
+    "seed": "app-studio-young-innovators"
+  },
+  {
+    "title": "AI Explorer Track",
+    "level": "Advanced",
+    "age": "Ages 12-17",
+    "duration": "8 Weeks",
+    "deliveryMode": "Weekend | Competition Prep",
+    "overview": [
+      "Introduces machine intelligence, prompts, data literacy, and responsible AI use.",
+      "Frames AI as a practical tool for decision support, creativity, and local problem solving.",
+      "Encourages ethical thinking around automation, bias, and digital trust."
+    ],
+    "imageSrc": "/uploads/1777058467373-lawem3.png",
+    "seed": "ai-explorer-track"
+  },
+  {
+    "title": "Electronics and Sensors",
+    "level": "Technical",
+    "age": "Ages 11-17",
+    "duration": "10 Weeks",
+    "deliveryMode": "Curriculum | Extra-Curricular",
+    "overview": [
+      "Teaches breadboards, sensors, current flow, signal reading, and practical troubleshooting.",
+      "Connects hardware learning directly to robotics builds and automation behaviour.",
+      "Develops patience, diagnosis habits, and a more complete engineering mindset."
+    ],
+    "imageSrc": "/uploads/1777058477707-rsbyk9.jpg",
+    "seed": "electronics-sensors"
+  },
+  {
+    "title": "Mechanical Design Studio",
+    "level": "Maker",
+    "age": "Ages 10-17",
+    "duration": "10 Weeks",
+    "deliveryMode": "Curriculum | Weekend",
+    "overview": [
+      "Focuses on mechanisms, structures, prototyping, durability, and iterative design.",
+      "Helps learners understand how movement, material choice, and stability affect performance.",
+      "Builds design discipline through testing, revision, and evidence-based improvement."
+    ],
+    "imageSrc": "/uploads/1777058487050-n7vqmi.jpg",
+    "seed": "mechanical-design-studio"
+  }
+]

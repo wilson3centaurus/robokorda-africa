@@ -2,21 +2,21 @@
 
 /* ─── Design Tokens ────────────────────────────────────────────────────────── */
 :root {
-  /* Base palette — deep space + electric blue */
-  --space-900: #020810;
-  --space-800: #040d1e;
-  --space-700: #071428;
-  --space-600: #0a1c38;
-  --space-500: #0e2548;
-  --space-400: #1a3562;
-  --space-300: #2a4d80;
-  --space-200: #3d6aa0;
+  /* Base palette — deep dark space (near-black with subtle indigo undertone) */
+  --space-900: #03020c;
+  --space-800: #07061a;   /* body background */
+  --space-700: #0d0b24;   /* alt sections / sidebar */
+  --space-600: #121030;   /* card base */
+  --space-500: #18163e;   /* elevated cards */
+  --space-400: #201e50;   /* hover / active states */
+  --space-300: #302d70;   /* subtle separators */
+  --space-200: #4e4a96;   /* muted accents */
 
-  /* Electric accent */
-  --electric: #0066ff;
-  --electric-bright: #2685ff;
-  --electric-glow: rgba(0, 102, 255, 0.35);
-  --electric-subtle: rgba(0, 102, 255, 0.12);
+  /* Brand / Primary — logo color #342FC5, used as accent only */
+  --electric: #342FC5;
+  --electric-bright: #6663e8;
+  --electric-glow: rgba(52, 47, 197, 0.40);
+  --electric-subtle: rgba(52, 47, 197, 0.10);
 
   /* Neon green — robotics/code feel */
   --neon: #00e5a0;
@@ -25,34 +25,90 @@
   /* Amber — warning/highlight */
   --amber: #f59e0b;
 
-  /* Text */
-  --text-primary: #e8f4fd;
-  --text-secondary: #8db5d8;
-  --text-muted: #4d7499;
+  /* Text — clean white hierarchy */
+  --text-primary: #f0effe;
+  --text-secondary: #9896c8;
+  --text-muted: #5c5a88;
   --text-on-electric: #ffffff;
 
-  /* Surfaces */
-  --surface-1: #071428;
-  --surface-2: #0a1c38;
-  --surface-3: #0e2548;
-  --surface-border: rgba(38, 133, 255, 0.18);
-  --surface-border-subtle: rgba(38, 133, 255, 0.08);
+  /* Surfaces — dark navy, each level subtly lighter */
+  --surface-1: #0d0b24;
+  --surface-2: #121030;
+  --surface-3: #18163e;
+  --surface-border: rgba(90, 87, 200, 0.22);
+  --surface-border-subtle: rgba(90, 87, 200, 0.12);
 
-  /* Legacy aliases for existing component compatibility */
+  /* Semantic Aliases */
   --background: var(--space-800);
   --foreground: var(--text-primary);
+  --card: var(--space-700);
+  --card-foreground: var(--text-primary);
+  --popover: var(--space-700);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--electric);
+  --primary-foreground: var(--text-on-electric);
+  --muted: var(--space-700);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--space-600);
+  --accent-foreground: var(--text-primary);
+  --border: var(--surface-border);
+  --input: var(--surface-border);
+  --ring: var(--electric);
+
+  /* Fonts */
   --font-inter: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-sans: var(--font-inter);
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--space-800);
-  --color-foreground: var(--text-primary);
+/* ─── Light Mode Overrides ─────────────────────────────────────────────────── */
+.light {
+  --space-900: #f0effb;
+  --space-800: #f8f7ff;
+  --space-700: #ffffff;
+  --space-600: #f0effb;
+  --space-500: #e4e2f8;
+  --space-400: #c9c7ee;
+  --space-300: #9b99d8;
+  --space-200: #6e6bc4;
 
-  /* Brand colors (kept for backward compat) */
+  --electric: #342FC5;
+  --electric-bright: #4b48b8;
+  --electric-glow: rgba(52, 47, 197, 0.2);
+  --electric-subtle: rgba(52, 47, 197, 0.08);
+
+  --background: #ffffff;
+  --foreground: #0e0c2c;
+  --card: #ffffff;
+  --card-foreground: #0e0c2c;
+  --popover: #ffffff;
+  --popover-foreground: #0e0c2c;
+  --muted: #f8f7ff;
+  --muted-foreground: #4a4880;
+  --accent: #f0effb;
+  --accent-foreground: #0e0c2c;
+  --border: #e4e2f8;
+  --input: #e4e2f8;
+
+  --text-primary: #0e0c2c;
+  --text-secondary: #2a2862;
+  --text-muted: #6a6898;
+  --text-on-electric: #ffffff;
+
+  --surface-1: #ffffff;
+  --surface-2: #f8f7ff;
+  --surface-3: #f0effb;
+  --surface-border: rgba(52, 47, 197, 0.15);
+  --surface-border-subtle: rgba(52, 47, 197, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Brand colors */
   --color-brand-blue: var(--electric);
-  --color-brand-blue-strong: #0052cc;
+  --color-brand-blue-strong: #2724b0;
   --color-brand-navy: var(--space-600);
   --color-brand-ink: var(--text-primary);
   --color-brand-soft: var(--space-700);
@@ -61,7 +117,7 @@
   --color-brand-muted: var(--text-secondary);
   --color-brand-white: #ffffff;
 
-  /* New semantic tokens */
+  /* Semantic tokens */
   --color-electric: var(--electric);
   --color-neon: var(--neon);
   --color-space-800: var(--space-800);
@@ -91,7 +147,6 @@ html {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  color-scheme: dark;
 }
 
 body {
@@ -103,13 +158,22 @@ body {
   overscroll-behavior-x: none;
   background: var(--space-800);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 102, 255, 0.15), transparent),
-    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(0, 229, 160, 0.04), transparent);
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(52, 47, 197, 0.20), transparent),
+    radial-gradient(ellipse 50% 40% at 88% 88%, rgba(0, 229, 160, 0.04), transparent),
+    radial-gradient(ellipse 40% 28% at 8% 96%, rgba(52, 47, 197, 0.08), transparent);
   color: var(--text-primary);
   font-family: var(--font-sans), sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.light body,
+.light {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(52, 47, 197, 0.06), transparent),
+    radial-gradient(ellipse 40% 40% at 80% 100%, rgba(52, 47, 197, 0.03), transparent);
 }
 
 a {
@@ -153,7 +217,7 @@ td a {
 }
 
 ::selection {
-  background: rgba(0, 102, 255, 0.35);
+  background: rgba(52, 47, 197, 0.4);
   color: #ffffff;
 }
 
@@ -161,6 +225,11 @@ td a {
 
 .circuit-bg {
   position: relative;
+  background: var(--space-700); /* slightly lighter than body for section depth */
+}
+
+.light .circuit-bg {
+  background: var(--space-800); /* light: off-white lavender tint */
 }
 
 .circuit-bg::before {
@@ -168,7 +237,7 @@ td a {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.035;
   background-image:
     linear-gradient(var(--electric) 1px, transparent 1px),
     linear-gradient(90deg, var(--electric) 1px, transparent 1px),
@@ -202,7 +271,7 @@ td a {
 /* ─── Glow utilities ───────────────────────────────────────────── */
 
 .glow-blue {
-  box-shadow: 0 0 24px var(--electric-glow), 0 0 60px rgba(0, 102, 255, 0.12);
+  box-shadow: 0 0 24px var(--electric-glow), 0 0 60px rgba(52, 47, 197, 0.12);
 }
 
 .glow-neon {
@@ -210,7 +279,7 @@ td a {
 }
 
 .text-glow {
-  text-shadow: 0 0 30px rgba(0, 102, 255, 0.5), 0 0 60px rgba(0, 102, 255, 0.2);
+  text-shadow: 0 0 30px rgba(52, 47, 197, 0.55), 0 0 60px rgba(52, 47, 197, 0.22);
 }
 
 .text-glow-neon {
@@ -221,9 +290,15 @@ td a {
 
 .surface-shadow {
   box-shadow:
-    0 24px 48px rgba(2, 8, 16, 0.6),
-    0 8px 24px rgba(2, 8, 16, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 16px 48px rgba(3, 2, 12, 0.72),
+    0 6px 18px rgba(3, 2, 12, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.light .surface-shadow {
+  box-shadow:
+    0 8px 32px rgba(52, 47, 197, 0.10),
+    0 2px 8px rgba(52, 47, 197, 0.06);
 }
 
 .hover-lift {
@@ -236,9 +311,16 @@ td a {
 .hover-lift:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 32px 64px rgba(2, 8, 16, 0.7),
-    0 0 0 1px rgba(0, 102, 255, 0.3),
-    0 0 30px rgba(0, 102, 255, 0.1);
+    0 28px 60px rgba(3, 2, 12, 0.78),
+    0 0 0 1px rgba(90, 87, 200, 0.36),
+    0 0 36px rgba(52, 47, 197, 0.18);
+}
+
+.light .hover-lift:hover {
+  box-shadow:
+    0 16px 40px rgba(52, 47, 197, 0.12),
+    0 0 0 1px rgba(52, 47, 197, 0.2),
+    0 0 20px rgba(52, 47, 197, 0.08);
 }
 
 /* ─── Frosted glass ────────────────────────────────────────────── */
@@ -259,7 +341,7 @@ td a {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 102, 255, 0.08), transparent 70%);
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(52, 47, 197, 0.1), transparent 70%);
 }
 
 /* ─── Badges & chips ───────────────────────────────────────────── */
@@ -269,14 +351,19 @@ td a {
   align-items: center;
   gap: 0.5rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 102, 255, 0.35);
-  background: rgba(0, 102, 255, 0.12);
+  border: 1px solid rgba(52, 47, 197, 0.35);
+  background: rgba(52, 47, 197, 0.12);
   padding: 0.45rem 0.9rem;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #7eb8ff;
+  color: var(--electric-bright);
+}
+
+.light .badge-pill {
+  color: var(--electric);
+  border-color: rgba(52, 47, 197, 0.3);
 }
 
 .trust-chip {
@@ -317,15 +404,15 @@ td a {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--electric), #0052cc);
+  background: linear-gradient(135deg, var(--electric), #2724b0);
   color: #ffffff;
   border: 1px solid transparent;
-  box-shadow: 0 0 20px rgba(0, 102, 255, 0.4), 0 4px 16px rgba(0, 102, 255, 0.25);
+  box-shadow: 0 0 20px rgba(52, 47, 197, 0.45), 0 4px 16px rgba(52, 47, 197, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(0, 102, 255, 0.6), 0 8px 24px rgba(0, 102, 255, 0.35);
+  box-shadow: 0 0 32px rgba(52, 47, 197, 0.65), 0 8px 24px rgba(52, 47, 197, 0.4);
 }
 
 .btn-primary:active {
@@ -341,8 +428,8 @@ td a {
 .btn-secondary:hover {
   transform: translateY(-2px);
   border-color: var(--electric);
-  color: #7eb8ff;
-  box-shadow: 0 0 15px rgba(0, 102, 255, 0.2);
+  color: var(--electric-bright);
+  box-shadow: 0 0 15px rgba(52, 47, 197, 0.2);
 }
 
 .btn-secondary:active {
@@ -350,19 +437,30 @@ td a {
 }
 
 .btn-ghost {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.07);
   color: #ffffff;
 }
 
 .btn-ghost:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .btn-ghost:active {
   transform: translateY(0);
+}
+
+.light .btn-ghost {
+  border-color: rgba(52, 47, 197, 0.25);
+  background: rgba(52, 47, 197, 0.06);
+  color: var(--text-primary);
+}
+
+.light .btn-ghost:hover {
+  background: rgba(52, 47, 197, 0.11);
+  border-color: rgba(52, 47, 197, 0.40);
 }
 
 /* Neon green button variant */
@@ -426,7 +524,7 @@ td a {
 .field-select:focus,
 .field-textarea:focus {
   border-color: var(--electric);
-  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.18);
+  box-shadow: 0 0 0 3px rgba(52, 47, 197, 0.18);
 }
 
 .field-select option {
@@ -455,7 +553,7 @@ td a {
   height: 1.5px;
   border-radius: 999px;
   background: linear-gradient(90deg, transparent, var(--electric-bright), transparent);
-  box-shadow: 0 0 8px rgba(38, 133, 255, 0.7);
+  box-shadow: 0 0 8px rgba(85, 82, 216, 0.7);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 220ms ease;
@@ -471,8 +569,14 @@ td a {
 
 .hero-overlay {
   background:
-    linear-gradient(105deg, rgba(2, 8, 16, 0.92) 0%, rgba(4, 13, 30, 0.78) 50%, rgba(0, 60, 180, 0.45) 100%),
-    linear-gradient(180deg, rgba(2, 8, 16, 0.05) 0%, rgba(2, 8, 16, 0.55) 100%);
+    linear-gradient(105deg, rgba(8, 7, 30, 0.92) 0%, rgba(14, 12, 44, 0.78) 50%, rgba(52, 47, 197, 0.4) 100%),
+    linear-gradient(180deg, rgba(8, 7, 30, 0.05) 0%, rgba(8, 7, 30, 0.55) 100%);
+}
+
+.light .hero-overlay {
+  background:
+    linear-gradient(105deg, rgba(255, 255, 255, 0.90) 0%, rgba(248, 247, 255, 0.82) 50%, rgba(52, 47, 197, 0.10) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(248, 247, 255, 0.88) 100%);
 }
 
 /* ─── Decorative ───────────────────────────────────────────────── */
@@ -481,8 +585,8 @@ td a {
   background-image:
     repeating-linear-gradient(
       135deg,
-      rgba(0, 102, 255, 0.06) 0,
-      rgba(0, 102, 255, 0.06) 10px,
+      rgba(52, 47, 197, 0.06) 0,
+      rgba(52, 47, 197, 0.06) 10px,
       transparent 10px,
       transparent 24px
     );
@@ -577,6 +681,18 @@ td a {
   padding: 1.25rem;
 }
 
+.admin-shell {
+  min-height: 100vh;
+  background: var(--space-800);
+  background-image:
+    radial-gradient(ellipse 70% 40% at 50% -10%, rgba(52, 47, 197, 0.14), transparent);
+}
+
+.admin-sidebar {
+  background: var(--space-700);
+  border-right: 1px solid var(--surface-border);
+}
+
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -616,7 +732,7 @@ td a {
   font-weight: 700;
 }
 
-.status-new    { background: rgba(0, 102, 255, 0.15); color: #7eb8ff; }
-.status-pending{ background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
-.status-done   { background: rgba(0, 229, 160, 0.12); color: var(--neon); }
+.status-new     { background: rgba(52, 47, 197, 0.15); color: var(--electric-bright); }
+.status-pending { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
+.status-done    { background: rgba(0, 229, 160, 0.12); color: var(--neon); }
 .status-rejected{ background: rgba(239, 68, 68, 0.12); color: #fca5a5; }

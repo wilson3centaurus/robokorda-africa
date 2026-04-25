@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard, Settings, Image, Trophy, ShoppingBag,
-  MessageSquare, BookOpen, Cpu, ArrowRight, Users, TrendingUp,
+  MessageSquare, BookOpen, Cpu, ArrowRight, Users, TrendingUp, Package
 } from "lucide-react";
 import {
   isValidAdminSession, getRircRegistrations, getComponentInquiries,
@@ -30,7 +30,7 @@ export default async function AdminDashboard() {
 
   const stats = [
     { label: "RIRC Registrations", value: rirc.length, icon: Trophy, color: "text-[#fcd34d]", bg: "bg-[rgba(245,158,11,0.12)]", href: "/admin/inquiries?tab=rirc" },
-    { label: "Shop Inquiries", value: components.length, icon: ShoppingBag, color: "text-[#7eb8ff]", bg: "bg-[rgba(0,102,255,0.12)]", href: "/admin/inquiries?tab=components" },
+    { label: "Shop Inquiries", value: components.length, icon: ShoppingBag, color: "text-[var(--electric-bright)]", bg: "bg-[rgba(52,47,197,0.12)]", href: "/admin/inquiries?tab=components" },
     { label: "Course Inquiries", value: courses.length, icon: BookOpen, color: "text-[#00e5a0]", bg: "bg-[rgba(0,229,160,0.1)]", href: "/admin/inquiries?tab=courses" },
     { label: "Prime Book Inquiries", value: primebook.length, icon: Cpu, color: "text-[#c084fc]", bg: "bg-[rgba(192,132,252,0.1)]", href: "/admin/inquiries?tab=primebook" },
     { label: "Contact Messages", value: contact.length, icon: MessageSquare, color: "text-[#f87171]", bg: "bg-[rgba(248,113,113,0.1)]", href: "/admin/inquiries?tab=contact" },
@@ -42,25 +42,26 @@ export default async function AdminDashboard() {
     { label: "Inquiries & Registrations", href: "/admin/inquiries", icon: MessageSquare },
     { label: "Site Settings", href: "/admin/settings", icon: Settings },
     { label: "Gallery", href: "/admin/gallery", icon: Image },
+    { label: "Catalogue", href: "/admin/catalogue", icon: Package },
     { label: "View Site", href: "/", icon: TrendingUp, external: true },
   ];
 
   return (
-    <div className="min-h-screen bg-[#020810]">
+    <div className="min-h-screen bg-[var(--space-800)]">
       {/* Circuit bg */}
-      <div className="pointer-events-none fixed inset-0 opacity-[0.02]" style={{ backgroundImage: `linear-gradient(rgba(0,102,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,102,255,1) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
+      <div className="pointer-events-none fixed inset-0 opacity-[0.025]" style={{ backgroundImage: `linear-gradient(rgba(52,47,197,1) 1px, transparent 1px), linear-gradient(90deg, rgba(52,47,197,1) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
 
       <div className="relative flex min-h-screen">
         {/* Sidebar */}
-        <aside className="hidden w-60 shrink-0 border-r border-[rgba(0,102,255,0.15)] bg-[rgba(4,13,30,0.95)] lg:flex lg:flex-col">
-          <div className="border-b border-[rgba(0,102,255,0.15)] p-5">
+        <aside className="hidden w-60 shrink-0 border-r border-[var(--surface-border)] bg-[var(--surface-1)] lg:flex lg:flex-col">
+          <div className="border-b border-[var(--surface-border)] p-5">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(0,102,255,0.4)] bg-[rgba(0,102,255,0.1)]">
-                <Cpu className="h-5 w-5 text-[#7eb8ff]" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)]">
+                <Cpu className="h-5 w-5 text-[var(--electric-bright)]" />
               </div>
               <div>
-                <p className="text-sm font-bold text-white">Robokorda CMS</p>
-                <p className="text-[10px] text-[#4d7499]">Admin Panel</p>
+                <p className="text-sm font-bold text-[var(--text-primary)]">Robokorda CMS</p>
+                <p className="text-[10px] text-[var(--text-muted)]">Admin Panel</p>
               </div>
             </div>
           </div>
@@ -71,7 +72,7 @@ export default async function AdminDashboard() {
                 key={link.href}
                 href={link.href}
                 target={link.external ? "_blank" : undefined}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-[#8db5d8] transition hover:bg-[rgba(0,102,255,0.1)] hover:text-white"
+                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-[var(--text-secondary)] transition hover:bg-[var(--electric-subtle)] hover:text-[var(--text-primary)]"
               >
                 <link.icon className="h-4 w-4" />
                 {link.label}
@@ -79,7 +80,7 @@ export default async function AdminDashboard() {
             ))}
           </nav>
 
-          <div className="border-t border-[rgba(0,102,255,0.15)] p-3">
+          <div className="border-t border-[var(--surface-border)] p-3">
             <LogoutButton />
           </div>
         </aside>
@@ -89,7 +90,7 @@ export default async function AdminDashboard() {
           {/* Mobile nav */}
           <div className="mb-6 flex flex-wrap gap-2 lg:hidden">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="flex items-center gap-2 rounded-xl border border-[rgba(0,102,255,0.2)] bg-[rgba(0,102,255,0.06)] px-3 py-2 text-xs font-medium text-[#8db5d8]">
+              <Link key={link.href} href={link.href} className="flex items-center gap-2 rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] px-3 py-2 text-xs font-medium text-[var(--text-secondary)]">
                 <link.icon className="h-3.5 w-3.5" />
                 {link.label}
               </Link>
@@ -98,11 +99,11 @@ export default async function AdminDashboard() {
 
           <div className="mb-8">
             <div className="flex items-center gap-3">
-              <LayoutDashboard className="h-6 w-6 text-[#7eb8ff]" />
-              <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+              <LayoutDashboard className="h-6 w-6 text-[var(--electric-bright)]" />
+              <h1 className="text-2xl font-bold text-[var(--text-primary)]">Dashboard</h1>
             </div>
-            <p className="mt-1 text-sm text-[#4d7499]">
-              Robokorda Africa · Local file database · All data stored in <code className="rounded bg-[rgba(0,102,255,0.12)] px-1.5 py-0.5 text-[11px] text-[#7eb8ff]">data/</code>
+            <p className="mt-1 text-sm text-[var(--text-muted)]">
+              Robokorda Africa · Local file database · All data stored in <code className="rounded bg-[var(--electric-subtle)] px-1.5 py-0.5 text-[11px] text-[var(--electric-bright)]">data/</code>
             </p>
           </div>
 
@@ -112,13 +113,13 @@ export default async function AdminDashboard() {
               <Link
                 key={stat.label}
                 href={stat.href}
-                className="rounded-xl border border-[rgba(0,102,255,0.15)] bg-[rgba(4,13,30,0.8)] p-4 transition hover:border-[rgba(0,102,255,0.35)]"
+                className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-1)] p-4 transition hover:border-[var(--electric)]"
               >
                 <div className={`mb-2 flex h-9 w-9 items-center justify-center rounded-xl ${stat.bg}`}>
                   <stat.icon className={`h-4.5 w-4.5 ${stat.color}`} />
                 </div>
-                <p className="text-2xl font-bold text-white">{stat.value}</p>
-                <p className="mt-1 text-[11px] text-[#4d7499] leading-tight">{stat.label}</p>
+                <p className="text-2xl font-bold text-[var(--text-primary)]">{stat.value}</p>
+                <p className="mt-1 text-[11px] text-[var(--text-muted)] leading-tight">{stat.label}</p>
               </Link>
             ))}
           </div>
@@ -126,14 +127,14 @@ export default async function AdminDashboard() {
           {/* Recent registrations */}
           <div className="mb-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-semibold text-white">Recent RIRC Registrations</h2>
-              <Link href="/admin/inquiries?tab=rirc" className="flex items-center gap-1 text-xs text-[#7eb8ff] hover:text-white transition">
+              <h2 className="text-base font-semibold text-[var(--text-primary)]">Recent RIRC Registrations</h2>
+              <Link href="/admin/inquiries?tab=rirc" className="flex items-center gap-1 text-xs text-[var(--electric-bright)] hover:text-[var(--text-primary)] transition">
                 View all <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
-            <div className="overflow-x-auto rounded-xl border border-[rgba(0,102,255,0.15)] bg-[rgba(4,13,30,0.8)]">
+            <div className="overflow-x-auto rounded-xl border border-[var(--surface-border)] bg-[var(--surface-1)]">
               {rirc.length === 0 ? (
-                <div className="py-10 text-center text-sm text-[#4d7499]">No registrations yet</div>
+                <div className="py-10 text-center text-sm text-[var(--text-muted)]">No registrations yet</div>
               ) : (
                 <table className="admin-table">
                   <thead>
@@ -149,7 +150,7 @@ export default async function AdminDashboard() {
                   <tbody>
                     {rirc.slice(0, 8).map((r) => (
                       <tr key={r.id}>
-                        <td className="font-medium text-white">{r.team_name}</td>
+                        <td className="font-medium text-[var(--text-primary)]">{r.team_name}</td>
                         <td>{r.school_name}</td>
                         <td>{r.country}</td>
                         <td>{r.track}</td>
@@ -170,14 +171,14 @@ export default async function AdminDashboard() {
           {/* Recent shop inquiries */}
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-semibold text-white">Recent Shop Inquiries</h2>
-              <Link href="/admin/inquiries?tab=components" className="flex items-center gap-1 text-xs text-[#7eb8ff] hover:text-white transition">
+              <h2 className="text-base font-semibold text-[var(--text-primary)]">Recent Shop Inquiries</h2>
+              <Link href="/admin/inquiries?tab=components" className="flex items-center gap-1 text-xs text-[var(--electric-bright)] hover:text-[var(--text-primary)] transition">
                 View all <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
-            <div className="overflow-x-auto rounded-xl border border-[rgba(0,102,255,0.15)] bg-[rgba(4,13,30,0.8)]">
+            <div className="overflow-x-auto rounded-xl border border-[var(--surface-border)] bg-[var(--surface-1)]">
               {components.length === 0 ? (
-                <div className="py-10 text-center text-sm text-[#4d7499]">No inquiries yet</div>
+                <div className="py-10 text-center text-sm text-[var(--text-muted)]">No inquiries yet</div>
               ) : (
                 <table className="admin-table">
                   <thead>
@@ -192,7 +193,7 @@ export default async function AdminDashboard() {
                   <tbody>
                     {components.slice(0, 5).map((c) => (
                       <tr key={c.id}>
-                        <td className="font-medium text-white">{c.name}</td>
+                        <td className="font-medium text-[var(--text-primary)]">{c.name}</td>
                         <td>{c.phone}</td>
                         <td className="text-[#00e5a0] font-semibold">${c.total_usd.toFixed(2)}</td>
                         <td><span className={`status-badge status-${c.status}`}>{c.status}</span></td>

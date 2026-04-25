@@ -19,8 +19,8 @@ export function FAQAccordion({ items }: { items: FAQItem[] }) {
             className={cn(
               "overflow-hidden rounded-xl border transition-colors duration-200",
               open
-                ? "border-[rgba(0,102,255,0.35)] bg-[rgba(4,13,30,0.95)]"
-                : "border-[rgba(0,102,255,0.12)] bg-[rgba(7,20,40,0.6)]",
+                ? "border-[var(--electric-bright)] bg-[var(--surface-1)]"
+                : "border-[var(--surface-border)] bg-[var(--surface-1)]/70",
             )}
           >
             <button
@@ -29,13 +29,13 @@ export function FAQAccordion({ items }: { items: FAQItem[] }) {
               className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
               aria-expanded={open}
             >
-              <span className={cn("text-sm font-semibold sm:text-base transition-colors", open ? "text-white" : "text-[#8db5d8]")}>
+              <span className={cn("text-sm font-semibold sm:text-base transition-colors", open ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)]")}>
                 {item.question}
               </span>
               <ChevronDown
                 className={cn(
                   "h-5 w-5 flex-none transition-all duration-200",
-                  open ? "rotate-180 text-[#0066ff]" : "text-[#2a4d80]",
+                  open ? "rotate-180 text-[var(--electric-bright)]" : "text-[var(--text-muted)]",
                 )}
                 aria-hidden="true"
               />
@@ -47,7 +47,7 @@ export function FAQAccordion({ items }: { items: FAQItem[] }) {
               )}
             >
               <div className="overflow-hidden">
-                <p className="px-6 pb-5 text-sm leading-7 text-[#4d7499]">
+                <p className="px-6 pb-5 text-sm leading-7 text-[var(--text-secondary)]">
                   {item.answer}
                 </p>
               </div>

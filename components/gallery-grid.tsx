@@ -12,8 +12,15 @@ import type { GalleryItem } from "@/data/site";
  * Used on RIRC, Prime Book, and any other page that needs a gallery section.
  * The homepage uses GalleryShowcase (masonry layout) instead.
  */
+
+const INITIAL_LIMIT = 12;
+
 export function GalleryGrid({ items }: { items: GalleryItem[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const visible = showAll ? items : items.slice(0, INITIAL_LIMIT);
+  const hasMore = items.length > INITIAL_LIMIT;
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -39,22 +46,29 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
 
   return (
     <>
-      <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {items.map((item, index) => (
+      <div className="mt-8 columns-2 md:columns-3 xl:columns-4 gap-4 space-y-4">
+        {visible.map((item, index) => (
           <div
-            key={item.title}
-            className={
-              item.size === "wide"
-                ? "xl:col-span-2"
-                : item.size === "tall"
-                  ? "xl:row-span-2"
-                  : ""
-            }
+            key={item.title + index}
+            className="break-inside-avoid mb-4"
           >
             <GalleryCard item={item} onClick={() => setActiveIndex(index)} />
           </div>
         ))}
       </div>
+
+      {/* Show More / Show Less */}
+      {hasMore && (
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll((s) => !s)}
+            className="inline-flex items-center gap-2 rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] px-6 py-3 text-sm font-semibold text-[var(--electric-bright)] transition hover:border-[var(--electric)] hover:bg-[var(--surface-border)]"
+          >
+            {showAll ? "Show Less" : `Show More (${items.length - INITIAL_LIMIT} more)`}
+          </button>
+        </div>
+      )}
 
       <AnimatePresence>
         {activeIndex !== null && (

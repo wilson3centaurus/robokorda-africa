@@ -3,6 +3,9 @@ import { getAllSettings, getGallery } from "@/lib/db";
 export type SiteSettings = {
   site_name: string;
   site_tagline: string;
+  logo_url: string;
+  logo_url_dark: string;
+  favicon_url: string;
   contact_email: string;
   contact_phone_sa: string;
   contact_phone_zw: string;
@@ -21,11 +24,15 @@ export type SiteSettings = {
   primebook_price_usd: string;
   primebook_price_zwg: string;
   primebook_specs: string;
+  rirc_brochure_url: string;
 };
 
 const DEFAULTS: SiteSettings = {
   site_name: "Robokorda Africa",
   site_tagline: "Making Robotics & Coding Fun",
+  logo_url: "/brand/logo.png",
+  logo_url_dark: "",
+  favicon_url: "",
   contact_email: "info@robokorda.com",
   contact_phone_sa: "+27 83 242 7998",
   contact_phone_zw: "+263 774 189 500",
@@ -43,7 +50,8 @@ const DEFAULTS: SiteSettings = {
   video_url_primebook: "",
   primebook_price_usd: "299",
   primebook_price_zwg: "850000",
-  primebook_specs: "Intel Celeron N4020 · 4GB RAM · 128GB SSD · 11.6\" HD · Windows 11",
+  primebook_specs: "PrimeOS (Android-based) · ARM Octa-Core · 4GB RAM · 128GB · 14\" HD",
+  rirc_brochure_url: "",
 };
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -52,6 +60,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return {
       site_name:          map.site_name          || DEFAULTS.site_name,
       site_tagline:       map.site_tagline       || DEFAULTS.site_tagline,
+      logo_url:           map.logo_url           || DEFAULTS.logo_url,
+      logo_url_dark:      map.logo_url_dark      || "",
+      favicon_url:        map.favicon_url        || "",
       contact_email:      map.contact_email      || DEFAULTS.contact_email,
       contact_phone_sa:   map.contact_phone_sa   || DEFAULTS.contact_phone_sa,
       contact_phone_zw:   map.contact_phone_zw   || DEFAULTS.contact_phone_zw,
@@ -70,6 +81,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       primebook_price_usd: map.primebook_price_usd || DEFAULTS.primebook_price_usd,
       primebook_price_zwg: map.primebook_price_zwg || DEFAULTS.primebook_price_zwg,
       primebook_specs:    map.primebook_specs    || DEFAULTS.primebook_specs,
+      rirc_brochure_url:  map.rirc_brochure_url  || "",
     };
   } catch {
     return DEFAULTS;

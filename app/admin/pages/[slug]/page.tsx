@@ -290,21 +290,21 @@ export default function PageEditor() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <button onClick={() => router.push('/admin/pages')} className="text-slate-400 hover:text-slate-600">
+          <button onClick={() => router.push('/admin/pages')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">{pageLabel}</h1>
-            <p className="text-sm text-slate-500">{sections.length} sections</p>
+            <h1 className="text-2xl font-bold text-[var(--text-primary)]">{pageLabel}</h1>
+            <p className="text-sm text-[var(--text-secondary)]">{sections.length} sections</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={handleReset}
-            className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-50 transition flex items-center gap-2">
+            className="px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--surface-border)] rounded-lg hover:bg-[var(--surface-3)] transition flex items-center gap-2">
             <Undo2 className="w-4 h-4" /> Reset
           </button>
           <button onClick={handleSave} disabled={saving}
-            className="px-6 py-2 bg-blue-600 text-white text-sm rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition flex items-center gap-2">
+            className="px-6 py-2 bg-[var(--electric)] text-white text-sm rounded-lg font-medium hover:bg-[var(--electric-bright)] disabled:opacity-50 transition flex items-center gap-2">
             {saved ? <><Check className="w-4 h-4" /> Saved</> : saving ? 'Saving...' : <><Save className="w-4 h-4" /> Save Changes</>}
           </button>
         </div>
@@ -315,37 +315,37 @@ export default function PageEditor() {
         const items = content[sectionName] || defaults[sectionName] || [];
         const isOpen = openSections.has(sectionName);
         return (
-          <div key={sectionName} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+          <div key={sectionName} className="bg-[var(--surface-2)] rounded-xl border border-[var(--surface-border)] overflow-hidden">
             {/* Section header */}
             <button
               onClick={() => toggleSection(sectionName)}
-              className="w-full flex items-center justify-between px-6 py-4 hover:bg-slate-50 transition"
+              className="w-full flex items-center justify-between px-6 py-4 hover:bg-[var(--surface-3)] transition"
             >
               <div className="flex items-center gap-3">
-                {isOpen ? <ChevronDown className="w-5 h-5 text-slate-400" /> : <ChevronRight className="w-5 h-5 text-slate-400" />}
-                <h2 className="font-semibold text-slate-900">{sectionName}</h2>
-                <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">{items.length} items</span>
+                {isOpen ? <ChevronDown className="w-5 h-5 text-[var(--text-muted)]" /> : <ChevronRight className="w-5 h-5 text-[var(--text-muted)]" />}
+                <h2 className="font-semibold text-[var(--text-primary)]">{sectionName}</h2>
+                <span className="text-xs bg-[var(--surface-1)] text-[var(--text-muted)] px-2 py-0.5 rounded-full">{items.length} items</span>
               </div>
             </button>
 
             {/* Section content */}
             {isOpen && (
-              <div className="border-t border-slate-100 px-6 py-4 space-y-4">
+              <div className="border-t border-[var(--surface-border)] px-6 py-4 space-y-4">
                 {items.map((item, idx) => (
-                  <div key={idx} className="flex gap-4 p-4 bg-slate-50 rounded-lg group">
+                  <div key={idx} className="flex gap-4 p-4 bg-[var(--surface-1)] rounded-lg group">
                     {/* Image preview */}
                     {(item.type === 'card' && item.imageSrc !== undefined) && (
                       <div className="shrink-0">
                         <button
                           onClick={() => openImagePicker(sectionName, idx)}
-                          className="w-24 h-24 rounded-lg bg-slate-200 overflow-hidden relative group/img border-2 border-transparent hover:border-blue-500 transition"
+                          className="w-24 h-24 rounded-lg bg-[var(--surface-3)] overflow-hidden relative group/img border-2 border-transparent hover:border-[var(--electric)] transition"
                           title="Click to change image"
                         >
                           {item.imageSrc ? (
                             <img src={item.imageSrc} alt={item.label} className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
-                              <ImageIcon className="w-8 h-8 text-slate-400" />
+                              <ImageIcon className="w-8 h-8 text-[var(--text-muted)]" />
                             </div>
                           )}
                           <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/40 transition flex items-center justify-center opacity-0 group-hover/img:opacity-100">
@@ -359,10 +359,10 @@ export default function PageEditor() {
                       <div className="shrink-0">
                         <button
                           onClick={() => openImagePicker(sectionName, idx, 'video')}
-                          className="w-24 h-24 rounded-lg bg-slate-800 overflow-hidden relative group/vid border-2 border-transparent hover:border-blue-500 transition flex items-center justify-center"
+                          className="w-24 h-24 rounded-lg bg-[var(--surface-3)] overflow-hidden relative group/vid border-2 border-transparent hover:border-[var(--electric)] transition flex items-center justify-center"
                           title="Click to change video"
                         >
-                          <Film className="w-8 h-8 text-slate-400" />
+                          <Film className="w-8 h-8 text-[var(--text-muted)]" />
                           <div className="absolute inset-0 bg-black/0 group-hover/vid:bg-black/40 transition flex items-center justify-center opacity-0 group-hover/vid:opacity-100">
                             <Film className="w-6 h-6 text-white" />
                           </div>
@@ -372,35 +372,35 @@ export default function PageEditor() {
                     {/* Fields */}
                     <div className="flex-1 min-w-0 space-y-2">
                       <div>
-                        <label className="text-xs text-slate-500 flex items-center gap-1">
+                        <label className="text-xs text-[var(--text-secondary)] flex items-center gap-1">
                           <Type className="w-3 h-3" /> Label
                         </label>
                         <input
                           type="text"
                           value={item.label}
                           onChange={e => updateItem(sectionName, idx, 'label', e.target.value)}
-                          className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none mt-1"
+                          className="w-full px-3 py-1.5 bg-[var(--surface-2)] border border-[var(--surface-border)] rounded-lg text-sm text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--electric)] focus:border-[var(--electric)] outline-none mt-1"
                         />
                       </div>
                       <div>
-                        <label className="text-xs text-slate-500">Value / Description</label>
+                        <label className="text-xs text-[var(--text-secondary)]">Value / Description</label>
                         <textarea
                           value={item.value}
                           onChange={e => updateItem(sectionName, idx, 'value', e.target.value)}
                           rows={2}
-                          className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none mt-1 resize-none"
+                          className="w-full px-3 py-1.5 bg-[var(--surface-2)] border border-[var(--surface-border)] rounded-lg text-sm text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--electric)] focus:border-[var(--electric)] outline-none mt-1 resize-none"
                         />
                       </div>
                       {item.imageSrc !== undefined && (
                         <div>
-                          <label className="text-xs text-slate-500 flex items-center gap-1">
+                          <label className="text-xs text-[var(--text-secondary)] flex items-center gap-1">
                             <ImageIcon className="w-3 h-3" /> Image URL
                           </label>
                           <input
                             type="text"
                             value={item.imageSrc || ''}
                             onChange={e => updateItem(sectionName, idx, 'imageSrc', e.target.value)}
-                            className="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none mt-1"
+                            className="w-full px-3 py-1.5 bg-[var(--surface-2)] border border-[var(--surface-border)] rounded-lg text-sm text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--electric)] focus:border-[var(--electric)] outline-none mt-1"
                             placeholder="Click thumbnail or paste URL"
                           />
                         </div>
@@ -409,7 +409,7 @@ export default function PageEditor() {
                     {/* Remove */}
                     <button
                       onClick={() => removeItem(sectionName, idx)}
-                      className="shrink-0 text-slate-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100 self-start mt-1"
+                      className="shrink-0 text-[var(--text-muted)] hover:text-red-400 transition opacity-0 group-hover:opacity-100 self-start mt-1"
                       title="Remove item"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -420,7 +420,7 @@ export default function PageEditor() {
                 {/* Add item */}
                 <button
                   onClick={() => addItem(sectionName)}
-                  className="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-slate-300 rounded-lg text-sm text-slate-500 hover:border-blue-400 hover:text-blue-600 transition"
+                  className="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-[var(--surface-border)] rounded-lg text-sm text-[var(--text-secondary)] hover:border-[var(--electric)] hover:text-[var(--electric-bright)] transition"
                 >
                   <Plus className="w-4 h-4" /> Add Item
                 </button>

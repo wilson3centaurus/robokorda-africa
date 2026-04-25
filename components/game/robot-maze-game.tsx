@@ -54,7 +54,7 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
   const h = ROWS * CELL;
 
   // Background
-  ctx.fillStyle = "#020810";
+  ctx.fillStyle = "#07061a";
   ctx.fillRect(0, 0, w, h);
 
   for (let row = 0; row < ROWS; row++) {
@@ -65,9 +65,9 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
 
       if (cell === 1) {
         // Wall — dark blue with grid lines
-        ctx.fillStyle = "#071428";
+        ctx.fillStyle = "#0d0b24";
         ctx.fillRect(x, y, CELL, CELL);
-        ctx.strokeStyle = "rgba(0,102,255,0.25)";
+        ctx.strokeStyle = "rgba(52,47,197,0.25)";
         ctx.lineWidth = 0.5;
         ctx.strokeRect(x + 0.5, y + 0.5, CELL - 1, CELL - 1);
 
@@ -75,7 +75,7 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
         if ((col + row) % 4 === 0) {
           ctx.beginPath();
           ctx.arc(x + CELL / 2, y + CELL / 2, 2, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(0,102,255,0.35)";
+          ctx.fillStyle = "rgba(52,47,197,0.35)";
           ctx.fill();
         }
       } else if (cell === 2) {
@@ -102,7 +102,7 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
         ctx.fillText("🏁", x + CELL / 2, y + CELL / 2);
       } else {
         // Path — very dark
-        ctx.fillStyle = "#040d1e";
+        ctx.fillStyle = "#07061a";
         ctx.fillRect(x, y, CELL, CELL);
       }
     }
@@ -115,15 +115,15 @@ function drawMaze(ctx: CanvasRenderingContext2D, grid: number[][], robot: Pos, s
 
   // Body glow
   const grd = ctx.createRadialGradient(rx + CELL / 2, ry + CELL / 2, 0, rx + CELL / 2, ry + CELL / 2, CELL);
-  grd.addColorStop(0, "rgba(0,102,255,0.35)");
-  grd.addColorStop(1, "rgba(0,102,255,0)");
+  grd.addColorStop(0, "rgba(52,47,197,0.35)");
+  grd.addColorStop(1, "rgba(52,47,197,0)");
   ctx.beginPath();
   ctx.arc(rx + CELL / 2, ry + CELL / 2, CELL, 0, Math.PI * 2);
   ctx.fillStyle = grd;
   ctx.fill();
 
   // Body
-  ctx.fillStyle = "#0066ff";
+  ctx.fillStyle = "#342FC5";
   ctx.beginPath();
   ctx.roundRect(rx + pad, ry + pad, CELL - pad * 2, CELL - pad * 2, 6);
   ctx.fill();
@@ -228,8 +228,8 @@ export function RobotMazeGame() {
       {/* Header */}
       <div className="flex w-full max-w-[480px] items-center justify-between px-1">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#4d7499]">Level {(level % MAZES.length) + 1}</p>
-          <p className="text-sm font-semibold text-[#7eb8ff]">{maze.name}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-secondary)]">Level {(level % MAZES.length) + 1}</p>
+          <p className="text-sm font-semibold text-[var(--electric-bright)]">{maze.name}</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 rounded-full border border-[rgba(0,229,160,0.25)] bg-[rgba(0,229,160,0.08)] px-3 py-1">
@@ -238,7 +238,7 @@ export function RobotMazeGame() {
           </div>
           <button
             onClick={reset}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] text-[#7eb8ff] hover:bg-[rgba(0,102,255,0.15)] transition"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--electric-subtle)] text-[var(--electric-bright)] hover:bg-[var(--surface-border)] transition"
             style={{ minHeight: "unset", minWidth: "unset" }}
             aria-label="Reset"
           >
@@ -248,7 +248,7 @@ export function RobotMazeGame() {
       </div>
 
       {/* Canvas */}
-      <div className="relative overflow-hidden rounded-xl border border-[rgba(0,102,255,0.3)] shadow-[0_0_40px_rgba(0,102,255,0.15)]">
+      <div className="relative overflow-hidden rounded-xl border border-[var(--surface-border)] shadow-[0_0_40px_var(--electric-glow)]">
         <canvas
           ref={canvasRef}
           width={COLS * CELL}
@@ -262,8 +262,8 @@ export function RobotMazeGame() {
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-[rgba(2,8,16,0.88)] backdrop-blur-sm">
             <div className="text-center">
               <p className="text-4xl">🏆</p>
-              <h3 className="mt-2 text-xl font-bold text-white">Level Complete!</h3>
-              <p className="mt-1 text-sm text-[#8db5d8]">Solved in <span className="font-bold text-[#00e5a0]">{steps}</span> steps</p>
+              <h3 className="mt-2 text-xl font-bold text-[var(--text-primary)]">Level Complete!</h3>
+              <p className="mt-1 text-sm text-[var(--text-secondary)]">Solved in <span className="font-bold text-[#00e5a0]">{steps}</span> steps</p>
               <button
                 onClick={nextLevel}
                 className="btn-primary mt-4"
@@ -279,25 +279,25 @@ export function RobotMazeGame() {
       {/* Mobile D-pad */}
       <div className="grid grid-cols-3 gap-2 sm:hidden">
         <div />
-        <button onClick={() => move(0, -1)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] text-[#7eb8ff] active:bg-[rgba(0,102,255,0.25)]" style={{ minHeight: "unset" }}>
+        <button onClick={() => move(0, -1)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] text-[var(--electric-bright)] active:bg-[var(--surface-border)]" style={{ minHeight: "unset" }}>
           <ChevronUp className="h-6 w-6" />
         </button>
         <div />
-        <button onClick={() => move(-1, 0)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] text-[#7eb8ff] active:bg-[rgba(0,102,255,0.25)]" style={{ minHeight: "unset" }}>
+        <button onClick={() => move(-1, 0)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] text-[var(--electric-bright)] active:bg-[var(--surface-border)]" style={{ minHeight: "unset" }}>
           <ChevronLeft className="h-6 w-6" />
         </button>
-        <button onClick={() => move(0, 1)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] text-[#7eb8ff] active:bg-[rgba(0,102,255,0.25)]" style={{ minHeight: "unset" }}>
+        <button onClick={() => move(0, 1)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] text-[var(--electric-bright)] active:bg-[var(--surface-border)]" style={{ minHeight: "unset" }}>
           <ChevronDown className="h-6 w-6" />
         </button>
-        <button onClick={() => move(1, 0)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] text-[#7eb8ff] active:bg-[rgba(0,102,255,0.25)]" style={{ minHeight: "unset" }}>
+        <button onClick={() => move(1, 0)} className="flex h-12 w-full items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] text-[var(--electric-bright)] active:bg-[var(--surface-border)]" style={{ minHeight: "unset" }}>
           <ChevronRight className="h-6 w-6" />
         </button>
       </div>
 
       {/* Desktop hint */}
-      <p className="hidden text-xs text-[#4d7499] sm:block">
-        Use <kbd className="rounded border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] px-1.5 py-0.5 font-mono text-[10px] text-[#7eb8ff]">↑ ↓ ← →</kbd> or{" "}
-        <kbd className="rounded border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.08)] px-1.5 py-0.5 font-mono text-[10px] text-[#7eb8ff]">W A S D</kbd> to navigate
+      <p className="hidden text-xs text-[var(--text-secondary)] sm:block">
+        Use <kbd className="rounded border border-[var(--surface-border)] bg-[var(--electric-subtle)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--electric-bright)]">↑ ↓ ← →</kbd> or{" "}
+        <kbd className="rounded border border-[var(--surface-border)] bg-[var(--electric-subtle)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--electric-bright)]">W A S D</kbd> to navigate
       </p>
     </div>
   );

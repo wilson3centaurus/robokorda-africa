@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ShopPageClient } from "@/components/shop-page-client";
+import { getComponents } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -8,5 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function ShopPage() {
-  return <ShopPageClient />;
+  const components = getComponents();
+  return <ShopPageClient initialComponents={components} />;
 }

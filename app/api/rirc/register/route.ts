@@ -4,22 +4,32 @@ import { addRircRegistration } from "@/lib/db";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { teamName, school, country, category, teamLead, email, phone, message } = body;
+    const {
+      country, city, category, school, teamName, teamLead,
+      email, whatsapp, members, team_members,
+    } = body;
 
-    if (!teamName || !school || !email || !phone || !teamLead) {
+    if (!teamName || !school || !email || !country || !category) {
       return NextResponse.json({ error: "Required fields missing" }, { status: 400 });
     }
+
+    // Accept both the new `team_members` array or `members` array from the form
+    const membersArr = team_members ?? (members ? members.map((m: { name: string } | string) => typeof m === "string" ? m : m.name) : []);
 
     const registration = addRircRegistration({
       school_name: school,
       team_name: teamName,
-      contact_name: teamLead,
+      contact_name: teamLead || email,
       email,
-      phone,
-      country: country || "Zimbabwe",
-      track: category || "Junior",
-      team_size: body.teamSize || "4",
-      notes: message || "",
+      phone: whatsapp || "",
+      whatsapp: whatsapp || "",
+      country,
+      city: city || "",
+      track: category,
+      category,
+      team_size: String(membersArr.length),
+      team_members: JSON.stringify(membersArr),
+      notes: body.notes || "",
     });
 
     return NextResponse.json({ success: true, id: registration.id });

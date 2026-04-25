@@ -111,15 +111,15 @@ export default function MediaPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-            <ImageIcon className="w-7 h-7 text-purple-600" />
+          <h1 className="text-2xl font-bold text-[var(--text-primary)] flex items-center gap-3">
+            <ImageIcon className="w-7 h-7 text-purple-400" />
             Media Library
           </h1>
-          <p className="text-slate-500 mt-1">{media.length} files &middot; {filtered.length} shown</p>
+          <p className="text-[var(--text-secondary)] mt-1">{media.length} files &middot; {filtered.length} shown</p>
         </div>
         <button
           onClick={() => inputRef.current?.click()}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2"
+          className="bg-[var(--electric)] text-white px-4 py-2 rounded-lg font-medium hover:bg-[var(--electric-bright)] transition flex items-center gap-2"
         >
           <Upload className="w-4 h-4" /> Upload
         </button>
@@ -133,23 +133,23 @@ export default function MediaPage() {
         onDragLeave={() => setDragOver(false)}
         onDrop={handleDrop}
         className={`border-2 border-dashed rounded-xl p-8 text-center transition ${
-          dragOver ? 'border-blue-500 bg-blue-50' : 'border-slate-300 bg-white'
+          dragOver ? 'border-[var(--electric)] bg-[rgba(90,87,200,0.08)]' : 'border-[var(--surface-border)] bg-[var(--surface-1)]'
         }`}
       >
         {uploading ? (
           <div className="flex items-center justify-center gap-3">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600" />
-            <span className="text-slate-600">Uploading...</span>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--electric-bright)]" />
+            <span className="text-[var(--text-secondary)]">Uploading...</span>
           </div>
         ) : (
           <>
-            <Upload className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-            <p className="text-slate-600 font-medium">Drag and drop files here</p>
-            <p className="text-sm text-slate-400 mt-1">or click Upload &middot; Images and videos up to 10MB</p>
+            <Upload className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-3" />
+            <p className="text-[var(--text-secondary)] font-medium">Drag and drop files here</p>
+            <p className="text-sm text-[var(--text-muted)] mt-1">or click Upload &middot; Images and videos up to 10MB</p>
             <div className="flex items-center justify-center gap-2 mt-4">
-              <label className="text-sm text-slate-500">Category:</label>
+              <label className="text-sm text-[var(--text-secondary)]">Category:</label>
               <select value={uploadCat} onChange={e => setUploadCat(e.target.value)}
-                className="text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white">
+                className="text-sm bg-[var(--surface-1)] border border-[var(--surface-border)] text-[var(--text-primary)] rounded-lg px-3 py-1.5">
                 {['general','hero','courses','gallery','products','partners','rirc','prime-book'].map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
@@ -162,21 +162,21 @@ export default function MediaPage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
           <input type="text" placeholder="Search files..." value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+            className="w-full pl-10 pr-4 py-2 bg-[var(--surface-1)] border border-[var(--surface-border)] text-[var(--text-primary)] rounded-lg text-sm placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-[var(--electric)] focus:border-[var(--electric)] outline-none" />
         </div>
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-400" />
+          <Filter className="w-4 h-4 text-[var(--text-muted)]" />
           <select value={typeFilter} onChange={e => setTypeFilter(e.target.value as 'all' | 'image' | 'video')}
-            className="text-sm border border-slate-300 rounded-lg px-3 py-2 bg-white">
+            className="text-sm bg-[var(--surface-1)] border border-[var(--surface-border)] text-[var(--text-primary)] rounded-lg px-3 py-2">
             <option value="all">All Types</option>
             <option value="image">Images</option>
             <option value="video">Videos</option>
           </select>
           <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
-            className="text-sm border border-slate-300 rounded-lg px-3 py-2 bg-white">
+            className="text-sm bg-[var(--surface-1)] border border-[var(--surface-border)] text-[var(--text-primary)] rounded-lg px-3 py-2">
             {cats.map(c => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}
           </select>
         </div>
@@ -185,48 +185,48 @@ export default function MediaPage() {
       {/* Grid */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--electric-bright)]" />
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
-          <FolderOpen className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-          <p className="text-slate-500 font-medium">No media files found</p>
-          <p className="text-sm text-slate-400 mt-1">Upload some images or videos to get started</p>
+        <div className="bg-[var(--surface-2)] rounded-xl border border-[var(--surface-border)] p-12 text-center">
+          <FolderOpen className="w-12 h-12 text-[var(--text-muted)] mx-auto mb-3" />
+          <p className="text-[var(--text-secondary)] font-medium">No media files found</p>
+          <p className="text-sm text-[var(--text-muted)] mt-1">Upload some images or videos to get started</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {filtered.map(file => (
             <div
               key={file.path}
-              className={`group bg-white rounded-xl border overflow-hidden cursor-pointer transition hover:shadow-md ${
-                selected?.path === file.path ? 'border-blue-500 ring-2 ring-blue-200' : 'border-slate-200'
+              className={`group bg-[var(--surface-2)] rounded-xl border overflow-hidden cursor-pointer transition hover:shadow-md ${
+                selected?.path === file.path ? 'border-[var(--electric)] ring-2 ring-[rgba(90,87,200,0.25)]' : 'border-[var(--surface-border)]'
               }`}
               onClick={() => setSelected(selected?.path === file.path ? null : file)}
             >
-              <div className="aspect-square bg-slate-100 relative overflow-hidden">
+              <div className="aspect-square bg-[var(--surface-3)] relative overflow-hidden">
                 {file.type === 'image' ? (
                   <img src={file.path} alt={file.name} className="w-full h-full object-cover" loading="lazy" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                    <Film className="w-10 h-10 text-slate-400" />
+                  <div className="w-full h-full flex items-center justify-center bg-[var(--surface-3)]">
+                    <Film className="w-10 h-10 text-[var(--text-muted)]" />
                   </div>
                 )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
                   <button onClick={e => { e.stopPropagation(); copyUrl(file.path); }}
-                    className="w-9 h-9 bg-white rounded-lg flex items-center justify-center text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition" title="Copy URL">
-                    {copied === file.path ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                    className="w-9 h-9 bg-[var(--surface-2)] rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:bg-[rgba(90,87,200,0.12)] hover:text-[var(--electric-bright)] transition" title="Copy URL">
+                    {copied === file.path ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                   </button>
                   {file.category === 'uploads' && (
                     <button onClick={e => { e.stopPropagation(); handleDelete(file.path); }}
-                      className="w-9 h-9 bg-white rounded-lg flex items-center justify-center text-slate-700 hover:bg-red-50 hover:text-red-600 transition" title="Delete">
+                      className="w-9 h-9 bg-[var(--surface-2)] rounded-lg flex items-center justify-center text-[var(--text-secondary)] hover:bg-red-950/40 hover:text-red-400 transition" title="Delete">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   )}
                 </div>
               </div>
               <div className="p-2">
-                <p className="text-xs font-medium text-slate-700 truncate">{file.name}</p>
-                <p className="text-xs text-slate-400">{fmtSize(file.size)}</p>
+                <p className="text-xs font-medium text-[var(--text-primary)] truncate">{file.name}</p>
+                <p className="text-xs text-[var(--text-muted)]">{fmtSize(file.size)}</p>
               </div>
             </div>
           ))}
@@ -235,15 +235,15 @@ export default function MediaPage() {
 
       {/* Detail panel */}
       {selected && (
-        <div className="fixed inset-y-0 right-0 w-80 bg-white border-l border-slate-200 shadow-xl z-50 overflow-y-auto">
+        <div className="fixed inset-y-0 right-0 w-80 bg-[var(--surface-2)] border-l border-[var(--surface-border)] shadow-xl z-50 overflow-y-auto">
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-slate-900">File Details</h3>
-              <button onClick={() => setSelected(null)} className="text-slate-400 hover:text-slate-600">
+              <h3 className="font-semibold text-[var(--text-primary)]">File Details</h3>
+              <button onClick={() => setSelected(null)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="aspect-square bg-slate-100 rounded-lg overflow-hidden mb-4">
+            <div className="aspect-square bg-[var(--surface-3)] rounded-lg overflow-hidden mb-4">
               {selected.type === 'image' ? (
                 <img src={selected.path} alt={selected.name} className="w-full h-full object-contain" />
               ) : (
@@ -251,23 +251,23 @@ export default function MediaPage() {
               )}
             </div>
             <div className="space-y-3 text-sm">
-              <div><label className="text-slate-500">Name</label><p className="font-medium text-slate-900">{selected.name}</p></div>
+              <div><label className="text-[var(--text-muted)]">Name</label><p className="font-medium text-[var(--text-primary)]">{selected.name}</p></div>
               <div>
-                <label className="text-slate-500">Path</label>
+                <label className="text-[var(--text-muted)]">Path</label>
                 <div className="flex items-center gap-2 mt-1">
-                  <code className="bg-slate-100 px-2 py-1 rounded text-xs flex-1 break-all">{selected.path}</code>
-                  <button onClick={() => copyUrl(selected.path)} className="text-slate-400 hover:text-blue-600">
-                    {copied === selected.path ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                  <code className="bg-[var(--surface-1)] text-[var(--text-secondary)] px-2 py-1 rounded text-xs flex-1 break-all">{selected.path}</code>
+                  <button onClick={() => copyUrl(selected.path)} className="text-[var(--text-muted)] hover:text-[var(--electric-bright)]">
+                    {copied === selected.path ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
-              <div><label className="text-slate-500">Size</label><p className="font-medium text-slate-900">{fmtSize(selected.size)}</p></div>
-              <div><label className="text-slate-500">Category</label><p className="font-medium text-slate-900 capitalize">{selected.category}</p></div>
-              <div><label className="text-slate-500">Type</label><p className="font-medium text-slate-900 capitalize">{selected.type}</p></div>
-              <div><label className="text-slate-500">Modified</label><p className="font-medium text-slate-900">{new Date(selected.modified).toLocaleDateString()}</p></div>
+              <div><label className="text-[var(--text-muted)]">Size</label><p className="font-medium text-[var(--text-primary)]">{fmtSize(selected.size)}</p></div>
+              <div><label className="text-[var(--text-muted)]">Category</label><p className="font-medium text-[var(--text-primary)] capitalize">{selected.category}</p></div>
+              <div><label className="text-[var(--text-muted)]">Type</label><p className="font-medium text-[var(--text-primary)] capitalize">{selected.type}</p></div>
+              <div><label className="text-[var(--text-muted)]">Modified</label><p className="font-medium text-[var(--text-primary)]">{new Date(selected.modified).toLocaleDateString()}</p></div>
               {selected.category === 'uploads' && (
                 <button onClick={() => handleDelete(selected.path)}
-                  className="w-full bg-red-50 text-red-600 py-2 rounded-lg text-sm font-medium hover:bg-red-100 transition flex items-center justify-center gap-2 mt-4">
+                  className="w-full bg-red-950/30 text-red-400 py-2 rounded-lg text-sm font-medium hover:bg-red-950/50 transition flex items-center justify-center gap-2 mt-4">
                   <Trash2 className="w-4 h-4" /> Delete File
                 </button>
               )}

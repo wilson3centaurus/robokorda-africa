@@ -43,6 +43,9 @@ export function PlaceholderMedia({
 }: PlaceholderMediaProps) {
   const isVideo = mode === "hero" || mode === "video" || mode === "wide";
   const Icon = isVideo ? PlayCircle : Camera;
+  // If a real imageUrl is provided, always render it cleanly (no grayscale/overlay/label)
+  const hasRealImage = !!imageUrl;
+  const isClean = clean || hasRealImage;
   const fallbackUrl = imageUrl ?? `https://picsum.photos/seed/${seed}/1400/1000`;
 
   // When fill=true (hero background) we don't set aspect-ratio — the container
@@ -53,9 +56,9 @@ export function PlaceholderMedia({
     <div
       className={cn(
         "group relative isolate overflow-hidden",
-        fill ? "" : "rounded-2xl border border-[rgba(38,133,255,0.18)]",
-        videoUrl ? "" : "diagonal-stripes",
-        "bg-[linear-gradient(145deg,#040d1e,#071428)]",
+        fill ? "" : "rounded-2xl border border-[var(--surface-border)]",
+        videoUrl ? "" : !isClean ? "diagonal-stripes" : "",
+        "bg-[var(--surface-1)]",
         className,
       )}
       style={style}
@@ -82,29 +85,29 @@ export function PlaceholderMedia({
           src={fallbackUrl}
           alt=""
           fill
-          unoptimized={clean || fallbackUrl.startsWith("/")}
+          unoptimized={isClean || fallbackUrl.startsWith("/")}
           sizes="(min-width: 1280px) 1200px, (min-width: 768px) 80vw, 100vw"
           className={cn(
             "absolute inset-0 h-full w-full transition duration-500 group-hover:scale-[1.04]",
             objectFit === "contain" ? "object-contain" : "object-cover",
-            clean ? "" : "opacity-30 grayscale contrast-125 saturate-0",
+            isClean ? "" : "opacity-30 grayscale contrast-125 saturate-0",
           )}
           style={{ objectPosition }}
         />
       )}
-      {!videoUrl && !clean ? (
+      {!videoUrl && !isClean ? (
         <>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,102,255,0.12),transparent_36%),linear-gradient(180deg,rgba(2,8,16,0.2),rgba(2,8,16,0.45))]" />
-          <div className="absolute inset-[12px] rounded-xl border border-[rgba(0,102,255,0.14)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(52,47,197,0.12),transparent_36%),linear-gradient(180deg,rgba(2,8,16,0.2),rgba(2,8,16,0.45))]" />
+          <div className="absolute inset-[12px] rounded-xl border border-[rgba(52,47,197,0.14)]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center text-white">
             {children ? (
               children
             ) : (
               <>
-                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[rgba(0,102,255,0.3)] bg-[rgba(0,102,255,0.1)] shadow-[0_0_20px_rgba(0,102,255,0.2)]">
-                  <Icon className="h-7 w-7 text-[#7eb8ff]" aria-hidden="true" />
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--electric-subtle)] shadow-[0_0_20px_var(--electric-glow)]">
+                  <Icon className="h-7 w-7 text-[var(--electric-bright)]" aria-hidden="true" />
                 </span>
-                <p className="max-w-xs text-[10px] font-semibold uppercase tracking-[0.24em] text-[#4d7499]">
+                <p className="max-w-xs text-[10px] font-semibold uppercase tracking-[0.24em] text-[var(--text-muted)]">
                   {label}
                 </p>
               </>

@@ -46,24 +46,24 @@ export default function ImagePicker({ open, onClose, onSelect, mediaType = 'imag
 
   return (
     <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+      <div className="bg-[var(--surface-2)] rounded-2xl shadow-2xl w-full max-w-4xl max-h-[80vh] flex flex-col border border-[var(--surface-border)]" onClick={e => e.stopPropagation()}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
-          <h2 className="text-lg font-semibold text-slate-900">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--surface-border)]">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
             Select {mediaType === 'video' ? 'Video' : 'Image'}
           </h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
+          <button onClick={onClose} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Search */}
-        <div className="px-6 py-3 border-b border-slate-100">
+        <div className="px-6 py-3 border-b border-[var(--surface-border)]">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
             <input type="text" placeholder="Search media..." value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+              className="w-full pl-10 pr-4 py-2 bg-[var(--surface-1)] border border-[var(--surface-border)] rounded-lg text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-[var(--electric)] focus:border-[var(--electric)] outline-none" />
           </div>
         </div>
 
@@ -71,12 +71,12 @@ export default function ImagePicker({ open, onClose, onSelect, mediaType = 'imag
         <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--electric-bright)]" />
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-12">
-              <Upload className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-              <p className="text-slate-500">No media found. Upload files in the Media Library first.</p>
+              <Upload className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-2" />
+              <p className="text-[var(--text-secondary)]">No media found. Upload files in the Media Library first.</p>
             </div>
           ) : (
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
@@ -86,19 +86,19 @@ export default function ImagePicker({ open, onClose, onSelect, mediaType = 'imag
                   onClick={() => setSelected(file.path)}
                   className={`relative aspect-square rounded-lg overflow-hidden border-2 transition ${
                     selected === file.path
-                      ? 'border-blue-500 ring-2 ring-blue-200'
-                      : 'border-transparent hover:border-slate-300'
+                      ? 'border-[var(--electric)] ring-2 ring-[rgba(90,87,200,0.25)]'
+                      : 'border-transparent hover:border-[var(--surface-border)]'
                   }`}
                 >
                   {file.type === 'image' ? (
                     <img src={file.path} alt={file.name} className="w-full h-full object-cover" loading="lazy" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                      <Film className="w-8 h-8 text-slate-400" />
+                    <div className="w-full h-full flex items-center justify-center bg-[var(--surface-3)]">
+                      <Film className="w-8 h-8 text-[var(--text-muted)]" />
                     </div>
                   )}
                   {selected === file.path && (
-                    <div className="absolute top-1 right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                    <div className="absolute top-1 right-1 w-6 h-6 bg-[var(--electric)] rounded-full flex items-center justify-center">
                       <Check className="w-4 h-4 text-white" />
                     </div>
                   )}
@@ -112,15 +112,15 @@ export default function ImagePicker({ open, onClose, onSelect, mediaType = 'imag
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200">
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[var(--surface-border)]">
           <button onClick={onClose}
-            className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900 transition">
+            className="px-4 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
             Cancel
           </button>
           <button
             disabled={!selected}
             onClick={() => { if (selected) { onSelect(selected); onClose(); } }}
-            className="px-6 py-2 bg-blue-600 text-white text-sm rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="px-6 py-2 bg-[var(--electric)] text-white text-sm rounded-lg font-medium hover:bg-[var(--electric-bright)] disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             Select
           </button>

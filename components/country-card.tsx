@@ -12,7 +12,7 @@ export function CountryCard({ country }: { country: CountryEntry }) {
         className="mx-auto h-auto w-full max-w-[320px]"
         unoptimized
       />
-      <p className="mt-4 text-base font-semibold text-white">
+      <p className="mt-4 text-base font-semibold text-[var(--text-primary)]">
         {country.name}
       </p>
     </article>

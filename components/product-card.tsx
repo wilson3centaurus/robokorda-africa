@@ -19,58 +19,56 @@ export function ProductCard({ product }: { product: Product }) {
   }, [added]);
 
   return (
-    <div className="flex h-full flex-col gap-5 rounded-2xl border border-[rgba(0,102,255,0.18)] bg-[rgba(7,20,40,0.8)] p-5 transition-colors hover:border-[rgba(0,102,255,0.3)]">
+    <div className="flex h-full flex-col gap-4 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)] p-4 transition-colors hover:border-[var(--electric)]">
       <PlaceholderMedia
         mode="product"
         label={`${product.name} Product Placeholder`}
         seed={product.seed}
         imageUrl={product.imageSrc}
       />
-      <div className="space-y-3">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#0066ff]">
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">
             {product.category}
           </p>
           {product.badge && (
-            <span className="rounded-full border border-[rgba(0,229,160,0.3)] bg-[rgba(0,229,160,0.08)] px-3 py-1 text-[10px] font-bold text-[#00e5a0]">
+            <span className="rounded-full border border-[rgba(0,229,160,0.3)] bg-[rgba(0,229,160,0.08)] px-2.5 py-0.5 text-[9px] font-bold text-[#00e5a0]">
               {product.badge}
             </span>
           )}
         </div>
-        <h3 className="text-lg font-bold text-white">{product.name}</h3>
-        <p className="text-sm leading-6 text-[#4d7499]">{product.shortDescription}</p>
+        <h3 className="text-base font-bold text-[var(--text-primary)] leading-tight"> {product.name}</h3>
+        <p className="text-[13px] leading-snug text-[var(--text-secondary)]">{product.shortDescription}</p>
         <div className="flex flex-wrap gap-1.5">
           {product.features.map((feature) => (
             <span
               key={feature}
-              className="rounded-full border border-[rgba(0,102,255,0.2)] bg-[rgba(0,102,255,0.06)] px-2.5 py-1 text-[10px] font-medium text-[#7eb8ff]"
+              className="rounded-full border border-[var(--surface-border-subtle)] bg-[var(--electric-subtle)] px-2 py-[3px] text-[9px] font-medium text-[var(--electric-bright)]"
             >
               {feature}
             </span>
           ))}
         </div>
       </div>
-      <div className="mt-auto space-y-4">
-        <div className="flex items-end justify-between gap-4">
+      <div className="mt-auto space-y-3">
+        <div className="flex items-end justify-between gap-3">
           <div>
             <div className="flex items-center gap-0.5 text-amber-400">
               {Array.from({ length: 5 }).map((_, index) => (
                 <Star
                   key={`${product.id}-star-${index}`}
-                  className="h-3.5 w-3.5"
+                  className="h-3 w-3"
                   fill={index < Math.round(product.rating) ? "currentColor" : "none"}
                 />
               ))}
-              <span className="ml-2 text-xs text-[#4d7499]">
+              <span className="ml-1.5 text-[11px] text-[var(--text-muted)]">
                 {product.rating.toFixed(1)} ({product.reviews})
               </span>
             </div>
-            <div className="mt-3 flex items-center gap-3">
-              <span className="text-2xl font-bold text-white">
-                {formatCurrency(product.price)}
-              </span>
+            <div className="mt-2 text-xl font-bold text-[var(--text-primary)] flex items-center gap-2">
+              {formatCurrency(product.price)}
               {product.compareAt && (
-                <span className="text-sm text-[#2a4d80] line-through">
+                <span className="text-xs text-[var(--text-muted)] line-through font-medium">
                   {formatCurrency(product.compareAt)}
                 </span>
               )}
@@ -84,19 +82,19 @@ export function ProductCard({ product }: { product: Product }) {
           onClick={() => { addItem(product, 1); setAdded(true); }}
           className={
             added
-              ? "inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(0,229,160,0.4)] bg-[rgba(0,229,160,0.08)] px-5 py-3 text-sm font-semibold text-[#00e5a0] transition"
-              : "inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0066ff] px-5 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(0,102,255,0.35)] transition hover:bg-[#0052cc]"
+              ? "inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[rgba(0,229,160,0.4)] bg-[rgba(0,229,160,0.08)] px-4 py-2.5 text-xs font-semibold text-[#00e5a0] transition"
+              : "btn-primary inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition"
           }
         >
           {added ? (
             <>
-              <Check className="h-4 w-4" aria-hidden="true" />
-              Added to cart
+              <Check className="h-3.5 w-3.5" aria-hidden="true" />
+              Added
             </>
           ) : (
             <>
-              <ShoppingCart className="h-4 w-4" aria-hidden="true" />
-              Add to Cart
+              <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
+              Add
             </>
           )}
         </motion.button>

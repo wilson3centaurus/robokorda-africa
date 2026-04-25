@@ -99,7 +99,7 @@ export function HeroBanner({
       id={id}
       className={cn(
         "section-anchor relative -mt-20 overflow-hidden lg:-mt-24",
-        "bg-[#020810]",
+        "bg-background",
         minHeightClassName,
       )}
     >
@@ -118,21 +118,21 @@ export function HeroBanner({
         <div className="hero-overlay absolute inset-0" />
       )}
       {mediaVideoUrl && (
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(2,8,16,0.65)] via-transparent to-[rgba(2,8,16,0.85)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/80" />
       )}
 
       {/* Circuit grid decoration */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,102,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,102,255,1) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(52,47,197,1) 1px, transparent 1px), linear-gradient(90deg, rgba(52,47,197,1) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
       />
 
       {/* Content */}
       <div className="relative z-10 flex min-h-[inherit] items-center">
-        <div className="section-shell w-full pb-20 pt-28 sm:pb-24 sm:pt-36 lg:pt-40">
+        <div className="section-shell w-full pb-12 pt-20 sm:pb-24 sm:pt-36 lg:pt-40">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
 
             {/* Left — headline */}
@@ -140,7 +140,7 @@ export function HeroBanner({
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-white"
+              className="text-[var(--text-primary)]"
             >
               {badge && (
                 <div className="badge-pill mb-5 w-fit">
@@ -149,11 +149,11 @@ export function HeroBanner({
                 </div>
               )}
 
-              <h1 className="text-[2.2rem] font-bold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-[4.8rem] lg:leading-[0.95]">
+              <h1 className="text-[1.8rem] font-bold leading-[1.1] tracking-tight text-balance sm:text-5xl lg:text-[4.8rem] lg:leading-[0.95] text-[var(--text-primary)]">
                 {title}
               </h1>
 
-              <p className="mt-5 max-w-xl text-[0.95rem] leading-7 text-[rgba(200,225,255,0.78)] sm:text-lg sm:leading-8">
+              <p className="mt-5 max-w-xl text-[0.95rem] leading-7 text-[var(--text-secondary)] sm:text-lg sm:leading-8">
                 {description}
               </p>
 
@@ -163,7 +163,7 @@ export function HeroBanner({
                   className={cn(
                     "btn-primary",
                     whiteActions
-                      ? "!border-white !bg-white !text-[#0052cc] hover:!bg-[#e8f0fd]"
+                      ? "!border-white !bg-white !text-[#342FC5] hover:!bg-[#e8eaff]"
                       : "",
                   )}
                 >
@@ -208,12 +208,12 @@ export function HeroBanner({
               {stats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-xl border border-[rgba(0,102,255,0.25)] bg-[rgba(4,13,30,0.65)] p-4 frosted sm:p-5"
+                  className="rounded-xl border border-[var(--surface-border)] bg-[var(--card)] p-4 frosted sm:p-5"
                 >
-                  <p className="text-2xl font-bold text-white sm:text-3xl">
+                  <p className="text-2xl font-bold text-[var(--text-primary)] sm:text-3xl">
                     <CountUpStatValue value={stat.value} />
                   </p>
-                  <p className="mt-1.5 text-xs font-medium text-[#4d7499] sm:text-sm">
+                  <p className="mt-1.5 text-xs font-medium text-[var(--text-secondary)] sm:text-sm">
                     {stat.label}
                   </p>
                 </div>
