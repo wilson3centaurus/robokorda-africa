@@ -101,7 +101,8 @@ export function HeroBanner({
       id={id}
       className={cn(
         "section-anchor relative overflow-hidden bg-background",
-        compact ? "py-8 lg:py-12" : ["-mt-20 lg:-mt-24", minHeightClassName],
+        compact ? "py-8 lg:py-12" : "-mt-20 lg:-mt-24",
+        !compact && minHeightClassName,
       )}
     >
       {/* Full-bleed background — no aspect-ratio constraint */}
