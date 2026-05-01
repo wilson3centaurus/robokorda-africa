@@ -23,7 +23,7 @@ import {
   skills, whyUs,
 } from "@/data/home";
 import type { GalleryItem } from "@/data/site";
-import { contactLocations, shopProducts } from "@/data/site";
+import { shopProducts } from "@/data/site";
 import { getSiteSettings, getGalleryPhotos } from "@/lib/settings";
 import { getCourses } from "@/lib/db";
 import { getPageContent } from "@/lib/page-content";
@@ -76,13 +76,7 @@ export default async function HomePage() {
 
   const homeVideoUrl = settings.video_url_home || undefined;
 
-  const liveContactLocations = contactLocations.map((loc) => ({
-    ...loc,
-    addressLines: [
-      ...settings.address_zw.split(", "),
-      `Phone: ${settings.contact_phone_zw}`,
-    ],
-  }));
+
 
   return (
     <>
@@ -336,21 +330,10 @@ export default async function HomePage() {
             <SectionHeader
               eyebrow="Contact Us"
               title="Get in touch about programmes, competitions, devices, or partnerships."
-              description="Reach out to our South Africa or Zimbabwe hub — we'll reply quickly."
+              description="Reach out to our contact information or offices — we'll reply quickly."
             />
           </Reveal>
-          <div className="mt-10 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {liveContactLocations.map((location, index) => (
-                <Reveal key={location.title} delay={index * 0.05}>
-                  <ContactCard location={location} />
-                </Reveal>
-              ))}
-            </div>
-            <Reveal delay={0.08}>
-              <ContactForm />
-            </Reveal>
-          </div>
+        
         </div>
       </section>
 

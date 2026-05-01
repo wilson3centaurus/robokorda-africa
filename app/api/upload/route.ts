@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import path from "path";
 import { isValidAdminSession } from "@/lib/db";
+import { saveUploadedFile } from "@/lib/admin/content-manager";
 import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
@@ -13,25 +12,17 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await req.formData();
-    const file: File | null = data.get("file") as unknown as File;
+    const file = data.get("file") as File | null;
+    const category = (data.get("category") as string) || "general";
 
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Create a safe unique filename avoiding collisions
-    const ext = path.extname(file.name) || ".png";
-    const filename = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-    await writeFile(path.join(uploadDir, filename), buffer);
-
-    // Return the public URL
-    return NextResponse.json({ url: `/uploads/${filename}` });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    const url = await saveUploadedFile(file, category);
+    return NextResponse.json({ url });
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Upload failed";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

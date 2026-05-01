@@ -125,19 +125,6 @@ export const navItems: NavItem[] = [
   { label: "Shop", href: "/shop" },
 ];
 
-export const contactLocations: ContactLocation[] = [
-  {
-    title: "Zimbabwe Hub",
-    addressLines: [
-      "16 Mahogany Avenue",
-      "Rhodene, Masvingo",
-      "Zimbabwe",
-    ],
-    detail:
-      "Regional support, RIRC coordination, competition teams, and parent programme enquiries.",
-    icon: MapPin,
-  },
-];
 
 export const footerHighlights = [
   {

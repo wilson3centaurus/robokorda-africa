@@ -81,7 +81,7 @@ export function ContactForm() {
                   value={form.fullName}
                   onChange={(e) => setForm((s) => ({ ...s, fullName: e.target.value }))}
                   className="w-full rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-4 py-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition focus:border-[var(--electric)] focus:ring-1 focus:ring-[var(--electric-glow)]"
-                  placeholder="John Doe"
+                  placeholder="Capo De Santa"
                 />
               </label>
               <label className="space-y-1.5">

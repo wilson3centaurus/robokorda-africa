@@ -1,11 +1,37 @@
 -- ============================================================
--- Robokorda Africa — robokorda schema migration
--- Run this once in your Supabase SQL editor.
--- Uses a dedicated schema so it never conflicts with other
--- apps sharing the same Supabase project.
+-- Robokorda Africa — robokorda schema migration v2
+-- Run this in your Supabase SQL editor (Table Editor → SQL).
+--
+-- IMPORTANT — before running this, you must expose the schema
+-- to PostgREST.  In your self-hosted docker-compose.yml, find
+-- the `rest` service and add robokorda to PGRST_DB_SCHEMAS:
+--
+--   environment:
+--     PGRST_DB_SCHEMAS: "public,graphql_public,robokorda"
+--
+-- Then restart the rest container:
+--   docker compose restart rest
+--
+-- After that, run this SQL and then run the seed script.
 -- ============================================================
 
 CREATE SCHEMA IF NOT EXISTS robokorda;
+
+-- ─── Grant all roles access to the schema ────────────────────────────────────
+-- PostgREST uses the anon/authenticated/service_role postgres roles.
+-- Even though service_role bypasses RLS, it still needs USAGE on a custom schema.
+
+GRANT USAGE ON SCHEMA robokorda TO anon, authenticated, service_role;
+
+GRANT ALL ON ALL TABLES    IN SCHEMA robokorda TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role;
+GRANT ALL ON ALL ROUTINES  IN SCHEMA robokorda TO anon, authenticated, service_role;
+
+-- Auto-grant for any future tables created in the schema
+ALTER DEFAULT PRIVILEGES IN SCHEMA robokorda
+  GRANT ALL ON TABLES    TO anon, authenticated, service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA robokorda
+  GRANT ALL ON SEQUENCES TO anon, authenticated, service_role;
 
 -- ─── Settings (key-value store) ──────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS robokorda.settings (
@@ -146,8 +172,6 @@ CREATE TABLE IF NOT EXISTS robokorda.page_content (
 );
 
 -- ─── Admins ───────────────────────────────────────────────────────────────────
--- Password is SHA-256 hex of the plain-text password (same as lib/admin/auth.ts).
--- The env var ADMIN_PASSWORD is still the primary source; this table is the fallback.
 CREATE TABLE IF NOT EXISTS robokorda.admins (
   id            SERIAL PRIMARY KEY,
   username      TEXT NOT NULL UNIQUE,
@@ -155,48 +179,25 @@ CREATE TABLE IF NOT EXISTS robokorda.admins (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ─── Storage bucket ───────────────────────────────────────────────────────────
--- One public bucket for the entire Robokorda site.
-INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-VALUES (
-  'robokorda',
-  'robokorda',
-  true,
-  10485760,  -- 10 MB
-  ARRAY[
-    'image/jpeg','image/png','image/webp','image/gif','image/svg+xml',
-    'video/mp4','video/webm','video/quicktime',
-    'application/pdf'
-  ]
-)
-ON CONFLICT (id) DO NOTHING;
-
--- Allow anyone to read public objects (the bucket is already public, this covers the API)
-CREATE POLICY "robokorda public read"
-  ON storage.objects FOR SELECT
-  USING (bucket_id = 'robokorda');
-
--- Only authenticated service-role uploads are allowed (server-side only)
-CREATE POLICY "robokorda service upload"
-  ON storage.objects FOR INSERT
-  WITH CHECK (bucket_id = 'robokorda');
-
-CREATE POLICY "robokorda service delete"
-  ON storage.objects FOR DELETE
-  USING (bucket_id = 'robokorda');
+-- ─── Re-grant after table creation ───────────────────────────────────────────
+GRANT ALL ON ALL TABLES    IN SCHEMA robokorda TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role;
 
 -- ─── Row-Level Security ───────────────────────────────────────────────────────
--- All DB access goes through Next.js API routes using the service role key,
--- which bypasses RLS.  Enable RLS anyway so the anon key has no direct access.
+-- All server-side DB access uses the service role key which BYPASSES RLS.
+-- Enable RLS so the anon key never has direct table access without a policy.
 
-ALTER TABLE robokorda.settings           ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.gallery            ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.rirc_registrations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.settings            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.gallery             ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.rirc_registrations  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE robokorda.component_inquiries ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.course_inquiries   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.course_inquiries    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE robokorda.primebook_inquiries ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.contact_messages   ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.components         ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.courses            ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.page_content       ENABLE ROW LEVEL SECURITY;
-ALTER TABLE robokorda.admins             ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.contact_messages    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.components          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.courses             ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.page_content        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE robokorda.admins              ENABLE ROW LEVEL SECURITY;
+
+-- NOTE: Storage bucket creation is done separately via the script:
+--   node --env-file=.env.local scripts/setup-supabase.mjs

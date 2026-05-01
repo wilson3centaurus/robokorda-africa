@@ -45,22 +45,7 @@ export async function Footer() {
               Preparing the next generation of African innovators through structured robotics, coding, and STEAM education that builds real skills and lasting confidence.
             </p>
 
-            {/* Locations */}
-            <div>
-              <div className="rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] p-4 hover:border-[var(--electric)] transition duration-300">
-                <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--electric)]">Zimbabwe Hub</p>
-                <div className="space-y-2 text-xs text-[var(--text-secondary)]">
-                  <div className="flex items-start gap-2.5">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--text-muted)]" />
-                    <span className="leading-snug">{settings.address_zw}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Phone className="h-4 w-4 shrink-0 text-[var(--text-muted)]" />
-                    <a href={`tel:${settings.contact_phone_zw}`} className="hover:text-[var(--text-primary)] transition-colors">{settings.contact_phone_zw}</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+           
 
             <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--surface-border)] bg-[var(--surface-3)] px-4 py-2 hover:bg-[var(--surface-2)] transition-all">
               <Mail className="h-4 w-4 text-[var(--text-muted)]" />
@@ -86,7 +71,6 @@ export async function Footer() {
                     {item.label}
                   </Link>
                 ))}
-                <Link href="/cart" className="inline-block transition-transform hover:-translate-y-0.5 hover:text-[var(--text-primary)] pb-3">Cart</Link>
               </div>
             </div>
 

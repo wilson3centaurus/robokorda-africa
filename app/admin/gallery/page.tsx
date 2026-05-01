@@ -54,16 +54,26 @@ export default function GalleryAdminPage() {
 
   async function save() {
     setSaving(true);
-    await fetch("/api/admin/gallery", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editId ? { ...form, id: editId } : form),
-    });
-    setSaving(false);
-    setShowForm(false);
-    setEditId(null);
-    setForm(empty);
-    load();
+    try {
+      const r = await fetch("/api/admin/gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editId ? { ...form, id: editId } : form),
+      });
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}));
+        alert(`Save failed: ${d.error || r.status}`);
+        return;
+      }
+      setShowForm(false);
+      setEditId(null);
+      setForm(empty);
+      load();
+    } catch (e: unknown) {
+      alert(`Save failed: ${e instanceof Error ? e.message : "Network error"}`);
+    } finally {
+      setSaving(false);
+    }
   }
 
   async function remove(id: string) {

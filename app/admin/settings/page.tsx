@@ -179,25 +179,40 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/settings")
       .then((r) => r.json())
-      .then((d) => { setSettings(d); setLoading(false); })
+      .then((d) => {
+        if (d && typeof d === "object" && !d.error) setSettings(d);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, []);
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    await fetch("/api/admin/settings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(settings),
-    });
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+    setSaveError(null);
+    try {
+      const r = await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+      });
+      const d = await r.json();
+      if (!r.ok || d.error) {
+        setSaveError(d.error || `Server error ${r.status}`);
+      } else {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2500);
+      }
+    } catch (e: unknown) {
+      setSaveError(e instanceof Error ? e.message : "Network error");
+    } finally {
+      setSaving(false);
+    }
   }
 
   if (loading) {
@@ -357,7 +372,12 @@ export default function SettingsPage() {
             </div>
           ))}
 
-          <div className="sticky bottom-4 flex justify-end pb-4">
+          <div className="sticky bottom-4 flex flex-col items-end gap-2 pb-4">
+            {saveError && (
+              <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400">
+                ❌ {saveError}
+              </p>
+            )}
             <button
               type="submit"
               disabled={saving}
