@@ -17,7 +17,7 @@ const initialState: FormState = {
   email: "",
   organisation: "",
   phone: "",
-  interest: "School programme",
+  interest: "School Programme",
   message: "",
 };
 
@@ -111,7 +111,7 @@ export function ContactForm() {
                   value={form.phone}
                   onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
                   className="w-full rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-4 py-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition focus:border-[var(--electric)] focus:ring-1 focus:ring-[var(--electric-glow)]"
-                  placeholder="+27 or +263"
+                  placeholder="+263 ..."
                 />
               </label>
             </div>
@@ -122,11 +122,15 @@ export function ContactForm() {
                 onChange={(e) => setForm((s) => ({ ...s, interest: e.target.value }))}
                 className="w-full rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--electric)] focus:ring-1 focus:ring-[var(--electric-glow)]"
               >
-                <option>School programme</option>
-                <option>Weekend activity</option>
-                <option>Extra-curricular club</option>
-                <option>Partnership enquiry</option>
-                <option>Parent enquiry</option>
+                <option>School Programme</option>
+                <option>Weekend Activity</option>
+                <option>Extra-Curricular Club</option>
+                <option>RIRC Competition</option>
+                <option>PrimeBook Enquiry</option>
+                <option>Robotics Components</option>
+                <option>Partnership Enquiry</option>
+                <option>Parent Enquiry</option>
+                <option>Other</option>
               </select>
             </label>
             <label className="space-y-1.5">

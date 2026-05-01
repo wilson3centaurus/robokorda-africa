@@ -20,13 +20,12 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   site_name: "Robokorda Africa",
   site_tagline: "Making Robotics & Coding Fun",
   contact_email: "info@robokorda.com",
-  contact_phone_sa: "+27 83 242 7998",
   contact_phone_zw: "+263 774 189 500",
-  address_sa: "206 Rosies Place Street, Glen Austin AH, Midrand, Johannesburg",
   address_zw: "16 Mahogany Avenue, Rhodene, Masvingo, Zimbabwe",
   social_facebook: "https://www.facebook.com/robokordaafrica",
   social_instagram: "https://www.instagram.com/robokordaafrica",
   social_linkedin: "https://www.linkedin.com/company/robokorda-africa",
+  social_tiktok: "",
   stat_students: "9,976+",
   stat_schools: "79+",
   stat_countries: "11",
@@ -37,6 +36,11 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   primebook_price_usd: "299",
   primebook_price_zwg: "850000",
   primebook_specs: 'Intel Celeron N4020 · 4GB RAM · 128GB SSD · 11.6" HD · Windows 11',
+  rirc_brochure_url: "",
+  rirc_flyer_url: "",
+  rirc_logo_url: "",
+  rirc_video_challenge_info: "",
+  rirc_video_challenge_how_to: "",
   admin_password: "robokorda2026",
 };
 
@@ -143,6 +147,8 @@ export type RircRegistration = {
   team_size: string;
   team_members: string;
   notes: string;
+  video_challenge_entered: boolean;
+  video_challenge_links: string;
   status: string;
   confirmation_sent: boolean;
   paid: boolean;
@@ -160,11 +166,16 @@ export async function getRircRegistrations(): Promise<RircRegistration[]> {
 }
 
 export async function addRircRegistration(
-  data: Omit<RircRegistration, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent">,
+  data: Omit<RircRegistration, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "video_challenge_entered" | "video_challenge_links"> & {
+    video_challenge_entered?: boolean;
+    video_challenge_links?: string;
+  },
 ): Promise<RircRegistration> {
   const sb = getServerClient();
   const row: RircRegistration = {
     ...data,
+    video_challenge_entered: data.video_challenge_entered ?? false,
+    video_challenge_links: data.video_challenge_links ?? "",
     id: uid(),
     status: "pending",
     confirmation_sent: false,

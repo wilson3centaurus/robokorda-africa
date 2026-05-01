@@ -234,7 +234,7 @@ function InquiriesContent() {
                     {rircFiltered.length === 0 ? <EmptyState label={rirc.length === 0 ? "No RIRC registrations yet" : "No registrations match your filters"} /> : (
                       <table className="admin-table">
                         <thead>
-                          <tr><th>Team</th><th>School</th><th>Contact</th><th>Email</th><th>WhatsApp</th><th>Country</th><th>City</th><th>Category</th><th>Members</th><th>Status</th><th>Tracking</th><th>Date</th><th>Actions</th></tr>
+                          <tr><th>Team</th><th>School</th><th>Contact</th><th>Email</th><th>WhatsApp</th><th>Country</th><th>City</th><th>Category</th><th>Members</th><th>Video Challenge</th><th>Status</th><th>Tracking</th><th>Date</th><th>Actions</th></tr>
                         </thead>
                         <tbody>
                           {rircFiltered.map((r) => {
@@ -255,6 +255,18 @@ function InquiriesContent() {
                                     {members.slice(0, 3).map((m, i) => <div key={i} className="text-[11px]">{m}</div>)}
                                     {members.length > 3 && <div className="text-[11px] text-[var(--text-muted)]">+{members.length - 3} more</div>}
                                   </div>
+                                </td>
+                                <td className="max-w-[160px]">
+                                  {r.video_challenge_entered ? (
+                                    <div className="space-y-1">
+                                      <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(52,47,197,0.15)] border border-[rgba(52,47,197,0.3)] px-2 py-0.5 text-[10px] font-bold text-[var(--electric-bright)]">✓ Entered</span>
+                                      {r.video_challenge_links && r.video_challenge_links.split("\n").filter(Boolean).map((link, i) => (
+                                        <a key={i} href={link} target="_blank" rel="noopener noreferrer" className="block text-[10px] text-[var(--electric-bright)] hover:underline truncate max-w-[150px]">{link}</a>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <span className="text-[11px] text-[var(--text-muted)]">—</span>
+                                  )}
                                 </td>
                                 <td><StatusBadge status={r.status} /></td>
                                 <td>

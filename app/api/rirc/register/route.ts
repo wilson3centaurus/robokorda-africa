@@ -7,6 +7,7 @@ export async function POST(req: Request) {
     const {
       country, city, category, school, teamName, teamLead,
       email, whatsapp, members, team_members,
+      video_challenge_entered, video_challenge_links,
     } = body;
 
     if (!teamName || !school || !email || !country || !category) {
@@ -31,6 +32,8 @@ export async function POST(req: Request) {
       team_size: String(membersArr.length),
       team_members: JSON.stringify(membersArr),
       notes: body.notes || "",
+      video_challenge_entered: Boolean(video_challenge_entered),
+      video_challenge_links: video_challenge_links || "",
     });
 
     return NextResponse.json({ success: true, id: registration.id });

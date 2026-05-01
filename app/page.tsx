@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Image from "next/image";
+import { Mail, MapPin } from "lucide-react";
 import { Card } from "@/components/card";
 import { ContactCard } from "@/components/contact-card";
 import { ContactForm } from "@/components/contact-form";
@@ -36,13 +37,12 @@ export default async function HomePage() {
     getCourses(),
   ]);
 
-  // Hero stats — content JSON overrides settings values
-  const savedStats = pageContent["Hero Stats"] || [];
+  // Hero stats — driven solely by site settings
   const heroStats = [
-    { label: savedStats[0]?.label || "Students Trained", value: savedStats[0]?.value || settings.stat_students },
-    { label: savedStats[1]?.label || "Schools Reached", value: savedStats[1]?.value || settings.stat_schools },
-    { label: savedStats[2]?.label || "Countries", value: savedStats[2]?.value || settings.stat_countries },
-    { label: savedStats[3]?.label || "Competitions Won", value: savedStats[3]?.value || settings.stat_competitions },
+    { label: "Students Trained", value: settings.stat_students },
+    { label: "Schools Reached", value: settings.stat_schools },
+    { label: "Countries", value: settings.stat_countries },
+    { label: "Competitions Won", value: settings.stat_competitions },
   ];
 
   // Delivery options — merge saved label/value/imageSrc over static data
@@ -330,10 +330,36 @@ export default async function HomePage() {
             <SectionHeader
               eyebrow="Contact Us"
               title="Get in touch about programmes, competitions, devices, or partnerships."
-              description="Reach out to our contact information or offices — we'll reply quickly."
+              description="Reach out to our team — we'll reply quickly."
             />
           </Reveal>
-        
+          <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.4fr]">
+            <Reveal>
+              <div className="space-y-4">
+                <ContactCard
+                  location={{
+                    title: "Head Office",
+                    addressLines: [
+                      ...(settings.address_zw ? [settings.address_zw] : []),
+                      ...(settings.contact_phone_zw ? [`Phone: ${settings.contact_phone_zw}`] : []),
+                    ],
+                    detail: "Operating across Africa. We respond within one business day.",
+                    icon: MapPin,
+                  }}
+                />
+                <a
+                  href={`mailto:${settings.contact_email}`}
+                  className="flex items-center gap-3 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-1)] p-5 text-sm font-semibold text-[var(--electric-bright)] transition hover:border-[var(--electric-bright)]"
+                >
+                  <Mail className="h-5 w-5 shrink-0" />
+                  {settings.contact_email}
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ContactForm />
+            </Reveal>
+          </div>
         </div>
       </section>
 

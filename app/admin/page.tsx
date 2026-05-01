@@ -42,10 +42,9 @@ export default async function AdminDashboard() {
   const navLinks = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { label: "Inquiries & Registrations", href: "/admin/inquiries", icon: MessageSquare },
-    { label: "Site Settings", href: "/admin/settings", icon: Settings },
     { label: "Gallery", href: "/admin/gallery", icon: Image },
     { label: "Catalogue", href: "/admin/catalogue", icon: Package },
-    { label: "Pages", href: "/admin/pages", icon: FileText },
+    { label: "Pages & Settings", href: "/admin/pages", icon: FileText },
     { label: "View Site", href: "/", icon: TrendingUp, external: true },
   ];
 

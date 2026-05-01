@@ -21,9 +21,7 @@ const GROUPS = [
     label: "Contact Information",
     fields: [
       { key: "contact_email", label: "Email", type: "email" },
-      { key: "contact_phone_sa", label: "Phone (South Africa)", type: "text" },
       { key: "contact_phone_zw", label: "Phone (Zimbabwe)", type: "text" },
-      { key: "address_sa", label: "Address (South Africa)", type: "text" },
       { key: "address_zw", label: "Address (Zimbabwe)", type: "text" },
     ],
   },
@@ -33,6 +31,7 @@ const GROUPS = [
       { key: "social_facebook", label: "Facebook URL", type: "url" },
       { key: "social_instagram", label: "Instagram URL", type: "url" },
       { key: "social_linkedin", label: "LinkedIn URL", type: "url" },
+      { key: "social_tiktok", label: "TikTok URL", type: "url" },
     ],
   },
   {
@@ -56,6 +55,15 @@ const GROUPS = [
     label: "RIRC Documents",
     fields: [
       { key: "rirc_brochure_url", label: "RIRC Brochure (PDF link or /uploads/...)", type: "file_upload" },
+      { key: "rirc_flyer_url", label: "RIRC Video Challenge Flyer (image)", type: "file_upload" },
+      { key: "rirc_logo_url", label: "RIRC Official Logo (image)", type: "file_upload" },
+    ],
+  },
+  {
+    label: "RIRC Video Challenge Competition",
+    fields: [
+      { key: "rirc_video_challenge_info", label: "About the Video Challenge", type: "text" },
+      { key: "rirc_video_challenge_how_to", label: "How to Enter", type: "text" },
     ],
   },
   {
@@ -230,10 +238,10 @@ export default function SettingsPage() {
       <div className="relative mx-auto max-w-3xl">
         <div className="mb-6 flex items-center gap-3">
           <Link
-            href="/admin"
+            href="/admin/pages"
             className="flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition"
           >
-            <ArrowLeft className="h-4 w-4" /> Dashboard
+            <ArrowLeft className="h-4 w-4" /> Pages
           </Link>
           <span className="text-[var(--space-400)]">/</span>
           <h1 className="text-lg font-bold text-[var(--text-primary)]">Site Settings</h1>

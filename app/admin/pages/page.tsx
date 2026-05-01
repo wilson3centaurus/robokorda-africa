@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FileText, Home, Trophy, BookOpen, ShoppingBag, ArrowRight } from 'lucide-react';
+import { FileText, Home, Trophy, BookOpen, ShoppingBag, Settings, ArrowRight } from 'lucide-react';
 
 const pages = [
   {
@@ -15,10 +15,10 @@ const pages = [
   {
     slug: 'rirc',
     label: 'RIRC Competition',
-    desc: 'Tracks, countries, prizes, winners, gallery',
+    desc: 'Competition tracks, countries, prizes (with images), gallery',
     icon: Trophy,
     color: 'bg-amber-500',
-    sections: 5,
+    sections: 4,
   },
   {
     slug: 'prime-book',
@@ -36,6 +36,15 @@ const pages = [
     color: 'bg-purple-500',
     sections: 2,
   },
+  {
+    slug: 'settings',
+    label: 'Site Settings',
+    desc: 'Logo, contact info, social links, stats, RIRC assets, pricing',
+    icon: Settings,
+    color: 'bg-indigo-500',
+    sections: 8,
+    customHref: '/admin/settings',
+  },
 ];
 
 export default function PagesOverview() {
@@ -44,16 +53,16 @@ export default function PagesOverview() {
       <div>
         <h1 className="text-2xl font-bold text-[var(--text-primary)] flex items-center gap-3">
           <FileText className="w-7 h-7 text-[var(--electric-bright)]" />
-          Pages
+          Pages &amp; Settings
         </h1>
-        <p className="text-[var(--text-secondary)] mt-1">Edit content, images, and text for each page</p>
+        <p className="text-[var(--text-secondary)] mt-1">Edit content, images, and global settings</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {pages.map(p => (
           <Link
             key={p.slug}
-            href={`/admin/pages/${p.slug}`}
+            href={'customHref' in p ? p.customHref! : `/admin/pages/${p.slug}`}
             className="bg-[var(--surface-2)] rounded-xl border border-[var(--surface-border)] p-6 hover:shadow-md hover:border-[var(--electric)] transition group"
           >
             <div className="flex items-start gap-4">

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
@@ -10,7 +11,6 @@ import { PrizeCard } from "@/components/prize-card";
 import { RegistrationForm } from "@/components/registration-form";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
-import { WinnerCard } from "@/components/winner-card";
 import { rircCountries, rircGallery, rircPrizes as staticRircPrizes, rircTracks as staticRircTracks } from "@/data/rirc";
 import { PlaceholderMedia } from "@/components/placeholder-media";
 import { VideoSection } from "@/components/video-section";
@@ -45,6 +45,7 @@ export default async function RircPage() {
     ...p,
     title: savedPrizes[i]?.label || p.title,
     summary: savedPrizes[i]?.value || p.summary,
+    ...(savedPrizes[i]?.imageSrc ? { imageSrc: savedPrizes[i].imageSrc } : {}),
   }));
 
   const rircVideoUrl = settings.video_url_rirc || "/uploads/1777047029392-ddalnx.mp4";
@@ -62,8 +63,23 @@ export default async function RircPage() {
       }))
       : rircGallery;
 
-  // Brochure URL from settings or fallback
-  const brochureUrl = (settings as Record<string, string>).rirc_brochure_url || "/downloads/RIRC-2026-Brochure.pdf";
+  // Brochure and flyer URLs from settings
+  const brochureUrl = settings.rirc_brochure_url || "/downloads/RIRC-2026-Brochure.pdf";
+  const flyerUrl = settings.rirc_flyer_url || "";
+
+  // Settings to pass to the registration form for the video challenge modal
+  const rircChallengeSettings = {
+    flyerUrl,
+    logoUrl: settings.rirc_logo_url || "",
+    info: settings.rirc_video_challenge_info || "",
+    howTo: settings.rirc_video_challenge_how_to || "",
+    socials: [
+      { label: "Facebook", href: settings.social_facebook },
+      { label: "Instagram", href: settings.social_instagram },
+      ...(settings.social_tiktok ? [{ label: "TikTok", href: settings.social_tiktok }] : []),
+      ...(settings.social_linkedin ? [{ label: "LinkedIn", href: settings.social_linkedin }] : []),
+    ].filter((s) => s.href && s.href !== "#"),
+  };
 
   return (
     <>
@@ -107,6 +123,16 @@ export default async function RircPage() {
               <Download className="h-4 w-4" />
               Download Brochure
             </a>
+            {flyerUrl && (
+              <a
+                href={flyerUrl}
+                download
+                className="inline-flex items-center gap-2 rounded-xl border border-[rgba(52,47,197,0.35)] px-5 py-2.5 text-sm font-semibold text-[var(--electric-bright)] transition hover:border-[rgba(52,47,197,0.65)] hover:bg-[var(--electric-subtle)]"
+              >
+                <Download className="h-4 w-4" />
+                Download RIRC Flyer
+              </a>
+            )}
           </div>
         </div>
       </HeroBanner>
@@ -124,12 +150,12 @@ export default async function RircPage() {
           <div className="mt-10 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
             <Reveal>
               <div className="flex h-full flex-col rounded-2xl border border-[var(--surface-border)] bg-[var(--card)] p-6">
-                <PlaceholderMedia
-                  mode="video"
-                  label="Registration Feature Placeholder"
-                  seed="rirc-registration-feature"
-                  imageUrl="/images/rirc/registration-feature.jpeg"
-                  clean
+                <img
+                  src="/images/rirc/rirc_official_logo.jpg"
+                  alt="RIRC Official Logo"
+                  width={300}
+                  height={300}
+                  className="rounded-lg object-contain mx-auto"
                 />
                 <h3 className="mt-6 text-2xl font-bold text-[var(--text-primary)]">
                   Plan early and prepare a strong team.
@@ -148,10 +174,20 @@ export default async function RircPage() {
                   <Download className="h-4 w-4" aria-hidden="true" />
                   Download Competition Brochure
                 </a>
+                {flyerUrl && (
+                  <a
+                    href={flyerUrl}
+                    download
+                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-[rgba(52,47,197,0.35)] px-5 py-2.5 text-sm font-semibold text-[var(--electric-bright)] transition hover:bg-[var(--electric-subtle)]"
+                  >
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                    Download RIRC Flyer
+                  </a>
+                )}
               </div>
             </Reveal>
             <Reveal delay={0.06}>
-              <RegistrationForm countries={rircCountries} />
+              <RegistrationForm countries={rircCountries} rircSettings={rircChallengeSettings} />
             </Reveal>
           </div>
         </div>

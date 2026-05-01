@@ -94,7 +94,6 @@ export type Product = {
 };
 
 export const supportEmail = "roy@robokorda.com";
-export const supportPhone = "+27 83 242 7998";
 
 export const socialLinks = [
   {

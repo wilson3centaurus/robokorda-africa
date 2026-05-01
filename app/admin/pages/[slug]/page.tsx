@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import ImagePicker from '@/components/admin/image-picker';
 import {
@@ -15,6 +15,7 @@ import {
   Check,
   Film,
   Undo2,
+  Upload,
 } from 'lucide-react';
 
 /* ---------- default data for each page ---------- */
@@ -78,11 +79,6 @@ const DEFAULTS: Record<string, Record<string, SectionItem[]>> = {
       { label: 'Zambia', value: 'zm', type: 'text' },
       { label: 'Zimbabwe', value: 'zw', type: 'text' },
     ],
-    'Winners': [
-      { label: 'Team Robo-Underdogs', value: 'Zimbabwe · Overall Winners · Built an underwater drone.', imageSrc: '/images/rirc/winner-team.jpg', type: 'card' },
-      { label: 'Robo-gurus', value: 'Ghana · First Place Beginner Level · Won 4/5 challenges.', imageSrc: '/images/rirc/beginner-winner.jpg', type: 'card' },
-      { label: 'Team Cyberflacx', value: 'Zimbabwe · 1st Place Makerthon · Innovation Award.', imageSrc: '/images/rirc/makerthon.jpg', type: 'card' },
-    ],
     'Gallery': [
       { label: 'Hon. Prof. Torerayi Moyo', value: 'Encouraging students to invest more in sustainable innovation.', imageSrc: '/images/rirc/minister.jpg', type: 'card' },
       { label: 'Robot pit lane', value: 'Final calibration before judging.', imageSrc: 'https://picsum.photos/seed/rirc-pit-lane/900/900', type: 'card' },
@@ -92,9 +88,9 @@ const DEFAULTS: Record<string, Record<string, SectionItem[]>> = {
       { label: 'Award ceremony', value: 'Winning teams received medals.', imageSrc: 'https://picsum.photos/seed/rirc-award-ceremony/900/900', type: 'card' },
     ],
     'Prizes': [
-      { label: '1st Place', value: 'RIRC Overall Winners Shield · Qualifies for Technoxian India', type: 'text' },
-      { label: '2nd Place', value: 'RIRC Second Position Shield · Tablets + Certificates', type: 'text' },
-      { label: '3rd Position', value: 'RIRC Third Position Shield · Robotics Kits + Certificates', type: 'text' },
+      { label: '1st Place', value: 'RIRC Overall Winners Shield · Qualifies for Technoxian India', imageSrc: '/images/rirc/1st-place.jpg', type: 'card' },
+      { label: '2nd Place', value: 'RIRC Second Position Shield · Tablets + Certificates', imageSrc: '/images/rirc/2nd-place.jpg', type: 'card' },
+      { label: '3rd Position', value: 'RIRC Third Position Shield · Robotics Kits + Certificates', imageSrc: '', type: 'card' },
     ],
   },
   'prime-book': {
@@ -182,6 +178,8 @@ export default function PageEditor() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerTarget, setPickerTarget] = useState<{ section: string; index: number } | null>(null);
   const [pickerType, setPickerType] = useState<'image' | 'video'>('image');
+  const [uploadingTarget, setUploadingTarget] = useState<{ section: string; index: number } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const defaults = DEFAULTS[slug] || {};
   const pageLabel = PAGE_LABELS[slug] || slug;
@@ -283,7 +281,35 @@ export default function PageEditor() {
     }
   };
 
-  const sections = Object.keys(content).length > 0 ? Object.keys(content) : Object.keys(defaults);
+  const triggerFileUpload = (section: string, index: number) => {
+    setUploadingTarget({ section, index });
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !uploadingTarget) return;
+    e.target.value = '';
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('category', 'pages');
+    try {
+      const r = await fetch('/api/upload', { method: 'POST', body: fd });
+      const d = await r.json();
+      if (d.url) {
+        updateItem(uploadingTarget.section, uploadingTarget.index, 'imageSrc', d.url);
+      } else {
+        alert(d.error || 'Upload failed');
+      }
+    } catch {
+      alert('Upload failed');
+    }
+    setUploadingTarget(null);
+  };
+
+  const sections = Object.keys(content).length > 0
+    ? Object.keys(content).filter(s => Object.keys(defaults).length === 0 || s in defaults)
+    : Object.keys(defaults);
 
   return (
     <div className="space-y-6">
@@ -335,11 +361,11 @@ export default function PageEditor() {
                   <div key={idx} className="flex gap-4 p-4 bg-[var(--surface-1)] rounded-lg group">
                     {/* Image preview */}
                     {(item.type === 'card' && item.imageSrc !== undefined) && (
-                      <div className="shrink-0">
+                      <div className="shrink-0 flex flex-col gap-1.5">
                         <button
                           onClick={() => openImagePicker(sectionName, idx)}
                           className="w-24 h-24 rounded-lg bg-[var(--surface-3)] overflow-hidden relative group/img border-2 border-transparent hover:border-[var(--electric)] transition"
-                          title="Click to change image"
+                          title="Pick from media library"
                         >
                           {item.imageSrc ? (
                             <img src={item.imageSrc} alt={item.label} className="w-full h-full object-cover" />
@@ -351,6 +377,16 @@ export default function PageEditor() {
                           <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/40 transition flex items-center justify-center opacity-0 group-hover/img:opacity-100">
                             <ImageIcon className="w-6 h-6 text-white" />
                           </div>
+                        </button>
+                        <button
+                          onClick={() => triggerFileUpload(sectionName, idx)}
+                          disabled={uploadingTarget?.section === sectionName && uploadingTarget?.index === idx}
+                          className="w-24 flex items-center justify-center gap-1 py-1 rounded-lg border border-dashed border-[var(--surface-border)] text-[10px] text-[var(--text-muted)] hover:border-[var(--electric)] hover:text-[var(--electric-bright)] transition disabled:opacity-50"
+                          title="Upload from your machine"
+                        >
+                          {uploadingTarget?.section === sectionName && uploadingTarget?.index === idx
+                            ? '...'
+                            : <><Upload className="w-3 h-3" /> Upload</>}
                         </button>
                       </div>
                     )}
@@ -429,6 +465,15 @@ export default function PageEditor() {
           </div>
         );
       })}
+
+      {/* Hidden file input for local uploads */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileChange}
+      />
 
       {/* Image Picker Modal */}
       <ImagePicker

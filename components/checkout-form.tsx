@@ -118,7 +118,7 @@ export function CheckoutForm() {
                   </label>
                   <label className="space-y-1.5">
                     <span className={labelCls}>Phone</span>
-                    <input required value={form.phone} onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))} className={inputCls} placeholder="+27 or +263" />
+                    <input required value={form.phone} onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))} className={inputCls} placeholder="+263 ..." />
                   </label>
                   <label className="space-y-1.5 sm:col-span-2">
                     <span className={labelCls}>Address</span>
