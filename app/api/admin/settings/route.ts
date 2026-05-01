@@ -8,12 +8,12 @@ function auth(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   if (!auth(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  return NextResponse.json(getAllSettings());
+  return NextResponse.json(await getAllSettings());
 }
 
 export async function POST(req: NextRequest) {
   if (!auth(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const body = await req.json();
-  setSettings(body);
+  await setSettings(body);
   return NextResponse.json({ success: true });
 }

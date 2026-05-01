@@ -29,12 +29,12 @@ import { getCourses } from "@/lib/db";
 import { getPageContent } from "@/lib/page-content";
 
 export default async function HomePage() {
-  const [settings, dbGallery, pageContent] = await Promise.all([
+  const [settings, dbGallery, pageContent, dbCourses] = await Promise.all([
     getSiteSettings(),
     getGalleryPhotos("home"),
     getPageContent("home"),
+    getCourses(),
   ]);
-  const dbCourses = getCourses();
 
   // Hero stats — content JSON overrides settings values
   const savedStats = pageContent["Hero Stats"] || [];
@@ -93,7 +93,7 @@ export default async function HomePage() {
       <HeroBanner
         id="home"
         badge="Robotics · Coding · Innovation"
-        title="Making Coding and Robotics Fun"
+        title="Making Robotics and Coding Fun"
         description="Robokorda Africa helps schools, families, and partners deliver premium robotics, coding, AI, and STEAM learning with structure, polish, and visible student outcomes."
         primaryAction={{ href: "/#courses", label: "Explore Courses" }}
         secondaryAction={{ href: "/#contact", label: "Talk to Our Team" }}

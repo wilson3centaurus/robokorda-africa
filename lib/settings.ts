@@ -56,32 +56,32 @@ const DEFAULTS: SiteSettings = {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
-    const map = getAllSettings();
+    const map = await getAllSettings();
     return {
-      site_name:          map.site_name          || DEFAULTS.site_name,
-      site_tagline:       map.site_tagline       || DEFAULTS.site_tagline,
-      logo_url:           map.logo_url           || DEFAULTS.logo_url,
-      logo_url_dark:      map.logo_url_dark      || "",
-      favicon_url:        map.favicon_url        || "",
-      contact_email:      map.contact_email      || DEFAULTS.contact_email,
-      contact_phone_sa:   map.contact_phone_sa   || DEFAULTS.contact_phone_sa,
-      contact_phone_zw:   map.contact_phone_zw   || DEFAULTS.contact_phone_zw,
-      address_sa:         map.address_sa         || DEFAULTS.address_sa,
-      address_zw:         map.address_zw         || DEFAULTS.address_zw,
-      social_facebook:    map.social_facebook    || DEFAULTS.social_facebook,
-      social_instagram:   map.social_instagram   || DEFAULTS.social_instagram,
-      social_linkedin:    map.social_linkedin    || DEFAULTS.social_linkedin,
-      stat_students:      map.stat_students      || DEFAULTS.stat_students,
-      stat_schools:       map.stat_schools       || DEFAULTS.stat_schools,
-      stat_countries:     map.stat_countries     || DEFAULTS.stat_countries,
-      stat_competitions:  map.stat_competitions  || DEFAULTS.stat_competitions,
-      video_url_home:     map.video_url_home     || "",
-      video_url_rirc:     map.video_url_rirc     || "",
+      site_name:           map.site_name           || DEFAULTS.site_name,
+      site_tagline:        map.site_tagline        || DEFAULTS.site_tagline,
+      logo_url:            map.logo_url            || DEFAULTS.logo_url,
+      logo_url_dark:       map.logo_url_dark       || "",
+      favicon_url:         map.favicon_url         || "",
+      contact_email:       map.contact_email       || DEFAULTS.contact_email,
+      contact_phone_sa:    map.contact_phone_sa    || DEFAULTS.contact_phone_sa,
+      contact_phone_zw:    map.contact_phone_zw    || DEFAULTS.contact_phone_zw,
+      address_sa:          map.address_sa          || DEFAULTS.address_sa,
+      address_zw:          map.address_zw          || DEFAULTS.address_zw,
+      social_facebook:     map.social_facebook     || DEFAULTS.social_facebook,
+      social_instagram:    map.social_instagram    || DEFAULTS.social_instagram,
+      social_linkedin:     map.social_linkedin     || DEFAULTS.social_linkedin,
+      stat_students:       map.stat_students       || DEFAULTS.stat_students,
+      stat_schools:        map.stat_schools        || DEFAULTS.stat_schools,
+      stat_countries:      map.stat_countries      || DEFAULTS.stat_countries,
+      stat_competitions:   map.stat_competitions   || DEFAULTS.stat_competitions,
+      video_url_home:      map.video_url_home      || "",
+      video_url_rirc:      map.video_url_rirc      || "",
       video_url_primebook: map.video_url_primebook || "",
       primebook_price_usd: map.primebook_price_usd || DEFAULTS.primebook_price_usd,
       primebook_price_zwg: map.primebook_price_zwg || DEFAULTS.primebook_price_zwg,
-      primebook_specs:    map.primebook_specs    || DEFAULTS.primebook_specs,
-      rirc_brochure_url:  map.rirc_brochure_url  || "",
+      primebook_specs:     map.primebook_specs     || DEFAULTS.primebook_specs,
+      rirc_brochure_url:   map.rirc_brochure_url   || "",
     };
   } catch {
     return DEFAULTS;
@@ -99,7 +99,7 @@ export type GalleryPhoto = {
 
 export async function getGalleryPhotos(section?: string): Promise<GalleryPhoto[]> {
   try {
-    return getGallery(section) as GalleryPhoto[];
+    return (await getGallery(section)) as GalleryPhoto[];
   } catch {
     return [];
   }

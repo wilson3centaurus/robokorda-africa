@@ -22,11 +22,13 @@ async function checkAuth() {
 export default async function AdminDashboard() {
   await checkAuth();
 
-  const rirc = getRircRegistrations();
-  const components = getComponentInquiries();
-  const courses = getCourseInquiries();
-  const primebook = getPrimebookInquiries();
-  const contact = getContactMessages();
+  const [rirc, components, courses, primebook, contact] = await Promise.all([
+    getRircRegistrations(),
+    getComponentInquiries(),
+    getCourseInquiries(),
+    getPrimebookInquiries(),
+    getContactMessages(),
+  ]);
 
   const stats = [
     { label: "RIRC Registrations", value: rirc.length, icon: Trophy, color: "text-[#fcd34d]", bg: "bg-[rgba(245,158,11,0.12)]", href: "/admin/inquiries?tab=rirc" },
@@ -104,7 +106,7 @@ export default async function AdminDashboard() {
               <h1 className="text-2xl font-bold text-[var(--text-primary)]">Dashboard</h1>
             </div>
             <p className="mt-1 text-sm text-[var(--text-muted)]">
-              Robokorda Africa · Local file database · All data stored in <code className="rounded bg-[var(--electric-subtle)] px-1.5 py-0.5 text-[11px] text-[var(--electric-bright)]">data/</code>
+              Robokorda Africa · Supabase · Schema <code className="rounded bg-[var(--electric-subtle)] px-1.5 py-0.5 text-[11px] text-[var(--electric-bright)]">robokorda</code>
             </p>
           </div>
 

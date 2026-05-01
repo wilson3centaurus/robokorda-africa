@@ -7,7 +7,7 @@ export async function GET() {
   if (!isValidAdminSession(cookieStore.get("admin_session")?.value || "")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(getCourses());
+  return NextResponse.json(await getCourses());
 }
 
 export async function POST(req: NextRequest) {
@@ -16,6 +16,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await req.json();
-  const updated = updateCourse(body.seed, body);
+  const updated = await updateCourse(body.seed, body);
   return NextResponse.json(updated);
 }

@@ -13,10 +13,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Required fields missing" }, { status: 400 });
     }
 
-    // Accept both the new `team_members` array or `members` array from the form
-    const membersArr = team_members ?? (members ? members.map((m: { name: string } | string) => typeof m === "string" ? m : m.name) : []);
+    const membersArr = team_members ?? (members
+      ? members.map((m: { name: string } | string) => typeof m === "string" ? m : m.name)
+      : []);
 
-    const registration = addRircRegistration({
+    const registration = await addRircRegistration({
       school_name: school,
       team_name: teamName,
       contact_name: teamLead || email,

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Browse robotics kits, electronics resources, and coding materials curated for schools, parents, and education partners.",
 };
 
-export default function ShopPage() {
-  const components = getComponents();
+export default async function ShopPage() {
+  const components = await getComponents();
   return <ShopPageClient initialComponents={components} />;
 }

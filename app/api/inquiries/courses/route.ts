@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const inquiry = addCourseInquiry({
+    const inquiry = await addCourseInquiry({
       name: parent_name,
       email: email || "",
       phone,

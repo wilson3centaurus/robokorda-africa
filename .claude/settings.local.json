@@ -6,7 +6,11 @@
       "Bash(npx next *)",
       "Bash(npx tsc *)",
       "Bash(cat next.config.ts)",
-      "Bash(cat next.config.js)"
+      "Bash(cat next.config.js)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\XO\\\\Desktop\\\\robokorda-africa\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\XO\\\\Desktop\\\\robokorda-africa\\\\public\" -Recurse -File)",
+      "Bash(node --env-file=.env.local scripts/seed-supabase.mjs)"
     ]
   }
 }

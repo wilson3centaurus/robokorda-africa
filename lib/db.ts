@@ -1,53 +1,12 @@
 /**
- * Lightweight file-based database using JSON files.
- * No native modules required — works on all platforms.
- * Data is stored in ./data/*.json
+ * Supabase-backed database layer.
+ * All operations use the robokorda schema via the service-role client.
  */
 
-import path from "path";
-import fs from "fs";
-
-const DATA_DIR = path.join(process.cwd(), "data");
-
-function ensureDir() {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-}
-
-function filePath(table: string) {
-  return path.join(DATA_DIR, `${table}.json`);
-}
-
-function readTable<T>(table: string, defaults: T[] = []): T[] {
-  ensureDir();
-  const fp = filePath(table);
-  if (!fs.existsSync(fp)) return defaults;
-  try {
-    return JSON.parse(fs.readFileSync(fp, "utf8")) as T[];
-  } catch {
-    return defaults;
-  }
-}
-
-function writeTable<T>(table: string, data: T[]): void {
-  ensureDir();
-  fs.writeFileSync(filePath(table), JSON.stringify(data, null, 2), "utf8");
-}
-
-function readMap(table: string): Record<string, string> {
-  ensureDir();
-  const fp = filePath(table);
-  if (!fs.existsSync(fp)) return {};
-  try {
-    return JSON.parse(fs.readFileSync(fp, "utf8")) as Record<string, string>;
-  } catch {
-    return {};
-  }
-}
-
-function writeMap(table: string, data: Record<string, string>): void {
-  ensureDir();
-  fs.writeFileSync(filePath(table), JSON.stringify(data, null, 2), "utf8");
-}
+import { getServerClient } from "@/lib/supabase";
+import { createSessionToken, verifySessionToken } from "@/lib/admin/auth";
+import type { RoboticsComponent } from "@/data/components";
+import type { Course } from "@/data/site";
 
 // ─── ID generator ────────────────────────────────────────────────────────────
 
@@ -83,27 +42,29 @@ const DEFAULT_SETTINGS: Record<string, string> = {
 
 // ─── Settings ────────────────────────────────────────────────────────────────
 
-export function getAllSettings(): Record<string, string> {
-  const stored = readMap("settings");
-  // Merge defaults with stored (stored takes priority)
+export async function getAllSettings(): Promise<Record<string, string>> {
+  const sb = getServerClient();
+  const { data, error } = await sb.from("settings").select("key, value");
+  if (error) return { ...DEFAULT_SETTINGS };
+  const stored: Record<string, string> = {};
+  for (const row of data ?? []) stored[row.key] = row.value;
   return { ...DEFAULT_SETTINGS, ...stored };
 }
 
-export function getSetting(key: string, fallback = ""): string {
-  const map = getAllSettings();
+export async function getSetting(key: string, fallback = ""): Promise<string> {
+  const map = await getAllSettings();
   return map[key] ?? fallback;
 }
 
-export function setSetting(key: string, value: string): void {
-  const map = getAllSettings();
-  map[key] = value;
-  writeMap("settings", map);
+export async function setSetting(key: string, value: string): Promise<void> {
+  const sb = getServerClient();
+  await sb.from("settings").upsert({ key, value });
 }
 
-export function setSettings(updates: Record<string, string>): void {
-  const map = getAllSettings();
-  Object.assign(map, updates);
-  writeMap("settings", map);
+export async function setSettings(updates: Record<string, string>): Promise<void> {
+  const sb = getServerClient();
+  const rows = Object.entries(updates).map(([key, value]) => ({ key, value }));
+  await sb.from("settings").upsert(rows);
 }
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
@@ -120,21 +81,30 @@ export type GalleryRow = {
   created_at: string;
 };
 
-export function getGallery(section?: string): GalleryRow[] {
-  const rows = readTable<GalleryRow>("gallery");
-  const published = rows.filter((r) => r.is_published !== false);
-  if (section) return published.filter((r) => r.section === section).sort((a, b) => a.sort_order - b.sort_order);
-  return published.sort((a, b) => a.sort_order - b.sort_order);
+export async function getGallery(section?: string): Promise<GalleryRow[]> {
+  const sb = getServerClient();
+  let q = sb.from("gallery").select("*").eq("is_published", true).order("sort_order");
+  if (section) q = q.eq("section", section);
+  const { data } = await q;
+  return (data ?? []) as GalleryRow[];
 }
 
-export function getAllGallery(): GalleryRow[] {
-  return readTable<GalleryRow>("gallery").sort((a, b) => a.sort_order - b.sort_order);
+export async function getAllGallery(): Promise<GalleryRow[]> {
+  const sb = getServerClient();
+  const { data } = await sb.from("gallery").select("*").order("sort_order");
+  return (data ?? []) as GalleryRow[];
 }
 
-export function upsertGallery(row: Partial<GalleryRow> & { id?: string }): GalleryRow {
-  const rows = readTable<GalleryRow>("gallery");
+export async function upsertGallery(row: Partial<GalleryRow> & { id?: string }): Promise<GalleryRow> {
+  const sb = getServerClient();
   const id = row.id || uid();
-  const existing = rows.find((r) => r.id === id);
+
+  let existing: GalleryRow | null = null;
+  if (row.id) {
+    const { data } = await sb.from("gallery").select("*").eq("id", row.id).single();
+    existing = data as GalleryRow | null;
+  }
+
   const updated: GalleryRow = {
     id,
     section: row.section ?? existing?.section ?? "home",
@@ -142,17 +112,18 @@ export function upsertGallery(row: Partial<GalleryRow> & { id?: string }): Galle
     caption: row.caption ?? existing?.caption ?? "",
     image_url: row.image_url ?? existing?.image_url ?? "",
     size: row.size ?? existing?.size ?? "square",
-    sort_order: row.sort_order ?? existing?.sort_order ?? rows.length,
+    sort_order: row.sort_order ?? existing?.sort_order ?? 0,
     is_published: row.is_published ?? existing?.is_published ?? true,
     created_at: existing?.created_at ?? new Date().toISOString(),
   };
-  const newRows = existing ? rows.map((r) => (r.id === id ? updated : r)) : [...rows, updated];
-  writeTable("gallery", newRows);
+
+  await sb.from("gallery").upsert(updated);
   return updated;
 }
 
-export function deleteGallery(id: string): void {
-  writeTable("gallery", readTable<GalleryRow>("gallery").filter((r) => r.id !== id));
+export async function deleteGallery(id: string): Promise<void> {
+  const sb = getServerClient();
+  await sb.from("gallery").delete().eq("id", id);
 }
 
 // ─── RIRC Registrations ───────────────────────────────────────────────────────
@@ -161,16 +132,16 @@ export type RircRegistration = {
   id: string;
   school_name: string;
   team_name: string;
-  contact_name: string;    // team leader
+  contact_name: string;
   email: string;
-  phone: string;           // kept for backward compat
+  phone: string;
   whatsapp: string;
   country: string;
   city: string;
-  track: string;           // kept for backward compat
+  track: string;
   category: string;
   team_size: string;
-  team_members: string;    // JSON array of names
+  team_members: string;
   notes: string;
   status: string;
   confirmation_sent: boolean;
@@ -179,14 +150,19 @@ export type RircRegistration = {
   created_at: string;
 };
 
-export function getRircRegistrations(): RircRegistration[] {
-  return readTable<RircRegistration>("rirc_registrations").sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  );
+export async function getRircRegistrations(): Promise<RircRegistration[]> {
+  const sb = getServerClient();
+  const { data } = await sb
+    .from("rirc_registrations")
+    .select("*")
+    .order("created_at", { ascending: false });
+  return (data ?? []) as RircRegistration[];
 }
 
-export function addRircRegistration(data: Omit<RircRegistration, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent">): RircRegistration {
-  const rows = readTable<RircRegistration>("rirc_registrations");
+export async function addRircRegistration(
+  data: Omit<RircRegistration, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent">,
+): Promise<RircRegistration> {
+  const sb = getServerClient();
   const row: RircRegistration = {
     ...data,
     id: uid(),
@@ -196,18 +172,21 @@ export function addRircRegistration(data: Omit<RircRegistration, "id" | "status"
     invoice_sent: false,
     created_at: new Date().toISOString(),
   };
-  writeTable("rirc_registrations", [...rows, row]);
+  await sb.from("rirc_registrations").insert(row);
   return row;
 }
 
-export function updateRircStatus(id: string, status: string): void {
-  const rows = readTable<RircRegistration>("rirc_registrations");
-  writeTable("rirc_registrations", rows.map((r) => (r.id === id ? { ...r, status } : r)));
+export async function updateRircStatus(id: string, status: string): Promise<void> {
+  const sb = getServerClient();
+  await sb.from("rirc_registrations").update({ status }).eq("id", id);
 }
 
-export function updateRircFlags(id: string, flags: Partial<Pick<RircRegistration, "confirmation_sent" | "paid" | "invoice_sent" | "status">>): void {
-  const rows = readTable<RircRegistration>("rirc_registrations");
-  writeTable("rirc_registrations", rows.map((r) => (r.id === id ? { ...r, ...flags } : r)));
+export async function updateRircFlags(
+  id: string,
+  flags: Partial<Pick<RircRegistration, "confirmation_sent" | "paid" | "invoice_sent" | "status">>,
+): Promise<void> {
+  const sb = getServerClient();
+  await sb.from("rirc_registrations").update(flags).eq("id", id);
 }
 
 // ─── Component Inquiries ──────────────────────────────────────────────────────
@@ -218,7 +197,7 @@ export type ComponentInquiry = {
   email: string;
   phone: string;
   notes: string;
-  items: string; // JSON
+  items: string;
   total_usd: number;
   status: string;
   confirmation_sent?: boolean;
@@ -228,25 +207,30 @@ export type ComponentInquiry = {
   created_at: string;
 };
 
-export function getComponentInquiries(): ComponentInquiry[] {
-  return readTable<ComponentInquiry>("component_inquiries").sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  );
+export async function getComponentInquiries(): Promise<ComponentInquiry[]> {
+  const sb = getServerClient();
+  const { data } = await sb
+    .from("component_inquiries")
+    .select("*")
+    .order("created_at", { ascending: false });
+  return (data ?? []) as ComponentInquiry[];
 }
 
-export function addComponentInquiry(data: Omit<ComponentInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">): ComponentInquiry {
-  const rows = readTable<ComponentInquiry>("component_inquiries");
-  const row: ComponentInquiry = { 
-    ...data, 
-    id: uid(), 
-    status: "new", 
+export async function addComponentInquiry(
+  data: Omit<ComponentInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">,
+): Promise<ComponentInquiry> {
+  const sb = getServerClient();
+  const row: ComponentInquiry = {
+    ...data,
+    id: uid(),
+    status: "new",
     confirmation_sent: false,
     paid: false,
     invoice_sent: false,
     delivered: false,
-    created_at: new Date().toISOString() 
+    created_at: new Date().toISOString(),
   };
-  writeTable("component_inquiries", [...rows, row]);
+  await sb.from("component_inquiries").insert(row);
   return row;
 }
 
@@ -268,25 +252,30 @@ export type CourseInquiry = {
   created_at: string;
 };
 
-export function getCourseInquiries(): CourseInquiry[] {
-  return readTable<CourseInquiry>("course_inquiries").sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  );
+export async function getCourseInquiries(): Promise<CourseInquiry[]> {
+  const sb = getServerClient();
+  const { data } = await sb
+    .from("course_inquiries")
+    .select("*")
+    .order("created_at", { ascending: false });
+  return (data ?? []) as CourseInquiry[];
 }
 
-export function addCourseInquiry(data: Omit<CourseInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">): CourseInquiry {
-  const rows = readTable<CourseInquiry>("course_inquiries");
-  const row: CourseInquiry = { 
-    ...data, 
-    id: uid(), 
-    status: "new", 
+export async function addCourseInquiry(
+  data: Omit<CourseInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">,
+): Promise<CourseInquiry> {
+  const sb = getServerClient();
+  const row: CourseInquiry = {
+    ...data,
+    id: uid(),
+    status: "new",
     confirmation_sent: false,
     paid: false,
     invoice_sent: false,
     delivered: false,
-    created_at: new Date().toISOString() 
+    created_at: new Date().toISOString(),
   };
-  writeTable("course_inquiries", [...rows, row]);
+  await sb.from("course_inquiries").insert(row);
   return row;
 }
 
@@ -308,31 +297,31 @@ export type PrimebookInquiry = {
   created_at: string;
 };
 
-export function getPrimebookInquiries(): PrimebookInquiry[] {
-  return readTable<PrimebookInquiry>("primebook_inquiries").sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  );
+export async function getPrimebookInquiries(): Promise<PrimebookInquiry[]> {
+  const sb = getServerClient();
+  const { data } = await sb
+    .from("primebook_inquiries")
+    .select("*")
+    .order("created_at", { ascending: false });
+  return (data ?? []) as PrimebookInquiry[];
 }
 
-export function addPrimebookInquiry(data: Omit<PrimebookInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">): PrimebookInquiry {
-  const rows = readTable<PrimebookInquiry>("primebook_inquiries");
-  const row: PrimebookInquiry = { 
-    ...data, 
-    id: uid(), 
-    status: "new", 
+export async function addPrimebookInquiry(
+  data: Omit<PrimebookInquiry, "id" | "status" | "created_at" | "confirmation_sent" | "paid" | "invoice_sent" | "delivered">,
+): Promise<PrimebookInquiry> {
+  const sb = getServerClient();
+  const row: PrimebookInquiry = {
+    ...data,
+    id: uid(),
+    status: "new",
     confirmation_sent: false,
     paid: false,
     invoice_sent: false,
     delivered: false,
-    created_at: new Date().toISOString() 
+    created_at: new Date().toISOString(),
   };
-  writeTable("primebook_inquiries", [...rows, row]);
+  await sb.from("primebook_inquiries").insert(row);
   return row;
-}
-
-export function updateInquiryFlags(table: string, id: string, flags: any): void {
-  const rows = readTable<any>(table);
-  writeTable(table, rows.map((r: any) => (r.id === id ? { ...r, ...flags } : r)));
 }
 
 // ─── Contact Messages ─────────────────────────────────────────────────────────
@@ -348,22 +337,46 @@ export type ContactMessage = {
   created_at: string;
 };
 
-export function getContactMessages(): ContactMessage[] {
-  return readTable<ContactMessage>("contact_messages").sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  );
+export async function getContactMessages(): Promise<ContactMessage[]> {
+  const sb = getServerClient();
+  const { data } = await sb
+    .from("contact_messages")
+    .select("*")
+    .order("created_at", { ascending: false });
+  return (data ?? []) as ContactMessage[];
 }
 
-export function addContactMessage(data: Omit<ContactMessage, "id" | "status" | "created_at">): ContactMessage {
-  const rows = readTable<ContactMessage>("contact_messages");
-  const row: ContactMessage = { ...data, id: uid(), status: "new", created_at: new Date().toISOString() };
-  writeTable("contact_messages", [...rows, row]);
+export async function addContactMessage(
+  data: Omit<ContactMessage, "id" | "status" | "created_at">,
+): Promise<ContactMessage> {
+  const sb = getServerClient();
+  const row: ContactMessage = {
+    ...data,
+    id: uid(),
+    status: "new",
+    created_at: new Date().toISOString(),
+  };
+  await sb.from("contact_messages").insert(row);
   return row;
 }
 
-// ─── Admin sessions (stateless HMAC — no filesystem writes needed) ────────────
+// ─── Generic inquiry flag update ─────────────────────────────────────────────
 
-import { createSessionToken, verifySessionToken } from "@/lib/admin/auth";
+const TABLE_MAP: Record<string, string> = {
+  component_inquiries: "component_inquiries",
+  course_inquiries: "course_inquiries",
+  primebook_inquiries: "primebook_inquiries",
+  contact_messages: "contact_messages",
+};
+
+export async function updateInquiryFlags(table: string, id: string, flags: Record<string, unknown>): Promise<void> {
+  const sb = getServerClient();
+  const safeTable = TABLE_MAP[table];
+  if (!safeTable) return;
+  await sb.from(safeTable).update(flags).eq("id", id);
+}
+
+// ─── Admin sessions (stateless HMAC — no DB writes needed) ───────────────────
 
 export function createAdminSession(): string {
   return createSessionToken();
@@ -380,33 +393,95 @@ export function deleteAdminSession(_token: string): void {
 
 // ─── Components ───────────────────────────────────────────────────────────────
 
-import type { RoboticsComponent } from "@/data/components";
-import type { Course } from "@/data/site";
-
-export function getComponents(): RoboticsComponent[] {
-  return readTable<RoboticsComponent>("components");
+export async function getComponents(): Promise<RoboticsComponent[]> {
+  const sb = getServerClient();
+  const { data } = await sb.from("components").select("*");
+  if (!data || data.length === 0) return [];
+  return data.map((row) => ({
+    id: row.id,
+    name: row.name,
+    category: row.category,
+    priceUSD: Number(row.price_usd),
+    priceZWG: Number(row.price_zwg),
+    imageSrc: row.image_src,
+    shortDescription: row.short_description,
+    status: row.status,
+    badge: row.badge,
+    ...row.extra,
+  })) as RoboticsComponent[];
 }
 
-export function updateComponent(id: string, updates: Partial<RoboticsComponent>): RoboticsComponent | null {
-  const rows = readTable<RoboticsComponent>("components");
-  const rowIndex = rows.findIndex(r => r.id === id);
-  if (rowIndex === -1) return null;
-  rows[rowIndex] = { ...rows[rowIndex], ...updates };
-  writeTable("components", rows);
-  return rows[rowIndex];
+export async function updateComponent(id: string, updates: Partial<RoboticsComponent>): Promise<RoboticsComponent | null> {
+  const sb = getServerClient();
+  const { priceUSD, priceZWG, imageSrc, shortDescription, ...rest } = updates as Record<string, unknown>;
+  const dbUpdates: Record<string, unknown> = { extra: rest };
+  if (priceUSD !== undefined) dbUpdates.price_usd = priceUSD;
+  if (priceZWG !== undefined) dbUpdates.price_zwg = priceZWG;
+  if (imageSrc !== undefined) dbUpdates.image_src = imageSrc;
+  if (shortDescription !== undefined) dbUpdates.short_description = shortDescription;
+  if (updates.name !== undefined) dbUpdates.name = updates.name;
+  if (updates.category !== undefined) dbUpdates.category = updates.category;
+  if (updates.status !== undefined) dbUpdates.status = updates.status;
+  if (updates.badge !== undefined) dbUpdates.badge = updates.badge;
+
+  const { data } = await sb.from("components").update(dbUpdates).eq("id", id).select().single();
+  if (!data) return null;
+  return {
+    id: data.id,
+    name: data.name,
+    category: data.category,
+    priceUSD: Number(data.price_usd),
+    priceZWG: Number(data.price_zwg),
+    imageSrc: data.image_src,
+    shortDescription: data.short_description,
+    status: data.status,
+    badge: data.badge,
+    ...data.extra,
+  } as RoboticsComponent;
 }
 
 // ─── Courses ──────────────────────────────────────────────────────────────────
 
-export function getCourses(): Course[] {
-  return readTable<Course>("courses");
+export async function getCourses(): Promise<Course[]> {
+  const sb = getServerClient();
+  const { data } = await sb.from("courses").select("*");
+  if (!data || data.length === 0) return [];
+  return data.map((row) => ({
+    seed: row.seed,
+    title: row.title,
+    level: row.level,
+    age: row.age,
+    duration: row.duration,
+    deliveryMode: row.delivery_mode,
+    overview: Array.isArray(row.overview) ? row.overview : [],
+    imageSrc: row.image_src,
+    ...row.extra,
+  })) as Course[];
 }
 
-export function updateCourse(seed: string, updates: Partial<Course>): Course | null {
-  const rows = readTable<Course>("courses");
-  const rowIndex = rows.findIndex(r => r.seed === seed);
-  if (rowIndex === -1) return null;
-  rows[rowIndex] = { ...rows[rowIndex], ...updates };
-  writeTable("courses", rows);
-  return rows[rowIndex];
+export async function updateCourse(seed: string, updates: Partial<Course>): Promise<Course | null> {
+  const sb = getServerClient();
+  const { deliveryMode, imageSrc, ...rest } = updates as Record<string, unknown>;
+  const dbUpdates: Record<string, unknown> = { extra: rest };
+  if (deliveryMode !== undefined) dbUpdates.delivery_mode = deliveryMode;
+  if (imageSrc !== undefined) dbUpdates.image_src = imageSrc;
+  if (updates.title !== undefined) dbUpdates.title = updates.title;
+  if (updates.level !== undefined) dbUpdates.level = updates.level;
+  if (updates.age !== undefined) dbUpdates.age = updates.age;
+  if (updates.duration !== undefined) dbUpdates.duration = updates.duration;
+  if (updates.overview !== undefined) dbUpdates.overview = updates.overview;
+
+  const { data } = await sb.from("courses").update(dbUpdates).eq("seed", seed).select().single();
+  if (!data) return null;
+  return {
+    seed: data.seed,
+    title: data.title,
+    level: data.level,
+    age: data.age,
+    duration: data.duration,
+    deliveryMode: data.delivery_mode,
+    overview: Array.isArray(data.overview) ? data.overview : [],
+    imageSrc: data.image_src,
+    ...data.extra,
+  } as Course;
 }

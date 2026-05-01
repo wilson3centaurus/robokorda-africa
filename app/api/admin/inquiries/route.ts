@@ -16,12 +16,20 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get("type") ?? "all";
 
   const data: Record<string, unknown> = {};
-  if (type === "all" || type === "rirc") data.rirc = getRircRegistrations();
-  if (type === "all" || type === "components") data.components = getComponentInquiries();
-  if (type === "all" || type === "courses") data.courses = getCourseInquiries();
-  if (type === "all" || type === "primebook") data.primebook = getPrimebookInquiries();
-  if (type === "all" || type === "contact") data.contact = getContactMessages();
+  const fetches: Promise<void>[] = [];
 
+  if (type === "all" || type === "rirc")
+    fetches.push(getRircRegistrations().then((v) => { data.rirc = v; }));
+  if (type === "all" || type === "components")
+    fetches.push(getComponentInquiries().then((v) => { data.components = v; }));
+  if (type === "all" || type === "courses")
+    fetches.push(getCourseInquiries().then((v) => { data.courses = v; }));
+  if (type === "all" || type === "primebook")
+    fetches.push(getPrimebookInquiries().then((v) => { data.primebook = v; }));
+  if (type === "all" || type === "contact")
+    fetches.push(getContactMessages().then((v) => { data.contact = v; }));
+
+  await Promise.all(fetches);
   return NextResponse.json(data);
 }
 
@@ -30,11 +38,11 @@ export async function PATCH(req: NextRequest) {
   const { id, type, status, flags } = await req.json();
 
   if (flags) {
-    if (type === "rirc") updateRircFlags(id, flags);
-    else updateInquiryFlags(`${type}_inquiries`, id, flags);
+    if (type === "rirc") await updateRircFlags(id, flags);
+    else await updateInquiryFlags(`${type}_inquiries`, id, flags);
   } else if (status) {
-    if (type === "rirc") updateRircStatus(id, status);
-    else updateInquiryFlags(`${type}_inquiries`, id, { status });
+    if (type === "rirc") await updateRircStatus(id, status);
+    else await updateInquiryFlags(`${type}_inquiries`, id, { status });
   }
 
   return NextResponse.json({ success: true });

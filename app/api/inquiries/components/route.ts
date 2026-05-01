@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const inquiry = addComponentInquiry({
+    const inquiry = await addComponentInquiry({
       name: body.name,
       phone: body.phone,
       email: body.email || "",

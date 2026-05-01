@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const msg = addContactMessage({
+    const msg = await addContactMessage({
       name: fullName,
       email,
       phone,
