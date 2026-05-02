@@ -102,7 +102,7 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
                   alt={items[activeIndex].title}
                   width={1400}
                   height={900}
-                  unoptimized
+                  sizes="(min-width: 1024px) 900px, 100vw"
                   className="w-full object-contain"
                   style={{ maxHeight: "78vh", background: "#0b1c2e" }}
                 />
