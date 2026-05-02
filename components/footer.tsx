@@ -17,11 +17,10 @@ export async function Footer() {
     !!settings.social_youtube && { label: "YouTube", href: settings.social_youtube, icon: faYoutube },
     !!settings.social_linkedin && { label: "LinkedIn", href: settings.social_linkedin, icon: faLinkedinIn },
     !!settings.social_x && { label: "X / Twitter", href: settings.social_x, icon: faXTwitter },
-    !!settings.social_whatsapp && {
-      label: "WhatsApp",
-      href: `https://wa.me/${settings.social_whatsapp.replace(/\D/g, "")}`,
-      icon: faWhatsapp,
-    },
+    (() => {
+      const digits = (settings.social_whatsapp || "").replace(/\D/g, "");
+      return digits.length > 0 ? { label: "WhatsApp", href: `https://wa.me/${digits}`, icon: faWhatsapp } : false;
+    })(),
   ];
 
   const socialLinks = socialEntries.filter(Boolean) as SocialEntry[];
