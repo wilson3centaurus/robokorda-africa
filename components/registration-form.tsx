@@ -58,6 +58,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
   const [form, setForm] = useState<RegistrationState>(initialState);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   function update<K extends keyof RegistrationState>(key: K, value: RegistrationState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -83,8 +84,9 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
+    setError(null);
     try {
-      await fetch("/api/rirc/register", {
+      const res = await fetch("/api/rirc/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -92,8 +94,16 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
           team_members: form.members.map((m) => m.name).filter(Boolean),
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data?.error || "Registration failed. Please try again.");
+        setSubmitting(false);
+        return;
+      }
     } catch {
-      // fail silently — show success regardless
+      setError("Network error. Please check your connection and try again.");
+      setSubmitting(false);
+      return;
     }
     setSubmitting(false);
     setSubmitted(true);
@@ -300,6 +310,14 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
               </div>
             </label>
           </div>
+
+          {/* Error message */}
+          {error && (
+            <div className="flex items-start gap-2 rounded-xl border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.08)] px-4 py-3">
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
+              <p className="text-sm leading-6 text-red-400">{error}</p>
+            </div>
+          )}
 
           {/* Notice */}
           <div className="flex items-start gap-2 rounded-xl border border-[rgba(0,229,160,0.15)] bg-[rgba(0,229,160,0.04)] px-4 py-3">

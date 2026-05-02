@@ -1,18 +1,36 @@
 import Link from "next/link";
-import { faFacebookF, faInstagram, faLinkedinIn, faTiktok } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookF, faInstagram, faLinkedinIn, faTiktok, faYoutube, faXTwitter, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Mail, Phone, MapPin, Cpu } from "lucide-react";
+import { Mail, Cpu } from "lucide-react";
 import { navItems } from "@/data/site";
 import { getSiteSettings } from "@/lib/settings";
 
 export async function Footer() {
   const settings = await getSiteSettings();
 
-  const socialLinks = [
-    { label: "Facebook", href: settings.social_facebook || "#", icon: faFacebookF },
+  type SocialEntry = { label: string; href: string; icon: typeof faFacebookF };
+
+  const socialEntries: (SocialEntry | false)[] = [
+    !!settings.social_facebook && { label: "Facebook", href: settings.social_facebook, icon: faFacebookF },
+    !!settings.social_instagram && { label: "Instagram", href: settings.social_instagram, icon: faInstagram },
+    !!settings.social_tiktok && { label: "TikTok", href: settings.social_tiktok, icon: faTiktok },
+    !!settings.social_youtube && { label: "YouTube", href: settings.social_youtube, icon: faYoutube },
+    !!settings.social_linkedin && { label: "LinkedIn", href: settings.social_linkedin, icon: faLinkedinIn },
+    !!settings.social_x && { label: "X / Twitter", href: settings.social_x, icon: faXTwitter },
+    (() => {
+      const digits = (settings.social_whatsapp || "").replace(/\D/g, "");
+      return digits.length > 0 ? { label: "WhatsApp", href: `https://wa.me/${digits}`, icon: faWhatsapp } : false;
+    })(),
+  ];
+
+  const socialLinks = socialEntries.filter(Boolean) as SocialEntry[];
+
+  // Fallback social links if none configured in DB
+  const displaySocials: SocialEntry[] = socialLinks.length > 0 ? socialLinks : [
+    { label: "Facebook", href: "https://www.facebook.com/robokordaafrica", icon: faFacebookF },
+    { label: "Instagram", href: "https://www.instagram.com/robokordaafrica", icon: faInstagram },
     { label: "TikTok", href: "#", icon: faTiktok },
-    { label: "Instagram", href: settings.social_instagram || "#", icon: faInstagram },
-    ...(settings.social_linkedin ? [{ label: "LinkedIn", href: settings.social_linkedin, icon: faLinkedinIn }] : []),
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/robokorda-africa", icon: faLinkedinIn },
   ];
 
   return (
@@ -79,7 +97,7 @@ export async function Footer() {
                 <span className="w-4 h-px bg-[var(--electric)]" /> Connect
               </h3>
               <div className="flex flex-col gap-4">
-                {socialLinks.map((item) => (
+                {displaySocials.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}

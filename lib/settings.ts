@@ -14,6 +14,10 @@ export type SiteSettings = {
   social_facebook: string;
   social_instagram: string;
   social_linkedin: string;
+  social_tiktok: string;
+  social_youtube: string;
+  social_whatsapp: string;
+  social_x: string;
   stat_students: string;
   stat_schools: string;
   stat_countries: string;
@@ -41,6 +45,10 @@ const DEFAULTS: SiteSettings = {
   social_facebook: "https://www.facebook.com/robokordaafrica",
   social_instagram: "https://www.instagram.com/robokordaafrica",
   social_linkedin: "https://www.linkedin.com/company/robokorda-africa",
+  social_tiktok: "",
+  social_youtube: "",
+  social_whatsapp: "",
+  social_x: "",
   stat_students: "9,976+",
   stat_schools: "79+",
   stat_countries: "11",
@@ -71,6 +79,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       social_facebook:     map.social_facebook     || DEFAULTS.social_facebook,
       social_instagram:    map.social_instagram    || DEFAULTS.social_instagram,
       social_linkedin:     map.social_linkedin     || DEFAULTS.social_linkedin,
+      social_tiktok:       map.social_tiktok       || "",
+      social_youtube:      map.social_youtube      || "",
+      social_whatsapp:     map.social_whatsapp     || "",
+      social_x:            map.social_x            || "",
       stat_students:       map.stat_students       || DEFAULTS.stat_students,
       stat_schools:        map.stat_schools        || DEFAULTS.stat_schools,
       stat_countries:      map.stat_countries      || DEFAULTS.stat_countries,

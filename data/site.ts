@@ -3,7 +3,6 @@ import {
   Blocks,
   GraduationCap,
   Handshake,
-  MapPin,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
@@ -115,6 +114,7 @@ export const navItems: NavItem[] = [
   { label: "Home", href: "#home", sectionId: "home" },
   { label: "About Us", href: "#about", sectionId: "about" },
   { label: "Our Courses", href: "#courses", sectionId: "courses" },
+  { label: "Short Courses", href: "/short-courses" },
   { label: "Skills", href: "#skills", sectionId: "skills" },
   { label: "Why Us", href: "#why-us", sectionId: "why-us" },
   { label: "Partners", href: "#partners", sectionId: "partners" },

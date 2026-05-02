@@ -2,8 +2,7 @@
 
 import { Suspense, useEffect, useState, useCallback, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { Trophy, ShoppingBag, BookOpen, Cpu, MessageSquare, ArrowLeft, RefreshCw, Check, X, Clock, Search } from "lucide-react";
+import { Trophy, ShoppingBag, BookOpen, Cpu, MessageSquare, RefreshCw, Check, X, Clock, Search } from "lucide-react";
 import type { RircRegistration, ComponentInquiry, CourseInquiry, PrimebookInquiry, ContactMessage } from "@/lib/db";
 
 type Tab = "rirc" | "components" | "courses" | "primebook" | "contact";
@@ -23,7 +22,7 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function InquiriesPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[var(--space-800)] flex items-center justify-center text-[var(--text-muted)] text-sm">Loading…</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center py-20 text-[var(--text-muted)] text-sm">Loading…</div>}>
       <InquiriesContent />
     </Suspense>
   );
@@ -115,19 +114,12 @@ function InquiriesContent() {
   }, [rirc]);
 
   return (
-    <div className="min-h-screen bg-[var(--space-800)] p-4 sm:p-6 lg:p-8">
-      <div className="pointer-events-none fixed inset-0 opacity-[0.025]" style={{ backgroundImage: `linear-gradient(rgba(52,47,197,1) 1px, transparent 1px), linear-gradient(90deg, rgba(52,47,197,1) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
-
-      <div className="relative mx-auto max-w-7xl">
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/admin" className="flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition">
-              <ArrowLeft className="h-4 w-4" /> Dashboard
-            </Link>
-            <span className="text-[var(--space-400)]">/</span>
-            <h1 className="text-lg font-bold text-[var(--text-primary)]">Inquiries &amp; Registrations</h1>
-          </div>
-          <button onClick={load} className="flex items-center gap-2 rounded-lg border border-[var(--surface-border)] bg-[var(--surface-2)] px-3 py-2 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition" style={{ minHeight: "unset" }}>
+    <div>
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <h1 className="text-lg font-bold text-[var(--text-primary)]">Inquiries &amp; Registrations</h1>
+        </div>
+        <button onClick={load} className="flex items-center gap-2 rounded-lg border border-[var(--surface-border)] bg-[var(--surface-2)] px-3 py-2 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition" style={{ minHeight: "unset" }}>
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
           </button>
         </div>
@@ -414,7 +406,6 @@ function InquiriesContent() {
             </>
           )}
         </div>
-      </div>
     </div>
   );
 }

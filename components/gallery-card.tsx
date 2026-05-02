@@ -20,9 +20,9 @@ export function GalleryCard({ item, onClick }: GalleryCardProps) {
         src={item.imageSrc}
         alt={item.title}
         fill
-        unoptimized
         sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw"
         className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+        loading="lazy"
       />
       <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/30" />
       <span className="absolute inset-x-0 bottom-0 translate-y-1 p-4 text-sm font-semibold text-white drop-shadow-lg opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
