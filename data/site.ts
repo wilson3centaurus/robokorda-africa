@@ -3,7 +3,6 @@ import {
   Blocks,
   GraduationCap,
   Handshake,
-  MapPin,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
