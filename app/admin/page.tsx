@@ -5,19 +5,18 @@ import {
 } from "lucide-react";
 import {
   getRircRegistrations, getComponentInquiries,
-  getCourseInquiries, getPrimebookInquiries, getContactMessages,
-} from "@/lib/db";
+  getCourseInquiries, getPrimebookInquiries, getContactMessages, getShopOrders,
+} from "@/lib/localdb";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const [rirc, components, courses, primebook, contact] = await Promise.all([
-    getRircRegistrations(),
-    getComponentInquiries(),
-    getCourseInquiries(),
-    getPrimebookInquiries(),
-    getContactMessages(),
-  ]);
+  const rirc = getRircRegistrations();
+  const components = getComponentInquiries();
+  const courses = getCourseInquiries();
+  const primebook = getPrimebookInquiries();
+  const contact = getContactMessages();
+  const orders = getShopOrders();
 
   const stats = [
     { label: "RIRC Registrations", value: rirc.length, icon: Trophy, color: "text-[#fcd34d]", bg: "bg-[rgba(245,158,11,0.12)]", href: "/admin/inquiries?tab=rirc" },
@@ -26,6 +25,7 @@ export default async function AdminDashboard() {
     { label: "Prime Book Inquiries", value: primebook.length, icon: Cpu, color: "text-[#c084fc]", bg: "bg-[rgba(192,132,252,0.1)]", href: "/admin/inquiries?tab=primebook" },
     { label: "Contact Messages", value: contact.length, icon: MessageSquare, color: "text-[#f87171]", bg: "bg-[rgba(248,113,113,0.1)]", href: "/admin/inquiries?tab=contact" },
     { label: "Pending RIRC", value: rirc.filter((r) => r.status === "pending").length, icon: Users, color: "text-[#fb923c]", bg: "bg-[rgba(251,146,60,0.1)]", href: "/admin/inquiries?tab=rirc" },
+    { label: "Shop Orders", value: orders.length, icon: ShoppingBag, color: "text-[#34d399]", bg: "bg-[rgba(52,211,153,0.12)]", href: "/admin/inquiries?tab=components" },
   ];
 
   return (

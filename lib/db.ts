@@ -20,13 +20,13 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   site_name: "Robokorda Africa",
   site_tagline: "Making Robotics & Coding Fun",
   contact_email: "info@robokorda.com",
-  contact_phone_sa: "+27 83 242 7998",
   contact_phone_zw: "+263 774 189 500",
-  address_sa: "206 Rosies Place Street, Glen Austin AH, Midrand, Johannesburg",
-  address_zw: "16 Mahogany Avenue, Rhodene, Masvingo, Zimbabwe",
-  social_facebook: "https://www.facebook.com/robokordaafrica",
-  social_instagram: "https://www.instagram.com/robokordaafrica",
+  address_zw: "Stand 778 Olive Street Sunway City, Harare, Zimbabwe",
+  social_facebook: "https://www.facebook.com/share/1Hdyjxem5r/",
+  social_instagram: "https://www.instagram.com/robokordazw?igsh=b2ZlbnUwbWwydXU=",
+  social_instagram_2: "https://www.instagram.com/robokorda_africa?igsh=Z2I4aDUwYTFpaTlo",
   social_linkedin: "https://www.linkedin.com/company/robokorda-africa",
+  social_tiktok: "https://vm.tiktok.com/ZS9LCLFqSpVhw-j1eJn/",
   stat_students: "9,976+",
   stat_schools: "79+",
   stat_countries: "11",
@@ -36,7 +36,7 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   video_url_primebook: "",
   primebook_price_usd: "299",
   primebook_price_zwg: "850000",
-  primebook_specs: 'Intel Celeron N4020 · 4GB RAM · 128GB SSD · 11.6" HD · Windows 11',
+  primebook_specs: 'PrimeOS (Android-based) · ARM Octa-Core · 4GB RAM · 128GB · 14" HD',
   admin_password: "robokorda2026",
 };
 
@@ -45,7 +45,10 @@ const DEFAULT_SETTINGS: Record<string, string> = {
 export async function getAllSettings(): Promise<Record<string, string>> {
   const sb = getServerClient();
   const { data, error } = await sb.from("settings").select("key, value");
-  if (error) return { ...DEFAULT_SETTINGS };
+  if (error) {
+    console.error("[db] getAllSettings error:", error.message, error.details ?? "");
+    return { ...DEFAULT_SETTINGS };
+  }
   const stored: Record<string, string> = {};
   for (const row of data ?? []) stored[row.key] = row.value;
   return { ...DEFAULT_SETTINGS, ...stored };
@@ -85,7 +88,8 @@ export async function getGallery(section?: string): Promise<GalleryRow[]> {
   const sb = getServerClient();
   let q = sb.from("gallery").select("*").eq("is_published", true).order("sort_order");
   if (section) q = q.eq("section", section);
-  const { data } = await q;
+  const { data, error } = await q;
+  if (error) console.error("[db] getGallery error:", error.message, error.details ?? "");
   return (data ?? []) as GalleryRow[];
 }
 
@@ -443,20 +447,24 @@ export async function updateComponent(id: string, updates: Partial<RoboticsCompo
 // ─── Courses ──────────────────────────────────────────────────────────────────
 
 export async function getCourses(): Promise<Course[]> {
-  const sb = getServerClient();
-  const { data } = await sb.from("courses").select("*");
-  if (!data || data.length === 0) return [];
-  return data.map((row) => ({
-    seed: row.seed,
-    title: row.title,
-    level: row.level,
-    age: row.age,
-    duration: row.duration,
-    deliveryMode: row.delivery_mode,
-    overview: Array.isArray(row.overview) ? row.overview : [],
-    imageSrc: row.image_src,
-    ...row.extra,
-  })) as Course[];
+  try {
+    const sb = getServerClient();
+    const { data } = await sb.from("courses").select("*");
+    if (!data || data.length === 0) return [];
+    return data.map((row) => ({
+      seed: row.seed,
+      title: row.title,
+      level: row.level,
+      age: row.age,
+      duration: row.duration,
+      deliveryMode: row.delivery_mode,
+      overview: Array.isArray(row.overview) ? row.overview : [],
+      imageSrc: row.image_src,
+      ...row.extra,
+    })) as Course[];
+  } catch {
+    return [];
+  }
 }
 
 export async function updateCourse(seed: string, updates: Partial<Course>): Promise<Course | null> {

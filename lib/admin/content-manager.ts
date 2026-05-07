@@ -28,15 +28,23 @@ function getMediaType(name: string): 'image' | 'video' {
 // ─── Page Content (stored in robokorda.page_content table) ───────────────────
 
 export async function getContent(page: string): Promise<Record<string, unknown> | null> {
-  const safePage = page.replace(/[^a-zA-Z0-9-]/g, '');
-  const sb = getServerClient();
-  const { data, error } = await sb
-    .from('page_content')
-    .select('content')
-    .eq('page', safePage)
-    .single();
-  if (error || !data) return null;
-  return data.content as Record<string, unknown>;
+  try {
+    const safePage = page.replace(/[^a-zA-Z0-9-]/g, '');
+    const sb = getServerClient();
+    const { data, error } = await sb
+      .from('page_content')
+      .select('content')
+      .eq('page', safePage)
+      .single();
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 = "no rows returned" — not a real error, just empty content
+      console.error(`[db] getContent(${safePage}) error:`, error.message, error.details ?? '');
+    }
+    if (error || !data) return null;
+    return data.content as Record<string, unknown>;
+  } catch {
+    return null;
+  }
 }
 
 export async function setContent(page: string, content: Record<string, unknown>): Promise<void> {

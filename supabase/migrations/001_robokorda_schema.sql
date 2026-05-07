@@ -21,17 +21,17 @@ CREATE SCHEMA IF NOT EXISTS robokorda;
 -- PostgREST uses the anon/authenticated/service_role postgres roles.
 -- Even though service_role bypasses RLS, it still needs USAGE on a custom schema.
 
-GRANT USAGE ON SCHEMA robokorda TO anon, authenticated, service_role;
+GRANT USAGE ON SCHEMA robokorda TO anon, authenticated, service_role, authenticator;
 
-GRANT ALL ON ALL TABLES    IN SCHEMA robokorda TO anon, authenticated, service_role;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role;
-GRANT ALL ON ALL ROUTINES  IN SCHEMA robokorda TO anon, authenticated, service_role;
+GRANT ALL ON ALL TABLES    IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;
+GRANT ALL ON ALL ROUTINES  IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;
 
 -- Auto-grant for any future tables created in the schema
 ALTER DEFAULT PRIVILEGES IN SCHEMA robokorda
-  GRANT ALL ON TABLES    TO anon, authenticated, service_role;
+  GRANT ALL ON TABLES    TO anon, authenticated, service_role, authenticator;
 ALTER DEFAULT PRIVILEGES IN SCHEMA robokorda
-  GRANT ALL ON SEQUENCES TO anon, authenticated, service_role;
+  GRANT ALL ON SEQUENCES TO anon, authenticated, service_role, authenticator;
 
 -- ─── Settings (key-value store) ──────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS robokorda.settings (
@@ -180,8 +180,8 @@ CREATE TABLE IF NOT EXISTS robokorda.admins (
 );
 
 -- ─── Re-grant after table creation ───────────────────────────────────────────
-GRANT ALL ON ALL TABLES    IN SCHEMA robokorda TO anon, authenticated, service_role;
-GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role;
+GRANT ALL ON ALL TABLES    IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;
 
 -- ─── Row-Level Security ───────────────────────────────────────────────────────
 -- All server-side DB access uses the service role key which BYPASSES RLS.

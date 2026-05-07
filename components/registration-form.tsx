@@ -3,7 +3,8 @@
 import { useState } from "react";
 import {
   CheckCircle2, Send, Loader2, Plus, Minus,
-  Globe, MapPin, Tag, School, Users, User, Mail, Phone, Info,
+  Globe, MapPin, Tag, School, Users, User, Mail, Phone, Info, Calendar,
+  Video, Link2, X, ExternalLink,
 } from "lucide-react";
 import type { CountryEntry } from "@/lib/page-types";
 
@@ -16,7 +17,7 @@ const CATEGORIES = [
   "Gaming (Intermediate, Advanced and Makeathon Participants)",
 ];
 
-type Member = { name: string };
+type Member = { name: string; dob: string };
 
 type RegistrationState = {
   country: string;
@@ -28,6 +29,8 @@ type RegistrationState = {
   members: Member[];
   email: string;
   whatsapp: string;
+  teaserEntered: boolean;
+  teaserLinks: string[];
 };
 
 const initialState: RegistrationState = {
@@ -37,9 +40,11 @@ const initialState: RegistrationState = {
   school: "",
   teamName: "",
   teamLead: "",
-  members: [{ name: "" }],
+  members: [{ name: "", dob: "" }],
   email: "",
   whatsapp: "",
+  teaserEntered: false,
+  teaserLinks: [""],
 };
 
 const inputCls =
@@ -54,8 +59,71 @@ function FieldIcon({ icon: Icon }: { icon: React.ElementType }) {
   );
 }
 
+function VideoTeaserModal({ onClose }: { onClose: () => void }) {
+  const socials = [
+    { label: "Facebook",         href: "https://www.facebook.com/share/1Hdyjxem5r/",                          handle: "Robokorda Africa" },
+    { label: "Instagram ZW",     href: "https://www.instagram.com/robokordazw?igsh=b2ZlbnUwbWwydXU=",        handle: "@robokordazw" },
+    { label: "Instagram Africa", href: "https://www.instagram.com/robokorda_africa?igsh=Z2I4aDUwYTFpaTlo",  handle: "@robokorda_africa" },
+    { label: "TikTok",           href: "https://vm.tiktok.com/ZS9LCLFqSpVhw-j1eJn/",                        handle: "@robokordaafrica" },
+    { label: "LinkedIn",         href: "https://www.linkedin.com/company/robokorda-africa",                  handle: "robokorda-africa" },
+  ];
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm p-0 sm:p-4"
+      onClick={onClose}
+    >
+      <div
+        className="w-full sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-t-3xl sm:rounded-2xl border border-[var(--surface-border)] bg-[var(--card)] shadow-2xl"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between p-5 pb-3 sticky top-0 bg-[var(--card)]/95 backdrop-blur-sm border-b border-[var(--surface-border-subtle)]">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--electric-bright)]">RIRC Video Challenge</p>
+          <button onClick={onClose} className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--surface-2)] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="p-5 space-y-5">
+          {/* Logo + Title */}
+          <div className="flex items-center gap-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/rirc/logo.png" alt="RIRC Logo" width={100} height={100} className="rounded-xl object-contain shrink-0 bg-[var(--surface-1)] p-1" style={{ width: 100, height: 100 }} />
+            <div>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">RIRC 2026 Video Challenge</h2>
+              <p className="text-xs leading-5 text-[var(--text-muted)] mt-1">Enter the teaser competition while you prepare for the main event!</p>
+            </div>
+          </div>
+          {/* Flyer */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/rirc/teaser-flyer.jpg" alt="RIRC Video Challenge Flyer" className="w-full rounded-xl object-cover" />
+         
+          {/* Social links */}
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-2">Where to reach us</h3>
+            <div className="flex flex-wrap gap-2">
+              {socials.map(s => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--surface-border-subtle)] bg-[var(--surface-2)] px-3 py-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--electric-bright)] hover:border-[var(--electric)] transition-colors"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                  <span className="font-medium">{s.label}</span>
+                  <span className="opacity-60">{s.handle}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
   const [form, setForm] = useState<RegistrationState>(initialState);
+  const [showTeaserModal, setShowTeaserModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +134,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
 
   function addMember() {
     if (form.members.length >= 5) return;
-    setForm((f) => ({ ...f, members: [...f.members, { name: "" }] }));
+    setForm((f) => ({ ...f, members: [...f.members, { name: "", dob: "" }] }));
   }
 
   function removeMember(idx: number) {
@@ -74,10 +142,10 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
     setForm((f) => ({ ...f, members: f.members.filter((_, i) => i !== idx) }));
   }
 
-  function updateMember(idx: number, name: string) {
+  function updateMember(idx: number, field: keyof Member, value: string) {
     setForm((f) => ({
       ...f,
-      members: f.members.map((m, i) => (i === idx ? { name } : m)),
+      members: f.members.map((m, i) => (i === idx ? { ...m, [field]: value } : m)),
     }));
   }
 
@@ -91,7 +159,9 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          team_members: form.members.map((m) => m.name).filter(Boolean),
+          team_members: form.members.filter((m) => m.name),
+          teaser_entered: form.teaserEntered,
+          teaser_links: form.teaserLinks.filter(Boolean),
         }),
       });
       if (!res.ok) {
@@ -112,6 +182,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
 
   return (
     <div className="rounded-2xl border border-[var(--surface-border)] bg-[var(--card)] p-6 sm:p-8 h-full">
+      {showTeaserModal && <VideoTeaserModal onClose={() => setShowTeaserModal(false)} />}
       {submitted ? (
         <div className="flex h-full flex-col items-start">
           <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[rgba(0,229,160,0.3)] bg-[rgba(0,229,160,0.08)]">
@@ -245,26 +316,39 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
             </span>
             <div className="space-y-2">
               {form.members.map((m, idx) => (
-                <div key={idx} className="flex gap-2 items-center">
-                  <div className="relative flex-1">
-                    <FieldIcon icon={User} />
+                <div key={idx} className="rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] p-3 space-y-2">
+                  <div className="flex gap-2 items-center">
+                    <div className="relative flex-1">
+                      <FieldIcon icon={User} />
+                      <input
+                        className={`${inputCls} pl-10`}
+                        placeholder={`Member ${idx + 1} full name`}
+                        value={m.name}
+                        onChange={(e) => updateMember(idx, 'name', e.target.value)}
+                      />
+                    </div>
+                    {form.members.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeMember(idx)}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.06)] text-red-400 hover:bg-[rgba(248,113,113,0.15)] transition"
+                        aria-label="Remove member"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <FieldIcon icon={Calendar} />
                     <input
+                      type="date"
                       className={`${inputCls} pl-10`}
-                      placeholder={`Member ${idx + 1} full name`}
-                      value={m.name}
-                      onChange={(e) => updateMember(idx, e.target.value)}
+                      placeholder="Date of birth"
+                      value={m.dob}
+                      onChange={(e) => updateMember(idx, 'dob', e.target.value)}
                     />
                   </div>
-                  {form.members.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeMember(idx)}
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.06)] text-red-400 hover:bg-[rgba(248,113,113,0.15)] transition"
-                      aria-label="Remove member"
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                  )}
+                  <p className="text-[10px] text-[var(--text-muted)] pl-1">Date of birth (optional)</p>
                 </div>
               ))}
             </div>
@@ -309,6 +393,77 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
                 />
               </div>
             </label>
+          </div>
+
+          {/* Video Challenge Teaser Competition */}
+          <div className="rounded-xl border border-[rgba(0,229,160,0.2)] bg-[rgba(0,229,160,0.03)] p-4 space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Video className="h-4 w-4 text-[var(--electric-bright)]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--electric-bright)]">Video Challenge</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowTeaserModal(true)}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[rgba(0,229,160,0.35)] px-2.5 py-1 text-xs font-semibold text-[var(--neon)] hover:bg-[var(--neon-subtle)] transition-colors"
+              >
+                <ExternalLink className="h-3 w-3" />
+                Learn More
+              </button>
+            </div>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.teaserEntered}
+                onChange={e => update("teaserEntered", e.target.checked)}
+                className="mt-1 h-4 w-4 shrink-0 cursor-pointer accent-[var(--electric)]"
+              />
+              <span className="text-sm leading-6 text-[var(--text-secondary)]">
+                I have already entered the <span className="font-semibold text-[var(--text-primary)]">RIRC Video Challenge</span> competition on social media.
+              </span>
+            </label>
+            {form.teaserEntered && (
+              <div className="space-y-2 pt-1">
+                <span className={labelCls}>Your Social Media Post Link(s)</span>
+                {form.teaserLinks.map((link, idx) => (
+                  <div key={idx} className="flex gap-2">
+                    <div className="relative flex-1">
+                      <FieldIcon icon={Link2} />
+                      <input
+                        className={`${inputCls} pl-10`}
+                        placeholder="https://www.instagram.com/p/…"
+                        value={link}
+                        onChange={e => {
+                          const updated = [...form.teaserLinks];
+                          updated[idx] = e.target.value;
+                          update("teaserLinks", updated);
+                        }}
+                      />
+                    </div>
+                    {form.teaserLinks.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => update("teaserLinks", form.teaserLinks.filter((_, i) => i !== idx))}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.06)] text-red-400 hover:bg-[rgba(248,113,113,0.15)] transition"
+                        aria-label="Remove link"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                {form.teaserLinks.length < 5 && (
+                  <button
+                    type="button"
+                    onClick={() => update("teaserLinks", [...form.teaserLinks, ""])}
+                    className="inline-flex items-center gap-2 rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] px-4 py-2 text-xs font-semibold text-[var(--electric-bright)] hover:bg-[var(--surface-border)] transition"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add another link
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Error message */}

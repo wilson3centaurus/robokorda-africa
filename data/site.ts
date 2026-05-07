@@ -1,11 +1,4 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  Blocks,
-  GraduationCap,
-  Handshake,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
 
 export type NavItem = {
   label: string;
@@ -98,11 +91,19 @@ export const supportPhone = "+27 83 242 7998";
 export const socialLinks = [
   {
     label: "Facebook",
-    href: "https://www.facebook.com/robokordaafrica",
+    href: "https://www.facebook.com/share/1Hdyjxem5r/",
   },
   {
-    label: "Instagram",
-    href: "https://www.instagram.com/robokordaafrica",
+    label: "Instagram ZW",
+    href: "https://www.instagram.com/robokordazw?igsh=b2ZlbnUwbWwydXU=",
+  },
+  {
+    label: "Instagram Africa",
+    href: "https://www.instagram.com/robokorda_africa?igsh=Z2I4aDUwYTFpaTlo",
+  },
+  {
+    label: "TikTok",
+    href: "https://vm.tiktok.com/ZS9LCLFqSpVhw-j1eJn/",
   },
   {
     label: "LinkedIn",
@@ -126,61 +127,15 @@ export const navItems: NavItem[] = [
 ];
 
 
-export const footerHighlights = [
-  {
-    title: "Digital creators in the making",
-    description:
-      "Robokorda helps learners move from passive technology use into purposeful creation and innovation.",
-    icon: Sparkles,
-  },
-  {
-    title: "Premium STEM delivery",
-    description:
-      "Every programme combines coding, robotics, design, and communication in a polished learning experience.",
-    icon: Blocks,
-  },
-  {
-    title: "Built for long-term relevance",
-    description:
-      "Learners gain technical capability, confidence, teamwork, and exposure to real innovation pathways.",
-    icon: ShieldCheck,
-  },
-];
 
-export const aboutPillars: ValueCard[] = [
-  {
-    title: "Future-facing education",
-    description:
-      "Robokorda Africa equips learners for a world shaped by automation, AI, and digital problem-solving.",
-    icon: GraduationCap,
-  },
-  {
-    title: "Hands-on delivery",
-    description:
-      "Projects, prototypes, and demonstrations keep learning tangible and memorable.",
-    icon: Blocks,
-  },
-  {
-    title: "Strong learning culture",
-    description:
-      "Students are coached to think critically, communicate clearly, and take ownership of outcomes.",
-    icon: Handshake,
-  },
-  {
-    title: "Regional ambition",
-    description:
-      "The model is designed to grow across schools and innovation communities throughout Africa.",
-    icon: Sparkles,
-  },
-];
 
 export const shopProducts: Product[] = [
   {
     id: "primebook-neo",
     name: "PrimeBook Neo",
     category: "Prime Book Laptops",
-    price: 149,
-    compareAt: 179,
+    price: 230,
+    compareAt: 250,
     shortDescription:
       "Entry-level Android laptop for every learner. PrimeOS (Android-based), ARM Octa-Core, 4GB RAM, 64GB.",
     imageSrc: "/images/primebooks/primebook-2-neo.jpg",
@@ -194,8 +149,8 @@ export const shopProducts: Product[] = [
     id: "robokorda-robotics-kit",
     name: "Robokorda Robotics Kit",
     category: "Robotics Kits",
-    price: 179,
-    compareAt: 210,
+    price: 40,
+    compareAt: 50,
     shortDescription:
       "Complete classroom robotics kit: chassis, motors, sensors, and learning guide.",
     imageSrc: "/images/shop/robokorda-robotics-kit.jpg",

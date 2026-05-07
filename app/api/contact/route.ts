@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { addContactMessage } from "@/lib/db";
+import { addContactMessage } from "@/lib/localdb";
 
 export async function POST(req: Request) {
   try {

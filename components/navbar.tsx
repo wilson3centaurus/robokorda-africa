@@ -29,6 +29,9 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   // Use the alternate logo on light backgrounds, fallback to main logo
   const activeLogo = (resolvedTheme === "light" && logoUrlDark) ? logoUrlDark : logoUrl;
@@ -67,10 +70,10 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
     return () => observer.disconnect();
   }, [items, pathname]);
 
-  const isLightMode = resolvedTheme === "light";
+  const isLightMode = mounted && resolvedTheme === "light";
 
   // Logo uses white text only when confirmed dark mode + transparent hero at top of home
-  const logoLight = !scrolled && !open && pathname === "/" && resolvedTheme === "dark";
+  const logoLight = mounted && !scrolled && !open && pathname === "/" && resolvedTheme === "dark";
 
   const navIsTransparent = !scrolled && !open && pathname === "/";
 

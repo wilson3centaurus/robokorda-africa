@@ -75,7 +75,7 @@ export default async function HomePage() {
         }))
       : staticGalleryItems;
 
-  const homeVideoUrl = settings.video_url_home || undefined;
+  const homeVideoUrl = settings.video_url_home || "/media/home-hero.mp4";
 
 
 
@@ -94,7 +94,7 @@ export default async function HomePage() {
         secondaryAction={{ href: "/#contact", label: "Talk to Our Team" }}
         mediaLabel="Hero Video"
         mediaSeed="robokorda-home-hero"
-        mediaVideoUrl={homeVideoUrl ?? "/media/home-hero.mp4"}
+        mediaVideoUrl={homeVideoUrl}
         showMediaOverlay
         stats={heroStats}
       >
@@ -340,30 +340,17 @@ export default async function HomePage() {
               <Reveal>
                 <ContactCard
                   location={{
-                    title: "South Africa Office",
-                    addressLines: [
-                      settings.address_sa,
-                      `Phone: ${settings.contact_phone_sa}`,
-                    ],
-                    detail: "Our primary hub for partnerships, device sales, and programme coordination.",
-                    icon: MapPin,
-                  }}
-                />
-              </Reveal>
-              <Reveal delay={0.04}>
-                <ContactCard
-                  location={{
                     title: "Zimbabwe Office",
                     addressLines: [
                       settings.address_zw,
                       `Phone: ${settings.contact_phone_zw}`,
                     ],
-                    detail: "Our Zimbabwe base for school programmes, competitions, and regional enquiries.",
+                    detail: "Our base for school programmes, competitions, and regional enquiries.",
                     icon: MapPin,
                   }}
                 />
               </Reveal>
-              <Reveal delay={0.08}>
+              <Reveal delay={0.04}>
                 <ContactCard
                   location={{
                     title: "Email Us",

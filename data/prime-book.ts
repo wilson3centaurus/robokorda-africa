@@ -31,7 +31,7 @@ export const primeBookModels: PrimeBookModel[] = [
     id: "neo",
     name: "PrimeBook Neo",
     tagline: "Entry-level Android laptop for every learner",
-    price: 149,
+    price: 230,
     priceZWG: 210000,
     connectivity: "Wi-Fi",
     badge: "Best Value",

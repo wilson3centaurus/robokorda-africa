@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const SECRET_KEY = process.env.ADMIN_SECRET;
+const SECRET_KEY = process.env.ADMIN_SECRET || process.env.ADMIN_PASSWORD;
 
 if (!SECRET_KEY) {
   console.error(
-    "[middleware] CRITICAL: ADMIN_SECRET environment variable is not set. " +
+    "[proxy] CRITICAL: ADMIN_SECRET environment variable is not set. " +
       "Admin routes will not be properly protected. Set ADMIN_SECRET in your environment."
   );
 }
@@ -51,7 +51,7 @@ async function verifySessionToken(token: string): Promise<boolean> {
   }
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect admin routes, but not login

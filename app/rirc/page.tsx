@@ -47,8 +47,8 @@ export default async function RircPage() {
     summary: savedPrizes[i]?.value || p.summary,
   }));
 
-  const rircVideoUrl = settings.video_url_rirc || "/uploads/1777047029392-ddalnx.mp4";
-  const rircShowcaseVideoUrl = settings.video_url_rirc || undefined;
+  const rircVideoUrl = settings.video_url_rirc || "/images/rirc/hero-banner.mp4";
+  const rircShowcaseVideoUrl = rircVideoUrl;
 
   // Use DB gallery if photos exist, otherwise fall back to static data
   const galleryItems: GalleryItem[] =
@@ -64,6 +64,7 @@ export default async function RircPage() {
 
   // Brochure URL from settings or fallback
   const brochureUrl = (settings as Record<string, string>).rirc_brochure_url || "/downloads/RIRC-2026-Brochure.pdf";
+  const flyerUrl = (settings as Record<string, string>).rirc_flyer_url || "/downloads/RIRC-2026-Flyer.pdf";
 
   return (
     <>
@@ -107,6 +108,14 @@ export default async function RircPage() {
               <Download className="h-4 w-4" />
               Download Brochure
             </a>
+            <a
+              href={flyerUrl}
+              download
+              className="inline-flex items-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-5 py-2.5 text-sm font-semibold text-[var(--neon)] transition hover:border-[rgba(0,229,160,0.65)] hover:bg-[var(--neon-subtle)]"
+            >
+              <Download className="h-4 w-4" />
+              Download Flyer
+            </a>
           </div>
         </div>
       </HeroBanner>
@@ -140,14 +149,24 @@ export default async function RircPage() {
                 <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--text-muted)]">
                   Registrations close 30 August 2026
                 </p>
-                <a
-                  href={brochureUrl}
-                  download
-                  className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-5 py-2.5 text-sm font-semibold text-[var(--neon)] transition hover:bg-[var(--neon-subtle)]"
-                >
-                  <Download className="h-4 w-4" aria-hidden="true" />
-                  Download Competition Brochure
-                </a>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <a
+                    href={brochureUrl}
+                    download
+                    className="inline-flex items-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-5 py-2.5 text-sm font-semibold text-[var(--neon)] transition hover:bg-[var(--neon-subtle)]"
+                  >
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                    Download Brochure
+                  </a>
+                  <a
+                    href={flyerUrl}
+                    download
+                    className="inline-flex items-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-5 py-2.5 text-sm font-semibold text-[var(--neon)] transition hover:bg-[var(--neon-subtle)]"
+                  >
+                    <Download className="h-4 w-4" aria-hidden="true" />
+                    Download Flyer
+                  </a>
+                </div>
               </div>
             </Reveal>
             <Reveal delay={0.06}>

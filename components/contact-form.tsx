@@ -105,13 +105,13 @@ export function ContactForm() {
                 />
               </label>
               <label className="space-y-1.5">
-                <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">Phone</span>
+              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">Phone</span>
                 <input
                   required
                   value={form.phone}
                   onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
                   className="w-full rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-4 py-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition focus:border-[var(--electric)] focus:ring-1 focus:ring-[var(--electric-glow)]"
-                  placeholder="+27 or +263"
+                  placeholder="+263 or international"
                 />
               </label>
             </div>
@@ -127,6 +127,12 @@ export function ContactForm() {
                 <option>Extra-curricular club</option>
                 <option>Partnership enquiry</option>
                 <option>Parent enquiry</option>
+                <option>PrimeBook laptops</option>
+                <option>Robotics kits &amp; components</option>
+                <option>RIRC competition</option>
+                <option>Short courses</option>
+                <option>General enquiry</option>
+                <option>Other</option>
               </select>
             </label>
             <label className="space-y-1.5">
