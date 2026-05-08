@@ -139,8 +139,8 @@ const DEFAULTS: Record<string, Record<string, SectionItem[]>> = {
     'Products': [
       { label: 'Prime Book Student 14', value: '$299 · A dependable education-focused laptop.', imageSrc: 'https://picsum.photos/seed/prime-book-student/900/720', type: 'card' },
       { label: 'Prime Book Standard 14', value: '$399 · Balanced performance for schools and tutors.', imageSrc: 'https://picsum.photos/seed/prime-book-standard/900/720', type: 'card' },
-      { label: 'Robotics Starter Lab Kit', value: '$179 · Starter hardware and build guides.', imageSrc: 'https://picsum.photos/seed/robotics-starter-lab/900/720', type: 'card' },
-      { label: 'Classroom Sensor Pack', value: '$79 · Distance, light, and motion sensors.', imageSrc: 'https://picsum.photos/seed/classroom-sensor-pack/900/720', type: 'card' },
+      { label: 'Robotics Starter Lab Kit', value: '$40 · Starter hardware and build guides.', imageSrc: 'https://picsum.photos/seed/robotics-starter-lab/900/720', type: 'card' },
+      { label: 'Classroom Sensor Pack', value: '$60 · Distance, light, and motion sensors.', imageSrc: 'https://picsum.photos/seed/classroom-sensor-pack/900/720', type: 'card' },
       { label: 'Microcontroller Duo Bundle', value: '$112 · Two classroom-friendly boards.', imageSrc: 'https://picsum.photos/seed/microcontroller-duo/900/720', type: 'card' },
       { label: 'Electronics Practice Bundle', value: '$68 · Breadboards, resistors, LEDs.', imageSrc: 'https://picsum.photos/seed/electronics-practice-bundle/900/720', type: 'card' },
       { label: 'RIRC Practice Competition Mat', value: '$145 · Durable practice surface.', imageSrc: 'https://picsum.photos/seed/rirc-competition-mat/900/720', type: 'card' },

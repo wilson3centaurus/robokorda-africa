@@ -13,7 +13,12 @@ export type SiteSettings = {
   address_zw: string;
   social_facebook: string;
   social_instagram: string;
+  social_instagram_2: string;
   social_linkedin: string;
+  social_tiktok: string;
+  social_youtube: string;
+  social_whatsapp: string;
+  social_x: string;
   stat_students: string;
   stat_schools: string;
   stat_countries: string;
@@ -34,13 +39,18 @@ const DEFAULTS: SiteSettings = {
   logo_url_dark: "",
   favicon_url: "",
   contact_email: "info@robokorda.com",
-  contact_phone_sa: "+27 83 242 7998",
+  contact_phone_sa: "",
   contact_phone_zw: "+263 774 189 500",
-  address_sa: "206 Rosies Place Street, Glen Austin AH, Midrand, Johannesburg",
-  address_zw: "16 Mahogany Avenue, Rhodene, Masvingo, Zimbabwe",
-  social_facebook: "https://www.facebook.com/robokordaafrica",
-  social_instagram: "https://www.instagram.com/robokordaafrica",
+  address_sa: "",
+  address_zw: "Stand 778 Olive Street Sunway City, Harare, Zimbabwe",
+  social_facebook: "https://www.facebook.com/share/1Hdyjxem5r/",
+  social_instagram: "https://www.instagram.com/robokordazw?igsh=b2ZlbnUwbWwydXU=",
+  social_instagram_2: "https://www.instagram.com/robokorda_africa?igsh=Z2I4aDUwYTFpaTlo",
   social_linkedin: "https://www.linkedin.com/company/robokorda-africa",
+  social_tiktok: "https://vm.tiktok.com/ZS9LCLFqSpVhw-j1eJn/",
+  social_youtube: "",
+  social_whatsapp: "",
+  social_x: "",
   stat_students: "9,976+",
   stat_schools: "79+",
   stat_countries: "11",
@@ -70,7 +80,12 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       address_zw:          map.address_zw          || DEFAULTS.address_zw,
       social_facebook:     map.social_facebook     || DEFAULTS.social_facebook,
       social_instagram:    map.social_instagram    || DEFAULTS.social_instagram,
+      social_instagram_2:  map.social_instagram_2  || DEFAULTS.social_instagram_2,
       social_linkedin:     map.social_linkedin     || DEFAULTS.social_linkedin,
+      social_tiktok:       map.social_tiktok       || "",
+      social_youtube:      map.social_youtube      || "",
+      social_whatsapp:     map.social_whatsapp     || "",
+      social_x:            map.social_x            || "",
       stat_students:       map.stat_students       || DEFAULTS.stat_students,
       stat_schools:        map.stat_schools        || DEFAULTS.stat_schools,
       stat_countries:      map.stat_countries      || DEFAULTS.stat_countries,

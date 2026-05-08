@@ -41,9 +41,9 @@ async function testSchemaAccess() {
     console.error("  ❌  Cannot access robokorda.settings:", error.message);
     if (error.message.includes("permission denied")) {
       console.error("\n  👉  The schema exists but roles lack permission. Run this SQL in the Supabase SQL editor:");
-      console.error("        GRANT USAGE ON SCHEMA robokorda TO anon, authenticated, service_role;");
-      console.error("        GRANT ALL ON ALL TABLES IN SCHEMA robokorda TO anon, authenticated, service_role;");
-      console.error("        GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role;");
+      console.error("        GRANT USAGE ON SCHEMA robokorda TO anon, authenticated, service_role, authenticator;");
+      console.error("        GRANT ALL ON ALL TABLES IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;");
+      console.error("        GRANT ALL ON ALL SEQUENCES IN SCHEMA robokorda TO anon, authenticated, service_role, authenticator;");
     } else {
       console.error("\n  👉  Add robokorda to PGRST_DB_SCHEMAS in .env on the server, then restart:");
       console.error('        PGRST_DB_SCHEMAS=public,graphql_public,robokorda');

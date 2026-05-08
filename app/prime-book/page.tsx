@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 
 export default async function PrimeBookPage() {
   const settings = await getSiteSettings();
-  return <PrimeBookPageClient videoUrl={settings.video_url_primebook || undefined} />;
+  return <PrimeBookPageClient videoUrl={settings.video_url_primebook || "/media/primebooks.mp4"} />;
 }

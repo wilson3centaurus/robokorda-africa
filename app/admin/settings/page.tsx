@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
-  ArrowLeft, Save, Loader2, Check, Upload, Image as ImageIcon,
+  Save, Loader2, Check, Upload, Image as ImageIcon,
 } from "lucide-react";
 
 type UploadState = "idle" | "uploading" | "done" | "error";
@@ -33,6 +32,10 @@ const GROUPS = [
       { key: "social_facebook", label: "Facebook URL", type: "url" },
       { key: "social_instagram", label: "Instagram URL", type: "url" },
       { key: "social_linkedin", label: "LinkedIn URL", type: "url" },
+      { key: "social_tiktok", label: "TikTok URL", type: "url" },
+      { key: "social_youtube", label: "YouTube URL", type: "url" },
+      { key: "social_whatsapp", label: "WhatsApp Number (with country code)", type: "text" },
+      { key: "social_x", label: "X / Twitter URL", type: "url" },
     ],
   },
   {
@@ -217,27 +220,18 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--space-800)]">
+      <div className="flex items-center justify-center py-20">
         <Loader2 className="h-6 w-6 animate-spin text-[var(--electric-bright)]" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[var(--space-800)] p-4 sm:p-6 lg:p-8">
-      <div className="circuit-bg pointer-events-none fixed inset-0 opacity-[0.025]" />
-
-      <div className="relative mx-auto max-w-3xl">
-        <div className="mb-6 flex items-center gap-3">
-          <Link
-            href="/admin"
-            className="flex items-center gap-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition"
-          >
-            <ArrowLeft className="h-4 w-4" /> Dashboard
-          </Link>
-          <span className="text-[var(--space-400)]">/</span>
-          <h1 className="text-lg font-bold text-[var(--text-primary)]">Site Settings</h1>
-        </div>
+    <div className="max-w-3xl">
+      <div className="mb-6">
+        <h1 className="text-lg font-bold text-[var(--text-primary)]">Site Settings</h1>
+        <p className="mt-1 text-sm text-[var(--text-muted)]">Manage site identity, contact info, social links, videos, and security.</p>
+      </div>
 
         <form onSubmit={save} className="space-y-5">
           {/* ── Branding ── */}
@@ -394,7 +388,6 @@ export default function SettingsPage() {
             </button>
           </div>
         </form>
-      </div>
     </div>
   );
 }

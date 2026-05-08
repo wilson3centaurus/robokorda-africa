@@ -42,7 +42,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Ideal for schools that want recurring classroom delivery, teacher coordination, learner assessment, and predictable term planning.",
     icon: Building2,
-    imageSrc: "/images/zim/robokorda_pic_1_1777041252042.png",
+    imageSrc: "/images/models/models1.jpg",
     seed: "curriculum-delivery",
   },
   {
@@ -52,7 +52,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Best for schools that want a high-energy STEM club, competition preparation, and practical enrichment without changing the curriculum.",
     icon: Rocket,
-    imageSrc: "/images/zim/robokorda_pic_3_1777041255388.png",
+    imageSrc: "/images/models/models2.jpg",
     seed: "extracurricular-delivery",
   },
   {
@@ -62,7 +62,7 @@ export const deliveryOptions: DeliveryOption[] = [
     detail:
       "Suited to parent-led enrolment, community hubs, and learners who want deeper project time with focused instructor support.",
     icon: Compass,
-    imageSrc: "/images/zim/robokorda_pic_5_1777041302159.png",
+    imageSrc: "/images/models/models3.jpg",
     seed: "weekend-delivery",
   },
 ];
@@ -273,7 +273,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Classroom robotics sprint",
     subtitle:
       "Learners work through guided assembly and testing sessions with close facilitator support.",
-    imageSrc: "/images/zim/robokorda_pic_2.png",
+    imageSrc: "/images/zim/robokorda_pic_2_1777041253766.png",
     seed: "gallery-classroom-robotics",
     size: "wide",
   },
@@ -281,7 +281,7 @@ export const galleryItems: GalleryItem[] = [
     title: "Young coders at work",
     subtitle:
       "Block-based logic activities help students connect creativity with technical structure.",
-    imageSrc: "/images/zim/robokorda_pic_4.png",
+    imageSrc: "/images/zim/robokorda_pic_4_1777041257647.png",
     seed: "gallery-young-coders",
     size: "square",
   },

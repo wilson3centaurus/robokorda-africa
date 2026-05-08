@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Image from "next/image";
+import { MapPin, Mail } from "lucide-react";
 import { Card } from "@/components/card";
 import { ContactCard } from "@/components/contact-card";
 import { ContactForm } from "@/components/contact-form";
@@ -74,7 +75,7 @@ export default async function HomePage() {
         }))
       : staticGalleryItems;
 
-  const homeVideoUrl = settings.video_url_home || undefined;
+  const homeVideoUrl = settings.video_url_home || "/media/home-hero.mp4";
 
 
 
@@ -93,7 +94,7 @@ export default async function HomePage() {
         secondaryAction={{ href: "/#contact", label: "Talk to Our Team" }}
         mediaLabel="Hero Video"
         mediaSeed="robokorda-home-hero"
-        mediaVideoUrl={homeVideoUrl ?? "/media/home-hero.mp4"}
+        mediaVideoUrl={homeVideoUrl}
         showMediaOverlay
         stats={heroStats}
       >
@@ -333,7 +334,38 @@ export default async function HomePage() {
               description="Reach out to our contact information or offices — we'll reply quickly."
             />
           </Reveal>
-        
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+            {/* Left: contact cards */}
+            <div className="flex flex-col gap-4">
+              <Reveal>
+                <ContactCard
+                  location={{
+                    title: "Zimbabwe Office",
+                    addressLines: [
+                      settings.address_zw,
+                      `Phone: ${settings.contact_phone_zw}`,
+                    ],
+                    detail: "Our base for school programmes, competitions, and regional enquiries.",
+                    icon: MapPin,
+                  }}
+                />
+              </Reveal>
+              <Reveal delay={0.04}>
+                <ContactCard
+                  location={{
+                    title: "Email Us",
+                    addressLines: [settings.contact_email],
+                    detail: "We respond to all enquiries within 24 hours on business days.",
+                    icon: Mail,
+                  }}
+                />
+              </Reveal>
+            </div>
+            {/* Right: enquiry form */}
+            <Reveal delay={0.06}>
+              <ContactForm />
+            </Reveal>
+          </div>
         </div>
       </section>
 
