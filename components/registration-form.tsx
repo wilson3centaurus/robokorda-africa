@@ -121,12 +121,37 @@ function VideoTeaserModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+type FormErrors = Partial<{
+  country: string; city: string; category: string; school: string;
+  teamName: string; teamLead: string; email: string; whatsapp: string; members: string;
+}>;
+
+function validateRegistration(form: RegistrationState): FormErrors {
+  const errors: FormErrors = {};
+  if (!form.country) errors.country = "Please select your country.";
+  if (!form.city.trim()) errors.city = "City is required.";
+  if (!form.category) errors.category = "Please select a competition category.";
+  if (!form.school.trim()) errors.school = "School or institution name is required.";
+  else if (form.school.trim().length < 2) errors.school = "School name is too short.";
+  if (!form.teamName.trim()) errors.teamName = "Team name is required.";
+  else if (form.teamName.trim().length < 2) errors.teamName = "Team name is too short.";
+  if (!form.teamLead.trim()) errors.teamLead = "Team leader name is required.";
+  else if (form.teamLead.trim().length < 2) errors.teamLead = "Name is too short.";
+  if (!form.email.trim()) errors.email = "Email address is required.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = "Enter a valid email address.";
+  if (!form.whatsapp.trim()) errors.whatsapp = "WhatsApp number is required.";
+  else if (form.whatsapp.replace(/\D/g, "").length < 7) errors.whatsapp = "Enter a valid phone number with country code.";
+  if (!form.members.some((m) => m.name.trim())) errors.members = "Add at least one team member name.";
+  return errors;
+}
+
 export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
   const [form, setForm] = useState<RegistrationState>(initialState);
   const [showTeaserModal, setShowTeaserModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
 
   function update<K extends keyof RegistrationState>(key: K, value: RegistrationState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -151,6 +176,12 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const validationErrors = validateRegistration(form);
+    if (Object.keys(validationErrors).length > 0) {
+      setFieldErrors(validationErrors);
+      return;
+    }
+    setFieldErrors({});
     setSubmitting(true);
     setError(null);
     try {
@@ -217,8 +248,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
               <div className="relative">
                 <FieldIcon icon={Globe} />
                 <select
-                  required
-                  className={`${inputCls} pl-10`}
+                  className={`${inputCls} pl-10${fieldErrors.country ? ' border-red-400' : ''}`}
                   value={form.country}
                   onChange={(e) => update("country", e.target.value)}
                 >
@@ -228,19 +258,20 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
                   ))}
                 </select>
               </div>
+              {fieldErrors.country && <p className="mt-1 text-xs text-red-400">{fieldErrors.country}</p>}
             </label>
             <label className="space-y-1.5">
               <span className={labelCls}>City *</span>
               <div className="relative">
                 <FieldIcon icon={MapPin} />
                 <input
-                  required
-                  className={`${inputCls} pl-10`}
+                  className={`${inputCls} pl-10${fieldErrors.city ? ' border-red-400' : ''}`}
                   placeholder="e.g. Harare"
                   value={form.city}
                   onChange={(e) => update("city", e.target.value)}
                 />
               </div>
+              {fieldErrors.city && <p className="mt-1 text-xs text-red-400">{fieldErrors.city}</p>}
             </label>
           </div>
 
@@ -250,8 +281,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
             <div className="relative">
               <FieldIcon icon={Tag} />
               <select
-                required
-                className={`${inputCls} pl-10`}
+                className={`${inputCls} pl-10${fieldErrors.category ? ' border-red-400' : ''}`}
                 value={form.category}
                 onChange={(e) => update("category", e.target.value)}
               >
@@ -261,6 +291,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
                 ))}
               </select>
             </div>
+            {fieldErrors.category && <p className="mt-1 text-xs text-red-400">{fieldErrors.category}</p>}
           </label>
 
           {/* School / Institution & Team Name */}
@@ -270,26 +301,26 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
               <div className="relative">
                 <FieldIcon icon={School} />
                 <input
-                  required
-                  className={`${inputCls} pl-10`}
+                  className={`${inputCls} pl-10${fieldErrors.school ? ' border-red-400' : ''}`}
                   placeholder="School or institution name"
                   value={form.school}
                   onChange={(e) => update("school", e.target.value)}
                 />
               </div>
+              {fieldErrors.school && <p className="mt-1 text-xs text-red-400">{fieldErrors.school}</p>}
             </label>
             <label className="space-y-1.5">
               <span className={labelCls}>Team Name *</span>
               <div className="relative">
                 <FieldIcon icon={Users} />
                 <input
-                  required
-                  className={`${inputCls} pl-10`}
+                  className={`${inputCls} pl-10${fieldErrors.teamName ? ' border-red-400' : ''}`}
                   placeholder="e.g. TechEagles"
                   value={form.teamName}
                   onChange={(e) => update("teamName", e.target.value)}
                 />
               </div>
+              {fieldErrors.teamName && <p className="mt-1 text-xs text-red-400">{fieldErrors.teamName}</p>}
             </label>
           </div>
 
@@ -299,13 +330,13 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
             <div className="relative">
               <FieldIcon icon={User} />
               <input
-                required
-                className={`${inputCls} pl-10`}
+                className={`${inputCls} pl-10${fieldErrors.teamLead ? ' border-red-400' : ''}`}
                 placeholder="Full name of team leader"
                 value={form.teamLead}
                 onChange={(e) => update("teamLead", e.target.value)}
               />
             </div>
+            {fieldErrors.teamLead && <p className="mt-1 text-xs text-red-400">{fieldErrors.teamLead}</p>}
           </label>
 
           {/* Team Members */}
@@ -362,6 +393,7 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
                 Add another member ({form.members.length}/5)
               </button>
             )}
+            {fieldErrors.members && <p className="mt-1 text-xs text-red-400">{fieldErrors.members}</p>}
           </div>
 
           {/* Email & WhatsApp */}
@@ -371,27 +403,27 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
               <div className="relative">
                 <FieldIcon icon={Mail} />
                 <input
-                  required
                   type="email"
-                  className={`${inputCls} pl-10`}
+                  className={`${inputCls} pl-10${fieldErrors.email ? ' border-red-400' : ''}`}
                   placeholder="team@school.ac"
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
                 />
               </div>
+              {fieldErrors.email && <p className="mt-1 text-xs text-red-400">{fieldErrors.email}</p>}
             </label>
             <label className="space-y-1.5">
               <span className={labelCls}>WhatsApp Number *</span>
               <div className="relative">
                 <FieldIcon icon={Phone} />
                 <input
-                  required
-                  className={`${inputCls} pl-10`}
+                  className={`${inputCls} pl-10${fieldErrors.whatsapp ? ' border-red-400' : ''}`}
                   placeholder="+263 7X XXX XXXX"
                   value={form.whatsapp}
                   onChange={(e) => update("whatsapp", e.target.value)}
                 />
               </div>
+              {fieldErrors.whatsapp && <p className="mt-1 text-xs text-red-400">{fieldErrors.whatsapp}</p>}
             </label>
           </div>
 

@@ -55,24 +55,30 @@ export async function POST(req: Request) {
       }
     }
 
-    // ── 2. Local JSON fallback (always write for local backup) ─────────────
-    const registration = await addRircRegistration({
-      school_name: school,
-      team_name: teamName,
-      contact_name: teamLead || email,
-      email,
-      phone: whatsapp || "",
-      whatsapp: whatsapp || "",
-      country,
-      city: city || "",
-      track: category,
-      category,
-      team_size: String(membersArr.length),
-      team_members: JSON.stringify(membersArr),
-      notes: body.notes || "",
-    });
+    // ── 2. Local JSON fallback (best-effort — serverless filesystems are read-only) ────────────
+    let localId: string | undefined;
+    try {
+      const registration = await addRircRegistration({
+        school_name: school,
+        team_name: teamName,
+        contact_name: teamLead || email,
+        email,
+        phone: whatsapp || "",
+        whatsapp: whatsapp || "",
+        country,
+        city: city || "",
+        track: category,
+        category,
+        team_size: String(membersArr.length),
+        team_members: JSON.stringify(membersArr),
+        notes: body.notes || "",
+      });
+      localId = registration.id;
+    } catch (localErr) {
+      console.warn("[local] RIRC JSON fallback skipped (filesystem may be read-only):", (localErr as Error).message);
+    }
 
-    return NextResponse.json({ success: true, id: robocoreId ?? registration.id });
+    return NextResponse.json({ success: true, id: robocoreId ?? localId ?? "submitted" });
   } catch (err) {
     console.error("RIRC registration error:", err);
     return NextResponse.json({ success: false }, { status: 500 });

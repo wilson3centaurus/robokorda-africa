@@ -63,8 +63,8 @@ export default async function RircPage() {
       : rircGallery;
 
   // Brochure URL from settings or fallback
-  const brochureUrl = (settings as Record<string, string>).rirc_brochure_url || "/downloads/RIRC-2026-Brochure.pdf";
-  const flyerUrl = (settings as Record<string, string>).rirc_flyer_url || "/downloads/RIRC-2026-Flyer.pdf";
+  const brochureUrl = (settings as Record<string, string>).rirc_brochure_url || "https://drive.google.com/file/d/1N1B1nTs3V-3ZQTCjVsJkkCPyfk-czhMl/view?usp=sharing";
+  const flyerUrl = (settings as Record<string, string>).rirc_flyer_url || "https://drive.google.com/file/d/1ShAJBREvklp5S7T3ae-z4xGZ1b2KBYds/view?usp=sharing";
 
   return (
     <>
