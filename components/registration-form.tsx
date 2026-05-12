@@ -449,9 +449,9 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
                   ? "Select a category to see age requirements"
                   : ageRange === null
                   ? "Date of birth (optional — any age)"
-                  : ageRange.max === 99
-                  ? `Date of birth required — must be ${ageRange.min}+ years old`
-                  : `Date of birth required — must be ${ageRange.min}–${ageRange.max} years old`;
+                  : ageRange?.max === 99
+                  ? `Date of birth required — must be ${ageRange?.min}+ years old`
+                  : `Date of birth required — must be ${ageRange?.min}–${ageRange?.max} years old`;
                 return form.members.map((m, idx) => {
                   const dobErr = fieldErrors.memberDobs?.[idx];
                   return (
