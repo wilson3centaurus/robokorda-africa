@@ -50,20 +50,25 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
 
   useEffect(() => {
     if (pathname !== "/") return;
-    const sections = items
-      .filter((item) => item.sectionId)
-      .map((item) => document.getElementById(item.sectionId!))
+    const sectionIds = items.filter((i) => i.sectionId).map((i) => i.sectionId!);
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
     if (!sections.length) return;
 
+    const visible = new Set<string>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActiveSection(visible.target.id);
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        });
+        // Always pick the topmost section currently in view (document order)
+        const topmost = sectionIds.find((id) => visible.has(id));
+        if (topmost) setActiveSection(topmost);
       },
-      { threshold: [0.2, 0.45, 0.65], rootMargin: "-18% 0px -55% 0px" },
+      { threshold: 0.15, rootMargin: "-64px 0px -35% 0px" },
     );
 
     sections.forEach((s) => observer.observe(s));
@@ -109,12 +114,13 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
                 <Link
                   key={item.label}
                   href={item.resolvedHref}
+                  onClick={() => item.sectionId && setActiveSection(item.sectionId)}
                   className={cn(
                     "nav-link rounded-full px-3.5 py-2 text-[13px] font-semibold transition-colors",
                     navIsTransparent && !isLightMode
                       ? "text-white/80 hover:text-white"
                       : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
-                    isActive ? "nav-link-active !text-[var(--electric-bright)]" : "",
+                    isActive ? "nav-link-active !text-[var(--electric-bright)] bg-[var(--electric-subtle)]" : "",
                   )}
                 >
                   {item.label}
@@ -161,6 +167,9 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
         items={items}
         itemCount={hydrated ? itemCount : 0}
         onClose={() => setOpen(false)}
+        pathname={pathname}
+        activeSection={activeSection}
+        onSectionClick={setActiveSection}
       />
     </header>
   );

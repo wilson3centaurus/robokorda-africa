@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://robokorda.africa"),
+  metadataBase: new URL("https://robokorda-africa.com"),
   title: {
     default: "Robokorda Africa | Robotics, Coding and STEAM Education",
     template: "%s | Robokorda Africa",

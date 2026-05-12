@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://robokorda.africa/sitemap.xml",
+    sitemap: "https://robokorda-africa.com/sitemap.xml",
   };
 }

@@ -18,6 +18,7 @@ import { ProductCard } from "@/components/product-card";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { SkillCard } from "@/components/skill-card";
+import { AboutSlideshow } from "@/components/about-slideshow";
 import {
   aboutPreviewCards, deliveryOptions as staticDeliveryOptions,
   galleryItems as staticGalleryItems, homeFaqs, partnerCategories as staticPartnerCategories,
@@ -161,17 +162,7 @@ export default async function HomePage() {
             </Reveal>
             <Reveal delay={0.06}>
               <div className="relative h-full min-h-[340px] overflow-hidden rounded-2xl lg:min-h-0">
-                <PlaceholderMedia
-                  mode="hero"
-                  label="About Preview"
-                  seed="home-about-preview"
-                  imageUrl="/images/about/about-preview.png"
-                  clean
-                  fill
-                  objectFit="cover"
-                  objectPosition="center top"
-                  className="absolute inset-0 h-full w-full"
-                />
+                <AboutSlideshow items={galleryItems} />
               </div>
             </Reveal>
           </div>

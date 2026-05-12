@@ -17,6 +17,40 @@ const CATEGORIES = [
   "Gaming (Intermediate, Advanced and Makeathon Participants)",
 ];
 
+// null = open to all ages; { min, max } = age range (max=99 means no upper limit)
+const CATEGORY_AGE_RANGES: Record<string, { min: number; max: number } | null> = {
+  "Beginners (5-8 YRS)":                                                { min: 5,  max: 8  },
+  "Junior (9-12 YRS)":                                                   { min: 9,  max: 12 },
+  "Intermediate (13-16 YRS)":                                            { min: 13, max: 16 },
+  "Advanced (17 YRS and Above)":                                         { min: 17, max: 99 },
+  "Makeathon (open to all)":                                             null,
+  "Gaming (Intermediate, Advanced and Makeathon Participants)":          null,
+};
+
+function calcAge(dob: string): number | null {
+  if (!dob) return null;
+  const birth = new Date(dob);
+  if (isNaN(birth.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  if (
+    today.getMonth() < birth.getMonth() ||
+    (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())
+  ) age--;
+  return age;
+}
+
+// Returns HTML date input min/max strings based on the age range
+function dobBounds(range: { min: number; max: number }): { min: string; max: string } {
+  const today = new Date();
+  const max = new Date(today.getFullYear() - range.min, today.getMonth(), today.getDate());
+  const min = new Date(today.getFullYear() - range.max - 1, today.getMonth(), today.getDate() + 1);
+  return {
+    min: min.toISOString().split("T")[0],
+    max: max.toISOString().split("T")[0],
+  };
+}
+
 type Member = { name: string; dob: string };
 
 type RegistrationState = {
@@ -123,11 +157,13 @@ function VideoTeaserModal({ onClose }: { onClose: () => void }) {
 
 type FormErrors = Partial<{
   country: string; city: string; category: string; school: string;
-  teamName: string; teamLead: string; email: string; whatsapp: string; members: string;
+  teamName: string; teamLead: string; email: string; whatsapp: string;
+  members: string; memberDobs: string[];
 }>;
 
 function validateRegistration(form: RegistrationState): FormErrors {
   const errors: FormErrors = {};
+
   if (!form.country) errors.country = "Please select your country.";
   if (!form.city.trim()) errors.city = "City is required.";
   if (!form.category) errors.category = "Please select a competition category.";
@@ -137,11 +173,68 @@ function validateRegistration(form: RegistrationState): FormErrors {
   else if (form.teamName.trim().length < 2) errors.teamName = "Team name is too short.";
   if (!form.teamLead.trim()) errors.teamLead = "Team leader name is required.";
   else if (form.teamLead.trim().length < 2) errors.teamLead = "Name is too short.";
-  if (!form.email.trim()) errors.email = "Email address is required.";
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = "Enter a valid email address.";
-  if (!form.whatsapp.trim()) errors.whatsapp = "WhatsApp number is required.";
-  else if (form.whatsapp.replace(/\D/g, "").length < 7) errors.whatsapp = "Enter a valid phone number with country code.";
-  if (!form.members.some((m) => m.name.trim())) errors.members = "Add at least one team member name.";
+
+  // Email — stricter regex requiring a proper TLD
+  if (!form.email.trim()) {
+    errors.email = "Email address is required.";
+  } else if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(form.email.trim())) {
+    errors.email = "Enter a valid email address (e.g. name@school.com).";
+  }
+
+  // Phone — must include country code (start with +)
+  if (!form.whatsapp.trim()) {
+    errors.whatsapp = "WhatsApp number is required.";
+  } else {
+    const digits = form.whatsapp.replace(/\D/g, "");
+    if (!form.whatsapp.trim().startsWith("+")) {
+      errors.whatsapp = "Include your country code (e.g. +263712345678).";
+    } else if (digits.length < 9) {
+      errors.whatsapp = "Number is too short — include full country code and number.";
+    } else if (digits.length > 15) {
+      errors.whatsapp = "Number is too long.";
+    }
+  }
+
+  if (!form.members.some((m) => m.name.trim())) {
+    errors.members = "Add at least one team member name.";
+  }
+
+  // DOB — validate each named member against the selected category's age range
+  const ageRange = form.category ? CATEGORY_AGE_RANGES[form.category] : undefined;
+  if (ageRange !== undefined && form.category) {
+    const dobErrors: string[] = form.members.map((m) => {
+      if (!m.name.trim()) return ""; // skip unnamed slots
+      if (ageRange === null) {
+        // Open category — DOB optional, but must be realistic if provided
+        if (m.dob) {
+          const age = calcAge(m.dob);
+          if (age === null) return "Enter a valid date of birth.";
+          if (age < 3 || age > 100) return "Enter a realistic date of birth.";
+        }
+        return "";
+      }
+      // Age-restricted category — DOB is required
+      if (!m.dob) {
+        const rangeLabel =
+          ageRange.max === 99
+            ? `${ageRange.min}+ years`
+            : `${ageRange.min}–${ageRange.max} years`;
+        return `Date of birth is required for this category (${rangeLabel}).`;
+      }
+      const age = calcAge(m.dob);
+      if (age === null) return "Enter a valid date of birth.";
+      if (age < ageRange.min || age > ageRange.max) {
+        const rangeLabel =
+          ageRange.max === 99
+            ? `${ageRange.min} years or older`
+            : `${ageRange.min}–${ageRange.max} years old`;
+        return `Age ${age} doesn't match this category. Must be ${rangeLabel}.`;
+      }
+      return "";
+    });
+    if (dobErrors.some((e) => e)) errors.memberDobs = dobErrors;
+  }
+
   return errors;
 }
 
@@ -155,6 +248,8 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
 
   function update<K extends keyof RegistrationState>(key: K, value: RegistrationState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
+    // Changing category invalidates DOB errors since the age range changes
+    if (key === "category") setFieldErrors((e) => ({ ...e, memberDobs: undefined }));
   }
 
   function addMember() {
@@ -346,42 +441,64 @@ export function RegistrationForm({ countries }: { countries: CountryEntry[] }) {
               <span className="normal-case text-[var(--text-muted)]">(min 1 — max 5)</span>
             </span>
             <div className="space-y-2">
-              {form.members.map((m, idx) => (
-                <div key={idx} className="rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] p-3 space-y-2">
-                  <div className="flex gap-2 items-center">
-                    <div className="relative flex-1">
-                      <FieldIcon icon={User} />
-                      <input
-                        className={`${inputCls} pl-10`}
-                        placeholder={`Member ${idx + 1} full name`}
-                        value={m.name}
-                        onChange={(e) => updateMember(idx, 'name', e.target.value)}
-                      />
+              {(() => {
+                const ageRange = form.category ? CATEGORY_AGE_RANGES[form.category] : undefined;
+                const bounds = ageRange ? dobBounds(ageRange) : null;
+                const dobRequired = ageRange !== undefined && ageRange !== null;
+                const dobHint = !form.category
+                  ? "Select a category to see age requirements"
+                  : ageRange === null
+                  ? "Date of birth (optional — any age)"
+                  : ageRange.max === 99
+                  ? `Date of birth required — must be ${ageRange.min}+ years old`
+                  : `Date of birth required — must be ${ageRange.min}–${ageRange.max} years old`;
+                return form.members.map((m, idx) => {
+                  const dobErr = fieldErrors.memberDobs?.[idx];
+                  return (
+                    <div key={idx} className="rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] p-3 space-y-2">
+                      <div className="flex gap-2 items-center">
+                        <div className="relative flex-1">
+                          <FieldIcon icon={User} />
+                          <input
+                            className={`${inputCls} pl-10`}
+                            placeholder={`Member ${idx + 1} full name`}
+                            value={m.name}
+                            onChange={(e) => updateMember(idx, "name", e.target.value)}
+                          />
+                        </div>
+                        {form.members.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeMember(idx)}
+                            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.06)] text-red-400 hover:bg-[rgba(248,113,113,0.15)] transition"
+                            aria-label="Remove member"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
+                      <div className="relative">
+                        <FieldIcon icon={Calendar} />
+                        <input
+                          type="date"
+                          className={`${inputCls} pl-10${dobErr ? " border-red-400" : ""}`}
+                          value={m.dob}
+                          min={bounds?.min}
+                          max={bounds?.max}
+                          onChange={(e) => updateMember(idx, "dob", e.target.value)}
+                        />
+                      </div>
+                      {dobErr ? (
+                        <p className="text-xs text-red-400 pl-1">{dobErr}</p>
+                      ) : (
+                        <p className={`text-[10px] pl-1 ${dobRequired ? "text-[var(--electric-bright)]" : "text-[var(--text-muted)]"}`}>
+                          {dobRequired && <span className="mr-1">*</span>}{dobHint}
+                        </p>
+                      )}
                     </div>
-                    {form.members.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeMember(idx)}
-                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(248,113,113,0.3)] bg-[rgba(248,113,113,0.06)] text-red-400 hover:bg-[rgba(248,113,113,0.15)] transition"
-                        aria-label="Remove member"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </button>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <FieldIcon icon={Calendar} />
-                    <input
-                      type="date"
-                      className={`${inputCls} pl-10`}
-                      placeholder="Date of birth"
-                      value={m.dob}
-                      onChange={(e) => updateMember(idx, 'dob', e.target.value)}
-                    />
-                  </div>
-                  <p className="text-[10px] text-[var(--text-muted)] pl-1">Date of birth (optional)</p>
-                </div>
-              ))}
+                  );
+                });
+              })()}
             </div>
             {form.members.length < 5 && (
               <button

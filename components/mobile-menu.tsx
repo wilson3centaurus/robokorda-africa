@@ -12,9 +12,16 @@ type MobileMenuProps = {
   items: Array<NavItem & { resolvedHref: string }>;
   itemCount: number;
   onClose: () => void;
+  pathname: string;
+  activeSection: string;
+  onSectionClick: (sectionId: string) => void;
 };
 
-export function MobileMenu({ open, items, itemCount, onClose }: MobileMenuProps) {
+export function MobileMenu({ open, items, itemCount, onClose, pathname, activeSection, onSectionClick }: MobileMenuProps) {
+  function isActive(item: NavItem & { resolvedHref: string }) {
+    if (pathname === "/" && item.sectionId) return item.sectionId === activeSection;
+    return pathname === item.href;
+  }
   return (
     <AnimatePresence>
       {open && (
@@ -45,16 +52,23 @@ export function MobileMenu({ open, items, itemCount, onClose }: MobileMenuProps)
             </div>
 
             <div className="flex flex-col gap-1.5">
-              {items.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.resolvedHref}
-                  onClick={onClose}
-                  className="rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-5 py-3.5 text-sm font-semibold text-[var(--text-secondary)] transition hover:border-[var(--surface-border)] hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {items.map((item) => {
+                const active = isActive(item);
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.resolvedHref}
+                    onClick={() => { if (item.sectionId) onSectionClick(item.sectionId); onClose(); }}
+                    className={`rounded-xl border px-5 py-3.5 text-sm font-semibold transition ${
+                      active
+                        ? "border-[var(--electric)] bg-[var(--electric-subtle)] text-[var(--electric-bright)]"
+                        : "border-[var(--surface-border-subtle)] bg-[var(--surface-1)] text-[var(--text-secondary)] hover:border-[var(--surface-border)] hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
 
               <Link
                 href="/cart"
