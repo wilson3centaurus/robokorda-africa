@@ -1,18 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { CartProvider } from "@/providers/cart-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { getSiteSettings } from "@/lib/settings";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-  preload: true,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://robokorda-africa.com"),
@@ -52,7 +44,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const logoUrlDark = settings.logo_url_dark || "";
 
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CartProvider>

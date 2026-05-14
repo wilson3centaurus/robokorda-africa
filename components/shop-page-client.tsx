@@ -330,7 +330,7 @@ export function ShopPageClient({ initialComponents }: { initialComponents: Robot
         </Reveal>
       </div>
 
-      {/* Cart sidebar */}}
+      {/* Cart sidebar */}
       {cartOpen && (
         <div className="fixed inset-0 z-40 bg-background/70" onClick={() => setCartOpen(false)}>
           <div
