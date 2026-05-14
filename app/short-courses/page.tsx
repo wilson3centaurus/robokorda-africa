@@ -187,10 +187,10 @@ export default function ShortCoursesPage() {
         <div className="section-shell">
           <Reveal>
             <CTASection
-              title="Ready to upskill? Let's talk."
-              description="Contact our team to discuss the right course, delivery mode, and fees for your situation — whether you're a student, professional, or organisation."
-              primary={{ href: "/#contact", label: "Contact Us" }}
-              secondary={{ href: "/rirc", label: "Explore RIRC" }}
+              title="Africa's Premier Robotics Competition is now open."
+              description="Register your team for RIRC 2026 and compete in robotics, AI, and sustainable technology alongside Africa's best young innovators."
+              primary={{ href: "https://forms.gle/fWPtCBxNL8NQQBiU6", label: "Register for RIRC", external: true }}
+              secondary={{ href: "/rirc", label: "Learn More" }}
             />
           </Reveal>
         </div>

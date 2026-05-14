@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { SectionHeader } from "@/components/section-header";
 import { Reveal } from "@/components/reveal";
+import { CTASection } from "@/components/cta-section";
 import { componentCategories, type RoboticsComponent, type ComponentCategory } from "@/data/components";
 
 type CartEntry = { component: RoboticsComponent; qty: number };
@@ -317,7 +318,19 @@ export function ShopPageClient({ initialComponents }: { initialComponents: Robot
         </section>
       </div>
 
-      {/* Cart sidebar */}
+      {/* RIRC CTA */}
+      <div className="section-shell mt-10 mb-2">
+        <Reveal>
+          <CTASection
+            title="Africa's Premier Robotics Competition is now open."
+            description="Register your team for RIRC 2026 and compete in robotics, AI, and sustainable technology alongside Africa's best young innovators."
+            primary={{ href: "https://forms.gle/fWPtCBxNL8NQQBiU6", label: "Register for RIRC", external: true }}
+            secondary={{ href: "/rirc", label: "Learn More" }}
+          />
+        </Reveal>
+      </div>
+
+      {/* Cart sidebar */}}
       {cartOpen && (
         <div className="fixed inset-0 z-40 bg-background/70" onClick={() => setCartOpen(false)}>
           <div

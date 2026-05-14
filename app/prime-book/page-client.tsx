@@ -6,6 +6,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { FAQAccordion } from "@/components/faq-accordion";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
+import { CTASection } from "@/components/cta-section";
 import { PlaceholderMedia } from "@/components/placeholder-media";
 import { PrimeBookInquiryModal } from "@/components/primebook-inquiry-modal";
 import { VideoSection } from "@/components/video-section";
@@ -321,6 +322,20 @@ export function PrimeBookPageClient({ videoUrl }: Props) {
         model={selectedModel}
         onClose={() => setSelectedModel(null)}
       />
+
+      {/* RIRC CTA */}
+      <section className="section-space circuit-bg">
+        <div className="section-shell">
+          <Reveal>
+            <CTASection
+              title="Africa's Premier Robotics Competition is now open."
+              description="Register your team for RIRC 2026 and compete in robotics, AI, and sustainable technology alongside Africa's best young innovators."
+              primary={{ href: "https://forms.gle/fWPtCBxNL8NQQBiU6", label: "Register for RIRC", external: true }}
+              secondary={{ href: "/rirc", label: "Learn More" }}
+            />
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+type Action = { href: string; label: string; external?: boolean };
+
 type CTASectionProps = {
   title: string;
   description: string;
-  primary: { href: string; label: string };
-  secondary?: { href: string; label: string };
+  primary: Action;
+  secondary?: Action;
 };
 
 export function CTASection({ title, description, primary, secondary }: CTASectionProps) {
@@ -28,20 +30,40 @@ export function CTASection({ title, description, primary, secondary }: CTASectio
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link
-            href={primary.href}
-            className="btn-primary"
-          >
-            {primary.label}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-          {secondary && (
-            <Link
-              href={secondary.href}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-6 py-3 text-sm font-semibold text-[var(--neon)] transition hover:border-[rgba(0,229,160,0.65)] hover:bg-[var(--neon-subtle)]"
+          {primary.external ? (
+            <a
+              href={primary.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
             >
-              {secondary.label}
+              {primary.label}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+          ) : (
+            <Link href={primary.href} className="btn-primary">
+              {primary.label}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
+          )}
+          {secondary && (
+            secondary.external ? (
+              <a
+                href={secondary.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-6 py-3 text-sm font-semibold text-[var(--neon)] transition hover:border-[rgba(0,229,160,0.65)] hover:bg-[var(--neon-subtle)]"
+              >
+                {secondary.label}
+              </a>
+            ) : (
+              <Link
+                href={secondary.href}
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[rgba(0,229,160,0.35)] px-6 py-3 text-sm font-semibold text-[var(--neon)] transition hover:border-[rgba(0,229,160,0.65)] hover:bg-[var(--neon-subtle)]"
+              >
+                {secondary.label}
+              </Link>
+            )
           )}
         </div>
       </div>

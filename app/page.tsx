@@ -360,6 +360,20 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ─── RIRC CTA ─────────────────────────────────────────────── */}
+      <section className="section-space section-glow">
+        <div className="section-shell">
+          <Reveal>
+            <CTASection
+              title="Africa's Premier Robotics Competition is now open."
+              description="Register your team for RIRC 2026 and compete against the best young innovators across Africa in robotics, AI, and sustainable technology."
+              primary={{ href: "https://forms.gle/fWPtCBxNL8NQQBiU6", label: "Register Your Team", external: true }}
+              secondary={{ href: "/rirc", label: "Learn More" }}
+            />
+          </Reveal>
+        </div>
+      </section>
+
       {/* ─── Shop preview ─────────────────────────────────────────── */}
       <section className="section-space section-glow">
         <div className="section-shell">

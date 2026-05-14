@@ -2,12 +2,12 @@ export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Download, Trophy } from "lucide-react";
+import { ArrowRight, Download, ExternalLink, Trophy } from "lucide-react";
 import { CountryCard } from "@/components/country-card";
 import { GalleryGrid } from "@/components/gallery-grid";
 import { HeroBanner } from "@/components/hero-banner";
 import { PrizeCard } from "@/components/prize-card";
-import { RegistrationForm } from "@/components/registration-form";
+// import { RegistrationForm } from "@/components/registration-form"; // hidden – replaced by Google Form
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { WinnerCard } from "@/components/winner-card";
@@ -169,9 +169,32 @@ export default async function RircPage() {
                 </div>
               </div>
             </Reveal>
+            {/* Google Form Registration – hidden original form below */}
+            <Reveal delay={0.06}>
+              <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-[var(--surface-border)] bg-[var(--card)] p-10 text-center">
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[var(--electric-bright)]">Registration Open</p>
+                <h3 className="mt-4 text-2xl font-bold text-[var(--text-primary)]">
+                  Ready to compete?
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
+                  Click the button below to fill in your team registration via our official Google Form. Our competition coordinator will follow up within 24 hours.
+                </p>
+                <a
+                  href="https://forms.gle/fWPtCBxNL8NQQBiU6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary mt-8 inline-flex items-center gap-2 px-8 py-3"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Register Your Team
+                </a>
+              </div>
+            </Reveal>
+            {/* HIDDEN – original registration form (kept for future use)
             <Reveal delay={0.06}>
               <RegistrationForm countries={rircCountries} />
             </Reveal>
+            */}
           </div>
         </div>
       </section>
