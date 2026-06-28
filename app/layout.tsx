@@ -5,29 +5,59 @@ import { Navbar } from "@/components/navbar";
 import { CartProvider } from "@/providers/cart-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { getSiteSettings } from "@/lib/settings";
+import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://robokorda-africa.com"),
+  metadataBase: new URL(SITE_URL),
+  manifest: "/manifest.webmanifest",
+  applicationName: SITE_NAME,
   title: {
     default: "Robokorda Africa | Robotics, Coding and STEAM Education",
     template: "%s | Robokorda Africa",
   },
-  description:
-    "Robokorda Africa equips learners, schools, and families with structured robotics, coding, app development, and STEAM pathways that turn digital users into confident digital creators.",
+  description: DEFAULT_DESCRIPTION,
   keywords: [
     "Robokorda Africa", "robotics education", "coding for schools",
     "STEAM learning", "app development for children", "South Africa robotics", "Zimbabwe coding classes",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Robokorda Africa",
-    description: "Premium robotics, coding, and STEAM learning for schools, parents, and education partners across Africa.",
-    siteName: "Robokorda Africa",
+    title: "Robokorda Africa | Robotics, Coding and STEAM Education",
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
     type: "website",
+    images: [{ url: "/brand/logo.png" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Robokorda Africa",
-    description: "Premium robotics, coding, and STEAM learning for schools, parents, and education partners across Africa.",
+    title: "Robokorda Africa | Robotics, Coding and STEAM Education",
+    description: DEFAULT_DESCRIPTION,
+    images: ["/brand/logo.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/favicon-48x48.png", type: "image/png", sizes: "48x48" },
+      { url: "/icons/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/icons/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "512x512" }],
   },
 };
 

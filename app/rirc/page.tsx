@@ -17,12 +17,21 @@ import { VideoSection } from "@/components/video-section";
 import { getSiteSettings, getGalleryPhotos } from "@/lib/settings";
 import type { GalleryItem } from "@/data/site";
 import { getPageContent } from "@/lib/page-content";
+import { buildMetadata, SITE_URL } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "RIRC",
+export const metadata: Metadata = buildMetadata({
+  title: "RIRC 2026 Robotics and Innovation Competition",
   description:
-    "Register teams, explore competition tracks, and review prizes and highlights for RIRC 2026.",
-};
+    "Register teams, explore competition tracks, and review prizes, highlights, and downloads for the Robokorda International Robotics Competition 2026.",
+  path: "/rirc",
+  keywords: [
+    "robotics competition Africa",
+    "RIRC 2026",
+    "student innovation competition",
+    "AI competition for schools",
+  ],
+  image: "/images/rirc/robot-challenge.jpg",
+});
 
 export default async function RircPage() {
   const [settings, dbGallery, pageContent] = await Promise.all([
@@ -65,9 +74,31 @@ export default async function RircPage() {
   // Brochure URL from settings or fallback
   const brochureUrl = (settings as Record<string, string>).rirc_brochure_url || "https://drive.google.com/file/d/1N1B1nTs3V-3ZQTCjVsJkkCPyfk-czhMl/view?usp=sharing";
   const flyerUrl = (settings as Record<string, string>).rirc_flyer_url || "https://drive.google.com/file/d/1ShAJBREvklp5S7T3ae-z4xGZ1b2KBYds/view?usp=sharing";
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "RIRC 2026",
+        item: `${SITE_URL}/rirc`,
+      },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Competition highlights video */}
       <VideoSection
         videoUrl={rircShowcaseVideoUrl}

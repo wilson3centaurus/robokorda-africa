@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import type { Metadata } from "next";
 import Image from "next/image";
 import { MapPin, Mail } from "lucide-react";
 import { Card } from "@/components/card";
@@ -29,6 +30,24 @@ import { shopProducts } from "@/data/site";
 import { getSiteSettings, getGalleryPhotos } from "@/lib/settings";
 import { getCourses } from "@/lib/db";
 import { getPageContent } from "@/lib/page-content";
+import { absoluteUrl, buildMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
+
+const HOME_DESCRIPTION =
+  "Robokorda Africa helps schools, families, and partners deliver premium robotics, coding, AI, and STEAM learning with structured programmes and visible student outcomes.";
+
+export const metadata: Metadata = buildMetadata({
+  title: "Robotics, Coding and STEAM Education",
+  description: HOME_DESCRIPTION,
+  path: "/",
+  keywords: [
+    "robotics for schools",
+    "coding for children",
+    "STEAM education Africa",
+    "robotics classes Zimbabwe",
+    "coding programmes South Africa",
+  ],
+  image: "/images/about/about-preview.png",
+});
 
 export default async function HomePage() {
   const [settings, dbGallery, pageContent, dbCourses] = await Promise.all([
@@ -77,11 +96,89 @@ export default async function HomePage() {
       : staticGalleryItems;
 
   const homeVideoUrl = settings.video_url_home || "/media/home-hero.mp4";
+  const socialProfiles = [
+    settings.social_facebook,
+    settings.social_instagram,
+    settings.social_instagram_2,
+    settings.social_linkedin,
+    settings.social_tiktok,
+    settings.social_youtube,
+    settings.social_x,
+  ].filter(Boolean);
+  const organizationAddresses = [
+    settings.address_zw && {
+      "@type": "PostalAddress",
+      streetAddress: settings.address_zw,
+      addressCountry: "ZW",
+    },
+    settings.address_sa && {
+      "@type": "PostalAddress",
+      streetAddress: settings.address_sa,
+      addressCountry: "ZA",
+    },
+  ].filter(Boolean);
+  const contactPoints = [
+    settings.contact_phone_zw && {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: settings.contact_phone_zw,
+      areaServed: "ZW",
+      availableLanguage: ["en"],
+    },
+    settings.contact_phone_sa && {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: settings.contact_phone_sa,
+      areaServed: "ZA",
+      availableLanguage: ["en"],
+    },
+  ].filter(Boolean);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description: HOME_DESCRIPTION,
+      },
+      {
+        "@type": "EducationalOrganization",
+        "@id": `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: absoluteUrl(settings.logo_url || "/brand/logo.png"),
+        image: absoluteUrl("/images/about/about-preview.png"),
+        email: settings.contact_email,
+        sameAs: socialProfiles,
+        address: organizationAddresses,
+        contactPoint: contactPoints,
+        areaServed: ["Africa", "Zimbabwe", "South Africa"],
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}/#faq`,
+        mainEntity: homeFaqs.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      },
+    ],
+  };
 
 
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       {/* ─── Video ────────────────────────────────────────────────── */}
       <VideoSection videoUrl={homeVideoUrl} fullBleed />
 

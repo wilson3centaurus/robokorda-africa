@@ -6,12 +6,22 @@ import { CTASection } from "@/components/cta-section";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { shortCourses, shortCourseCategories } from "@/data/short-courses";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Short Courses",
+export const metadata: Metadata = buildMetadata({
+  title: "Certified Short Courses in AI, Data, Web and Office Skills",
   description:
-    "Upskill with Robokorda Africa's certified short courses in AI, Microsoft Office, Web Development, Mobile App Development, Data Analysis, and more. Physical, online, or hybrid delivery.",
-};
+    "Upskill with Robokorda Africa certified short courses in AI, Microsoft Office, web development, mobile development, data analysis, cloud tools, and design. Online, in-person, or hybrid delivery.",
+  path: "/short-courses",
+  keywords: [
+    "short courses Zimbabwe",
+    "AI short courses Africa",
+    "web development training",
+    "Microsoft Office training",
+    "data analysis courses",
+  ],
+  image: "/images/courses/course 1.jpg",
+});
 
 const deliveryIcons: Record<string, React.ElementType> = {
   Physical: MapPin,
