@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import type { HeroStat } from "@/data/site";
 import { PlaceholderMedia } from "@/components/placeholder-media";
+import { CountUp } from "@/components/count-up";
 import { cn } from "@/lib/utils";
 
 type HeroBannerProps = {
@@ -25,57 +25,6 @@ type HeroBannerProps = {
   compact?: boolean;
   children?: React.ReactNode;
 };
-
-function parseStatValue(value: string) {
-  const suffix = value.endsWith("+") ? "+" : "";
-  const target = Number(value.replace(/[,+]/g, ""));
-  return { suffix, target };
-}
-
-function CountUpStatValue({ value }: { value: string }) {
-  const elementRef = useRef<HTMLSpanElement>(null);
-  const hasStartedRef = useRef(false);
-  const animationRef = useRef<number | null>(null);
-  const { suffix, target } = useMemo(() => parseStatValue(value), [value]);
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const element = elementRef.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || hasStartedRef.current) return;
-        hasStartedRef.current = true;
-        const start = performance.now();
-        const duration = 1600;
-
-        const tick = (now: number) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setCurrent(Math.round(target * eased));
-          if (progress < 1) animationRef.current = window.requestAnimationFrame(tick);
-        };
-
-        animationRef.current = window.requestAnimationFrame(tick);
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(element);
-    return () => {
-      observer.disconnect();
-      if (animationRef.current) window.cancelAnimationFrame(animationRef.current);
-    };
-  }, [target]);
-
-  return (
-    <span ref={elementRef}>
-      {current.toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
 
 export function HeroBanner({
   id,
@@ -213,7 +162,7 @@ export function HeroBanner({
                   className="rounded-xl border border-[var(--surface-border)] bg-[var(--card)] p-4 frosted sm:p-5"
                 >
                   <p className="text-2xl font-bold text-[var(--text-primary)] sm:text-3xl">
-                    <CountUpStatValue value={stat.value} />
+                    <CountUp value={stat.value} />
                   </p>
                   <p className="mt-1.5 text-xs font-medium text-[var(--text-secondary)] sm:text-sm">
                     {stat.label}

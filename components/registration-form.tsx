@@ -85,7 +85,7 @@ const inputCls =
   "w-full rounded-xl border border-[var(--surface-border-subtle)] bg-[var(--surface-1)] px-4 py-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition focus:border-[var(--electric)] focus:ring-1 focus:ring-[var(--electric-glow)]";
 const labelCls = "text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--text-secondary)]";
 
-function FieldIcon({ icon: Icon }: { icon: React.ElementType }) {
+function FieldIcon({ icon: Icon }: { icon: React.ElementType<{ className?: string }> }) {
   return (
     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
       <Icon className="h-4 w-4" />

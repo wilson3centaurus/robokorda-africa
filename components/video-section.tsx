@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Play, Pause, Volume2, VolumeX, Maximize2, Film } from "lucide-react";
-import Link from "next/link";
+import { Play, Volume2, VolumeX, Maximize2 } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 
@@ -85,6 +84,11 @@ export function VideoSection({
     ? `https://player.vimeo.com/video/${vimeoId}?autoplay=1&muted=1&loop=1&color=342fc5&title=0&byline=0&portrait=0`
     : null;
 
+  // Nothing configured: render nothing at all. The old behaviour left a dead
+  // grey card on the page with an admin-only "Add video in CMS Settings" link
+  // that every visitor could see.
+  if (!hasVideo) return null;
+
   const rounded = fullBleed ? "" : "rounded-2xl";
 
   // For fullBleed: full viewport height on all screens; for normal: 16/9 aspect ratio
@@ -95,34 +99,7 @@ export function VideoSection({
 
   const videoContent = (
     <>
-      {!hasVideo ? (
-        /* ── Placeholder ── */
-        <div
-          className={`relative flex flex-col items-center justify-center gap-6 py-20 px-6 text-center bg-background ${rounded} ${fullBleed ? "min-h-[100svh]" : ""}`}
-          style={fullBleed ? undefined : { aspectRatio: "16/9" }}
-        >
-          <div className={`absolute inset-0 circuit-bg opacity-20 ${rounded}`} />
-          <div className="relative flex items-center justify-center">
-            <div className="absolute h-32 w-32 rounded-full border border-[var(--surface-border-subtle)] animate-pulse" />
-            <div className="absolute h-20 w-20 rounded-full border border-[var(--surface-border)]" />
-            <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--electric-subtle)]">
-              <Film className="h-6 w-6 text-[var(--electric-bright)]" />
-            </span>
-          </div>
-          <div className="relative z-10 space-y-2">
-            <p className="text-sm font-semibold text-[var(--text-primary)]">No video added yet</p>
-            <p className="text-xs text-[var(--text-secondary)] max-w-xs">
-              Add a YouTube link, Vimeo URL, or direct video file in your CMS settings.
-            </p>
-            <Link
-              href="/admin/settings"
-              className="mt-3 inline-flex items-center gap-2 rounded-xl border border-[var(--surface-border)] bg-[var(--electric-subtle)] px-4 py-2 text-xs font-semibold text-[var(--electric-bright)] transition hover:border-[var(--electric)] hover:bg-[var(--surface-border)]"
-            >
-              Add video in CMS Settings
-            </Link>
-          </div>
-        </div>
-      ) : isEmbed && embedSrc ? (
+      {isEmbed && embedSrc ? (
         /* ── YouTube / Vimeo ── */
         <div
           className={`relative w-full ${fullBleed ? "min-h-[100svh]" : ""}`}

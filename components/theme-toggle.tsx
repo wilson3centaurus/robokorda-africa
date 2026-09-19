@@ -4,7 +4,8 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
-export function ThemeToggle() {
+/** `onDark` styles the control for sitting on top of the dark 3D hero. */
+export function ThemeToggle({ onDark = false }: { onDark?: boolean }) {
   const { setTheme, theme, systemTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -24,7 +25,11 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] text-[var(--text-secondary)] transition hover:border-[var(--electric)] hover:bg-[var(--electric-subtle)] hover:text-[var(--electric-bright)]"
+      className={
+        onDark
+          ? "flex h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white/80 transition hover:bg-white/20 hover:text-white"
+          : "flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--surface-border)] bg-[var(--surface-2)] text-[var(--text-secondary)] transition hover:border-[var(--electric)] hover:bg-[var(--electric-subtle)] hover:text-[var(--electric-bright)]"
+      }
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? (

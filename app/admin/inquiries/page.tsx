@@ -7,7 +7,7 @@ import type { RircRegistration, ComponentInquiry, CourseInquiry, PrimebookInquir
 
 type Tab = "rirc" | "components" | "courses" | "primebook" | "contact";
 
-const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
+const TABS: { id: Tab; label: string; icon: React.ElementType<{ className?: string }> }[] = [
   { id: "rirc", label: "RIRC 2026", icon: Trophy },
   { id: "components", label: "Shop Inquiries", icon: ShoppingBag },
   { id: "courses", label: "Courses", icon: BookOpen },

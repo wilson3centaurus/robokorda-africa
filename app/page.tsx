@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
-import Image from "next/image";
 import { MapPin, Mail } from "lucide-react";
 import { Card } from "@/components/card";
 import { ContactCard } from "@/components/contact-card";
@@ -12,14 +11,15 @@ import { FAQAccordion } from "@/components/faq-accordion";
 import { GalleryGrid } from "@/components/gallery-grid";
 import { GameSection } from "@/components/game/game-section";
 import { VideoSection } from "@/components/video-section";
-import { HeroBanner } from "@/components/hero-banner";
+import { Hero3D } from "@/components/home/hero-3d";
 import { PartnerCard } from "@/components/partner-card";
 import { PlaceholderMedia } from "@/components/placeholder-media";
 import { ProductCard } from "@/components/product-card";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { SkillCard } from "@/components/skill-card";
-import { AboutSlideshow } from "@/components/about-slideshow";
+import { Showcase3D } from "@/components/home/showcase-3d";
+import { TiltCard } from "@/components/tilt-card";
 import {
   aboutPreviewCards, deliveryOptions as staticDeliveryOptions,
   galleryItems as staticGalleryItems, homeFaqs, partnerCategories as staticPartnerCategories,
@@ -179,47 +179,17 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* ─── Video ────────────────────────────────────────────────── */}
-      <VideoSection videoUrl={homeVideoUrl} fullBleed />
-
       {/* ─── Hero ─────────────────────────────────────────────────── */}
-      <HeroBanner
-        id="home"
+      <Hero3D
         badge="Robotics · Coding · Innovation"
-        title="Making Robotics and Coding Fun"
+        title="Making Robotics and Coding"
+        titleAccent="Fun"
         description="Robokorda Africa helps schools, families, and partners deliver premium robotics, coding, AI, and STEAM learning with structure, polish, and visible student outcomes."
         primaryAction={{ href: "/#courses", label: "Explore Courses" }}
         secondaryAction={{ href: "/#contact", label: "Talk to Our Team" }}
-        mediaLabel="Hero Video"
-        mediaSeed="robokorda-home-hero"
-        mediaVideoUrl={homeVideoUrl}
-        showMediaOverlay
+        videoUrl={homeVideoUrl}
         stats={heroStats}
-      >
-        <div className="hidden sm:flex max-w-sm flex-col gap-3">
-          <Card className="border-[var(--surface-border)] !bg-[#FEFEFE] p-4 sm:p-5 text-center" variant="default">
-            <div className="relative mx-auto mt-3 aspect-[4/3] w-[85%]">
-              <Image
-                src="/brand/logo.png"
-                alt="Robokorda Africa logo"
-                fill
-                priority
-                sizes="300px"
-                className="object-contain"
-              />
-            </div>
-          </Card>
-          <Card className="border-[rgba(0,229,160,0.30)] bg-[rgba(0,229,160,0.07)] p-4" variant="neon">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--neon)]">Programme Focus</p>
-            <p className="mt-2.5 text-sm font-semibold leading-6 text-[var(--text-primary)]">
-              School-ready delivery with competition-level ambition.
-            </p>
-            <p className="mt-2 text-xs leading-6 text-[var(--text-secondary)]">
-              From weekly sessions to RIRC preparation and Prime Book rollouts.
-            </p>
-          </Card>
-        </div>
-      </HeroBanner>
+      />
 
       {/* ─── About ────────────────────────────────────────────────── */}
       <section id="about" className="section-anchor section-space section-glow">
@@ -258,8 +228,8 @@ export default async function HomePage() {
               </Card>
             </Reveal>
             <Reveal delay={0.06}>
-              <div className="relative h-full min-h-[340px] overflow-hidden rounded-2xl lg:min-h-0">
-                <AboutSlideshow items={galleryItems} />
+              <div className="relative h-full min-h-[300px] sm:min-h-[360px] lg:min-h-0">
+                <Showcase3D items={galleryItems} />
               </div>
             </Reveal>
           </div>
@@ -281,6 +251,7 @@ export default async function HomePage() {
               const Icon = option.icon;
               return (
                 <Reveal key={option.title} delay={index * 0.05}>
+                  <TiltCard>
                   <Card className="h-full">
                     <PlaceholderMedia
                       mode="card"
@@ -297,12 +268,21 @@ export default async function HomePage() {
                     <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{option.description}</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--text-muted)]">{option.detail}</p>
                   </Card>
+                  </TiltCard>
                 </Reveal>
               );
             })}
           </div>
         </div>
       </section>
+
+      {/* ─── Showreel ─────────────────────────────────────────────── */}
+      <VideoSection
+        videoUrl={homeVideoUrl}
+        eyebrow="Showreel"
+        title="Ninety seconds inside a Robokorda session."
+        description="Classrooms, competitions, and the moment a build finally works."
+      />
 
       {/* ─── Courses ──────────────────────────────────────────────── */}
       <CoursesSection courses={dbCourses} />
@@ -320,7 +300,9 @@ export default async function HomePage() {
           <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
             {skills.map((skill, index) => (
               <Reveal key={skill.title} delay={index * 0.04}>
-                <SkillCard skill={skill} />
+                <TiltCard>
+                  <SkillCard skill={skill} />
+                </TiltCard>
               </Reveal>
             ))}
           </div>
@@ -342,15 +324,17 @@ export default async function HomePage() {
               const Icon = item.icon;
               return (
                 <Reveal key={item.title} delay={index * 0.05}>
+                  <TiltCard>
                   <Card variant={index % 2 === 0 ? "blue" : "default"} className="h-full">
-                    <div className="flex items-center gap-4">
-                      <span className={index % 2 === 0 ? "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[rgba(52,47,197,0.18)]" : "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[rgba(0,229,160,0.25)] bg-[rgba(0,229,160,0.10)]"}>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                      <span className={index % 2 === 0 ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[rgba(52,47,197,0.18)] sm:h-12 sm:w-12" : "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(0,229,160,0.25)] bg-[rgba(0,229,160,0.10)] sm:h-12 sm:w-12"}>
                         <Icon className={index % 2 === 0 ? "h-6 w-6 text-[var(--electric-bright)]" : "h-6 w-6 text-[var(--neon)]"} aria-hidden="true" />
                       </span>
-                      <h3 className="text-base font-bold leading-tight text-[var(--text-primary)]">{item.title}</h3>
+                      <h3 className="min-w-0 break-words text-base font-bold leading-tight text-[var(--text-primary)]">{item.title}</h3>
                     </div>
                     <p className="mt-4 text-sm leading-6 text-[var(--text-muted)]">{item.description}</p>
                   </Card>
+                  </TiltCard>
                 </Reveal>
               );
             })}
@@ -374,7 +358,9 @@ export default async function HomePage() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {partnerCategories.map((partner, index) => (
               <Reveal key={partner.title} delay={index * 0.04}>
-                <PartnerCard partner={partner} />
+                <TiltCard>
+                  <PartnerCard partner={partner} />
+                </TiltCard>
               </Reveal>
             ))}
           </div>
@@ -484,7 +470,9 @@ export default async function HomePage() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {shopProducts.slice(0, 3).map((product, index) => (
               <Reveal key={product.id} delay={index * 0.05}>
-                <ProductCard product={product} />
+                <TiltCard max={6}>
+                  <ProductCard product={product} />
+                </TiltCard>
               </Reveal>
             ))}
           </div>

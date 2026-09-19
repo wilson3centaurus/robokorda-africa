@@ -37,7 +37,7 @@ export function MobileMenu({ open, items, itemCount, onClose, pathname, activeSe
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.18, ease: "easeOut" }}
-          className="border-t border-[var(--surface-border)] bg-[var(--background)] frosted lg:hidden"
+          className="max-h-[calc(100svh-4.625rem)] overflow-y-auto overscroll-contain border-t border-[var(--surface-border)] bg-[var(--background)] frosted lg:hidden"
         >
           <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--electric)] to-transparent opacity-40" />
 

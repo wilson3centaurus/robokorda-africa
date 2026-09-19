@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, ShoppingCart } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -48,6 +48,7 @@ export const MOBILE_NAV: NavLeaf[] = [
   { label: "Why Us",        href: "#why-us",       sectionId: "why-us" },
   { label: "Partners",      href: "#partners",     sectionId: "partners" },
   { label: "Gallery",       href: "#gallery",      sectionId: "gallery" },
+  { label: "Arcade",        href: "#arcade",       sectionId: "arcade" },
   { label: "RIRC",          href: "/rirc",         badge: "2026 Open" },
   { label: "Prime Book",    href: "/prime-book" },
   { label: "Shop",          href: "/shop" },
@@ -63,7 +64,14 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
   const pathname      = usePathname();
   const { itemCount, hydrated } = useCart();
   const { resolvedTheme } = useTheme();
-  const [open, setOpen]                 = useState(false);
+  // The path the drawer was opened on is stored with it, so navigating
+  // anywhere else closes it by derivation instead of by effect.
+  const [menu, setMenu] = useState<{ open: boolean; path: string }>({ open: false, path: "" });
+  const open = menu.open && menu.path === pathname;
+  const setOpen = useCallback(
+    (value: boolean) => setMenu({ open: value, path: pathname }),
+    [pathname],
+  );
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled]         = useState(false);
@@ -71,6 +79,14 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Close the mobile drawer on Escape and whenever navigation lands elsewhere.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, setOpen]);
 
   const activeLogo = (resolvedTheme === "light" && logoUrlDark) ? logoUrlDark : logoUrl;
 
@@ -117,9 +133,10 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
     return () => observer.disconnect();
   }, [pathname]);
 
-  const isLightMode        = mounted && resolvedTheme === "light";
+  // The home hero is an always-dark 3D stage, so the bar sits on dark pixels at
+  // the top of "/" in either theme — it must not follow the light palette there.
   const navIsTransparent   = !scrolled && !open && pathname === "/";
-  const logoLight          = mounted && !scrolled && !open && pathname === "/" && resolvedTheme === "dark";
+  const logoLight          = mounted && navIsTransparent;
 
   function isLeafActive(item: NavLeaf) {
     if (pathname === "/" && item.sectionId) return item.sectionId === activeSection;
@@ -130,16 +147,22 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
     return group.children.some(isLeafActive);
   }
 
+  // Round action chips (cart, theme, hamburger) need the same dark treatment as
+  // the bar itself while it is transparent over the hero.
+  const chipCls = navIsTransparent
+    ? "border-white/20 bg-white/10 text-white/85 hover:border-white/40 hover:text-white"
+    : "border-[var(--surface-border)] bg-[var(--surface-2)] text-[var(--text-secondary)] hover:border-[var(--electric)] hover:text-[var(--electric-bright)]";
+
   // Text color class for a standard nav item (not badge items)
-  const regularTextCls = navIsTransparent && !isLightMode
-    ? "text-white/80 hover:text-white"
+  const regularTextCls = navIsTransparent
+    ? "text-white/85 [text-shadow:0_1px_10px_rgba(0,0,0,0.8)] hover:text-white"
     : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]";
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        navIsTransparent && !isLightMode
+        navIsTransparent
           ? "border-b border-transparent bg-transparent"
           : "border-b border-[var(--surface-border)] bg-[var(--background)]/90 shadow-[0_8px_32px_rgba(8,7,30,0.12)] frosted",
       )}
@@ -239,7 +262,10 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
           <div className="flex items-center gap-2">
             <Link
               href="/cart"
-              className="relative hidden h-9 w-9 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--surface-2)] text-[var(--text-secondary)] transition hover:border-[var(--electric)] hover:text-[var(--electric-bright)] sm:inline-flex"
+              className={cn(
+                "relative hidden h-9 w-9 items-center justify-center rounded-full border transition sm:inline-flex",
+                chipCls,
+              )}
               aria-label="View cart"
             >
               <ShoppingCart className="h-4 w-4" aria-hidden="true" />
@@ -251,13 +277,16 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
             </Link>
 
             <div className="hidden lg:block">
-              <ThemeToggle />
+              <ThemeToggle onDark={navIsTransparent} />
             </div>
 
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--surface-border)] bg-[var(--surface-2)] text-[var(--text-secondary)] transition hover:border-[var(--electric)] hover:text-[var(--electric-bright)] lg:hidden"
+              className={cn(
+                "inline-flex h-9 w-9 items-center justify-center rounded-full border transition lg:hidden",
+                chipCls,
+              )}
               aria-label="Open navigation menu"
             >
               <Menu className="h-5 w-5" aria-hidden="true" />

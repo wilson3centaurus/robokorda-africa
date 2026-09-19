@@ -23,7 +23,7 @@ export const metadata: Metadata = buildMetadata({
   image: "/images/courses/course 1.jpg",
 });
 
-const deliveryIcons: Record<string, React.ElementType> = {
+const deliveryIcons: Record<string, React.ElementType<{ className?: string }>> = {
   Physical: MapPin,
   Online: Wifi,
   Hybrid: Monitor,
