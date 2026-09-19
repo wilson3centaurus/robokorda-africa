@@ -17,12 +17,29 @@ const navLinks = [
   { label: "View Site", href: "/", icon: TrendingUp, external: true },
 ];
 
+/**
+ * A catalogue row. The same screen edits robotics components and courses, which
+ * overlap but are not identical, so the shared fields are optional and the rest
+ * rides along untouched on save.
+ */
+type CatalogueItem = {
+  id: string;
+  seed?: string;
+  name?: string;
+  title?: string;
+  priceUSD?: number;
+  priceZWG?: number;
+  status?: string;
+  imageSrc?: string;
+  [key: string]: unknown;
+};
+
 export default function CatalogueAdminPage() {
   const router = useRouter();
   const [tab, setTab] = useState<"components" | "courses">("components");
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<CatalogueItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editItem, setEditItem] = useState<any>(null);
+  const [editItem, setEditItem] = useState<CatalogueItem | null>(null);
   const [saving, setSaving] = useState(false);
 
   async function load() {

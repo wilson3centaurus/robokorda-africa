@@ -75,10 +75,7 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled]         = useState(false);
-  const [mounted, setMounted]           = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => { setMounted(true); }, []);
 
   // Close the mobile drawer on Escape and whenever navigation lands elsewhere.
   useEffect(() => {
@@ -136,7 +133,7 @@ export function Navbar({ logoUrl = "/brand/logo.png", logoUrlDark }: NavbarProps
   // The home hero is an always-dark 3D stage, so the bar sits on dark pixels at
   // the top of "/" in either theme — it must not follow the light palette there.
   const navIsTransparent   = !scrolled && !open && pathname === "/";
-  const logoLight          = mounted && navIsTransparent;
+  const logoLight          = navIsTransparent;
 
   function isLeafActive(item: NavLeaf) {
     if (pathname === "/" && item.sectionId) return item.sectionId === activeSection;
